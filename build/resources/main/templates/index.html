@@ -25,6 +25,24 @@
 
 
         </div>
+
+        <form th:action="@{addCourse}" th:object="${course}" method="post">
+
+            <label><input type="text" th:field="*{courseName}" placeholder="Course name"/></label>
+            <label><input type="text" th:field="*{accessCode}" placeholder="access code"/></label>
+            <button type="submit" class="button">Add</button>
+        </form>
+
+        <div th:each="course : ${courses}">
+            <div>
+
+                <h2 th:text="${course.courseName}" style="color: black">Text text</h2>
+            </div>
+        </div>
+
+
+
+
         <ul id="gallery">
 
             <li>
