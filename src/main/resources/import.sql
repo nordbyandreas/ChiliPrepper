@@ -5,6 +5,12 @@ insert into role (name) values ('ROLE_USER');
 insert into user (username,enabled,password,role_id) values ('user',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1);
 insert into user (username,enabled,password,role_id) values ('user2',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1);
 
+insert into course (courseName, accessCode, user_id) values ('testCourse', 'thePassword', 1);
+insert into course (courseName, accessCode, user_id) values ('testTestCourse', 'theword', 1);
+insert into course (courseName, accessCode, user_id) values ('othertestCourse', 'otherPassword', 2);
+insert into course (courseName, accessCode, user_id) values ('osetest', 'otestord', 2);
+
+
 -- Insert tasks
 --insert into task (complete,description, user_id) values (true,'Code Task entity',1);
 --insert into task (complete,description, user_id) values (false,'Discuss users and roles',1);
