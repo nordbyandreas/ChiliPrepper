@@ -12,11 +12,13 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name= "user_id")
     private Long id;
 
     @Column(unique = true)
@@ -33,11 +35,28 @@ public class User implements UserDetails {
     @JoinColumn(name = "role_id")
     private Role role;
 
+
+    // trying to fix register user in a course
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name= "course_user", joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="course_id"))
+    private Set<Course> regCourses;
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(role.getName()));
         return authorities;
+    }
+
+    public Set<Course> getRegCourses() {
+        return regCourses;
+    }
+
+    public void setRegCourses(Set<Course> regCourses) {
+        this.regCourses = regCourses;
     }
 
     public Long getId() {

@@ -1,6 +1,7 @@
 package com.ChiliPrepper.ChiliPrepper.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by Andreas on 16.02.2017.
@@ -11,6 +12,7 @@ public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name= "course_id")
     private Long id;
 
     @Column
@@ -22,6 +24,19 @@ public class Course {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User creator;
+
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "regCourses")
+    private Set<User> regUsers;
+
+
+    public Set<User> getRegUsers() {
+        return regUsers;
+    }
+
+    public void setRegUsers(Set<User> regUsers) {
+        this.regUsers = regUsers;
+    }
+
 
     public Course() {}
 

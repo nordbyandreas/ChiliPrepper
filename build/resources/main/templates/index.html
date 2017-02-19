@@ -26,18 +26,60 @@
 
         </div>
 
-        <form th:action="@{addCourse}" th:object="${course}" method="post">
 
-            <label><input type="text" th:field="*{courseName}" placeholder="Course name"/></label>
-            <label><input type="text" th:field="*{accessCode}" placeholder="access code"/></label>
-            <button type="submit" class="button">Add</button>
-        </form>
+        <div>
+            <h3>Form for creating course</h3>
+            <form th:action="@{addCourse}" th:object="${course}" method="post">
 
-        <div th:each="course : ${courses}">
-            <div>
+                <label><input type="text" th:field="*{courseName}" placeholder="Course name"/></label>
+                <label><input type="text" th:field="*{accessCode}" placeholder="access code"/></label>
+                <button type="submit" class="button">Add</button>
+            </form>
 
-                <h2 th:text="${course.courseName}" style="color: black">Text text</h2>
+
+        </div>
+
+
+
+
+        <div>
+            <h3>List of created courses</h3>
+            <div th:each="course : ${myCourses}">
+                <div>
+
+                    <h2 th:text="${course.courseName}" style="color: black">Text text</h2>
+                </div>
             </div>
+
+
+        </div>
+
+
+
+        <div>
+            <h3>Form for registering in a course</h3>
+            <form th:action="@{regCourse}" method="post">
+
+                <label><input type="text" name="accessCode" placeholder="Enter accessCode"/></label>
+
+                <button type="submit" class="button">Register</button>
+            </form>
+
+
+        </div>
+
+
+
+        <div>
+            <h3>List of registered courses</h3>
+            <div th:each="course : ${regCourses}">
+                <div>
+
+                    <h2 th:text="${course.courseName}" style="color: black">Text text</h2>
+                </div>
+            </div>
+
+
         </div>
 
 

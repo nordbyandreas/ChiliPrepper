@@ -48,23 +48,6 @@ public class LoginController {
     }
 
 
-    @RequestMapping("/")
-    public String index(Model model) {
 
-        Iterable<Course> courses = courseService.findAll();
-        model.addAttribute("courses", courses);
-        model.addAttribute("course", new Course());
-
-
-        return "index";
-    }
-
-    @RequestMapping(path = "/addCourse", method = RequestMethod.POST)
-    public String addCourse(@ModelAttribute Course course, Principal principal) {
-        User user = (User)((UsernamePasswordAuthenticationToken)principal).getPrincipal();
-        course.setCreator(user);
-        courseService.save(course);
-        return "redirect:/";
-    }
 
 }

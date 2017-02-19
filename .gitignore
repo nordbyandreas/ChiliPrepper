@@ -6,3 +6,11 @@
 
 ## Gradle
 .gradle/
+
+
+
+## Package Files #
+*.jar
+*.war
+*.ear
+

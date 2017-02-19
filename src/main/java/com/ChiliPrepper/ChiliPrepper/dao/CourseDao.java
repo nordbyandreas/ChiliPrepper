@@ -14,4 +14,7 @@ import java.util.List;
 public interface CourseDao extends CrudRepository<Course, Long> {
     @Query("select course from Course course where course.creator.id=:#{principal.id}")
     List<Course> findAll();
+
+    Course findByAccessCode(String accessCode);
+
 }
