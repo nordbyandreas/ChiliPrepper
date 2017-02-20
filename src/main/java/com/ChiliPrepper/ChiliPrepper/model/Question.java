@@ -10,5 +10,16 @@ package com.ChiliPrepper.ChiliPrepper.model;
 public class Question {
 
 
+    //id
+
+    //question String
+
+    //Weight??
+
+    //Answer
+
+    //Alternatives ??
+
+
 
 }

@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration   //Let Spring know this is a configuration class
-@EnableJpaRepositories(basePackages = "com.ChiliPrepper.ChiliPrepper.dao")
+@EnableJpaRepositories(basePackages = "com.ChiliPrepper.ChiliPrepper.dao")   //Enable JPA-Repositories
 @PropertySource("app.properties")    //Let Spring know where to look for data properties
 public class DataConfig {
 
