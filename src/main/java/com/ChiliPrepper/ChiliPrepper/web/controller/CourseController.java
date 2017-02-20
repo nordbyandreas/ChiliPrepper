@@ -1,8 +1,10 @@
 package com.ChiliPrepper.ChiliPrepper.web.controller;
 
 import com.ChiliPrepper.ChiliPrepper.model.Course;
+import com.ChiliPrepper.ChiliPrepper.model.Quiz;
 import com.ChiliPrepper.ChiliPrepper.model.User;
 import com.ChiliPrepper.ChiliPrepper.service.CourseService;
+import com.ChiliPrepper.ChiliPrepper.service.QuizService;
 import com.ChiliPrepper.ChiliPrepper.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -25,6 +28,9 @@ public class CourseController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private QuizService quizService;
 
 
 
@@ -53,9 +59,12 @@ public class CourseController {
     @RequestMapping("/courses/{courseId}")
     public String course(@PathVariable Long courseId, Model model){
         Course course = courseService.findOne(courseId);
+        model.addAttribute("quiz", new Quiz());
+        model.addAttribute("courseId", courseId);
+        Iterable<Quiz> myQuizes = quizService.findAll();
+        model.addAttribute("myQuizes", myQuizes);
         model.addAttribute("course", course);
         return "course";
-
     }
 
 
