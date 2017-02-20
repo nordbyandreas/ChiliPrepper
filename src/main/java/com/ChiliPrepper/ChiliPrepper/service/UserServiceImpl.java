@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
+
     @Autowired
     private UserDao userDao;
 
@@ -23,10 +24,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleService roleService;
 
+
+
     @Override
     public User findByUsername(String username) {
         return userDao.findByUsername(username);
     }
+
+
 
     @Override
     public void save(User user) {
@@ -36,6 +41,8 @@ public class UserServiceImpl implements UserService {
         userDao.save(user);
     }
 
+
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // Load user from the database (throw exception if not found)
@@ -43,7 +50,6 @@ public class UserServiceImpl implements UserService {
         if(user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-
         // Return user object
         return user;
     }

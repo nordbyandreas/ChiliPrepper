@@ -12,6 +12,9 @@
 
 </head>
 
+
+
+
 <body>
 
 <header th:fragment="header">
@@ -22,11 +25,14 @@
     <nav>
         <ul>
             <li><a th:href="@{/}"  class="selected">Courses</a></li>
-            <li><a href="about.html">Profile</a></li>
-            <li><a href="contact.html">Info</a></li>
+            <li><a th:href="@{/profile}">Profile</a></li>
+            <li><a th:href="@{/about}">About</a></li>
         </ul>
     </nav>
 </header>
+
+
+
 
 
 <footer th:fragment="footer">

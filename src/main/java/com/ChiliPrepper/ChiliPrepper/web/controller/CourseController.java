@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.Set;
@@ -20,7 +17,7 @@ import java.util.Set;
  * Created by Andreas on 19.02.2017.
  */
 
-@Controller
+@Controller                      //marks class as a controller
 public class CourseController {
 
     @Autowired
@@ -28,6 +25,8 @@ public class CourseController {
 
     @Autowired
     private UserService userService;
+
+
 
 
     @RequestMapping("/")
@@ -50,6 +49,17 @@ public class CourseController {
         return "index";
     }
 
+    //Single Course page
+    @RequestMapping("/courses/{courseId}")
+    public String course(@PathVariable Long courseId, Model model){
+        Course course = courseService.findOne(courseId);
+        model.addAttribute("course", course);
+        return "course";
+
+    }
+
+
+
 
     @RequestMapping(path = "/addCourse", method = RequestMethod.POST)
     public String addCourse(@ModelAttribute Course course, Principal principal) {
@@ -58,6 +68,10 @@ public class CourseController {
         courseService.save(course);
         return "redirect:/";
     }
+
+
+
+
 
     @RequestMapping(path = "/regCourse", method = RequestMethod.POST)
     public String regCourse (Principal principal, @RequestParam String accessCode){

@@ -7,11 +7,11 @@ import java.util.Set;
  * Created by Andreas on 16.02.2017.
  */
 
-@Entity
+@Entity                    //Mark the class as an entity, so a schema will be created in the database
 public class Course {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  //automaticly set unique ID
     @Column(name= "course_id")
     private Long id;
 
@@ -29,6 +29,17 @@ public class Course {
     private Set<User> regUsers;
 
 
+
+
+    //Default constructor
+    public Course() {}
+
+
+
+
+
+    //getters and setters for all fields:
+
     public Set<User> getRegUsers() {
         return regUsers;
     }
@@ -37,8 +48,6 @@ public class Course {
         this.regUsers = regUsers;
     }
 
-
-    public Course() {}
 
     public Long getId() {
         return id;

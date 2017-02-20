@@ -10,8 +10,13 @@ import java.util.List;
 /**
  * Created by Andreas on 16.02.2017.
  */
+
+
+//data access object for COURSES
+
 @Repository
 public interface CourseDao extends CrudRepository<Course, Long> {
+
     @Query("select course from Course course where course.creator.id=:#{principal.id}")
     List<Course> findAll();
 

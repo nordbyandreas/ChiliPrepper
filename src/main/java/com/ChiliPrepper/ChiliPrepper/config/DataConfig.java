@@ -17,29 +17,28 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-@Configuration
+@Configuration   //Let Spring know this is a configuration class
 @EnableJpaRepositories(basePackages = "com.ChiliPrepper.ChiliPrepper.dao")
-@PropertySource("app.properties")
+@PropertySource("app.properties")    //Let Spring know where to look for data properties
 public class DataConfig {
+
     @Autowired
-    private Environment env;
+    private Environment env;  //The content of app.properties is loaded into the Environment
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-
-        factory.setDataSource(dataSource());
+        factory.setDataSource(dataSource());                                        //calls method below
         factory.setJpaVendorAdapter(vendorAdapter);
         factory.setPackagesToScan(env.getProperty("ChiliPrepper.entity.package"));
-        factory.setJpaProperties(getHibernateProperties());
+        factory.setJpaProperties(getHibernateProperties());                         //calls method below
 
         return factory;
     }
 
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource() {                  //All of these properties are defined in "app.properties" in the static directory
         BasicDataSource ds = new BasicDataSource();
         ds.setDriverClassName(env.getProperty("ChiliPrepper.db.driver"));
         ds.setUrl(env.getProperty("ChiliPrepper.db.url"));
@@ -48,7 +47,7 @@ public class DataConfig {
         return ds;
     }
 
-    private Properties getHibernateProperties() {
+    private Properties getHibernateProperties() {    //All of these properties are defined in "app.properties" in the static directory
         Properties properties = new Properties();
         properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
         properties.put("hibernate.implicit_naming_strategy",env.getProperty("hibernate.implicit_naming_strategy"));

@@ -14,10 +14,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-@Entity
+@Entity                                //Mark the class as an entity, so a schema will be created in the database
 public class User implements UserDetails {
+
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)    //automaticly set unique ID
     @Column(name= "user_id")
     private Long id;
 
@@ -36,12 +38,15 @@ public class User implements UserDetails {
     private Role role;
 
 
-    // trying to fix register user in a course
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name= "course_user", joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name="course_id"))
     private Set<Course> regCourses;
+
+
+
+
+
 
 
     @Override
@@ -50,6 +55,14 @@ public class User implements UserDetails {
         authorities.add(new SimpleGrantedAuthority(role.getName()));
         return authorities;
     }
+
+
+
+
+
+
+
+    //Getters and Setters
 
     public Set<Course> getRegCourses() {
         return regCourses;

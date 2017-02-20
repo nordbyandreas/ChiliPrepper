@@ -8,12 +8,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
+@Entity                        //Mark the class as an entity, so a schema will be created in the database
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  //automaticly set unique ID
     private Long id;
     private String name;
+
+
+
+
+    //Getters and Setters
 
     public Long getId() {
         return id;

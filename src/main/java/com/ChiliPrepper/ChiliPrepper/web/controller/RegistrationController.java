@@ -13,17 +13,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created by Andreas on 17.02.2017.
  */
 
-@Controller
+@Controller                         //marks class as a controller
 public class RegistrationController {
+
 
     @Autowired
     private UserService userService;
+
+
+
 
     @RequestMapping(path = "/register", method = RequestMethod.GET)
     public String RegForm(Model model) {
         model.addAttribute("user", new User());
         return "registration";
     }
+
+
+
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public String RegUser(@ModelAttribute User user) {

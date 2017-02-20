@@ -30,33 +30,39 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @EnableWebSecurity
 @ComponentScan(basePackages = "com.ChiliPrepper.ChiliPrepper")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+
     @Autowired
     private UserService userService;
+
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
-    }
+    }   //set password enctyption
+
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/static/**");
+        web.ignoring().antMatchers("/static/**");    //allow user access to templates before log in
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/register").permitAll()
+                .antMatchers("/register").permitAll()  //allows all users to access the register-form
                 .anyRequest().authenticated()   //hasRole("USER")  somewhere here?
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/login")  //allows all users access to the login form
                 .permitAll()
                 .successHandler(loginSuccessHandler())
                 .failureHandler(loginFailureHandler())
@@ -68,11 +74,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf();
     }
 
-    public AuthenticationSuccessHandler loginSuccessHandler() {
+    public AuthenticationSuccessHandler loginSuccessHandler() {  //redirect to index when successfull login
         return (request, response, authentication) -> response.sendRedirect("/");
     }
 
-    public AuthenticationFailureHandler loginFailureHandler() {
+    public AuthenticationFailureHandler loginFailureHandler() {  //redirect to login when log in failed, and send flash message
         return (request, response, exception) -> {
             request.getSession().setAttribute("flash", new FlashMessage("Incorrect username and/or password. Please try again.", FlashMessage.Status.FAILURE));
             response.sendRedirect("/login");
