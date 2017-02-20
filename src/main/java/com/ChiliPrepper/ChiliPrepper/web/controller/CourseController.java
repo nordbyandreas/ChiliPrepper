@@ -64,6 +64,7 @@ public class CourseController {
         Iterable<Quiz> myQuizes = quizService.findAll();
         model.addAttribute("myQuizes", myQuizes);
         model.addAttribute("course", course);
+        System.out.println(course.getCourseName() + course.getId());
         return "course";
     }
 

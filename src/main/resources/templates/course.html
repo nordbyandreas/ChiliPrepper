@@ -20,10 +20,12 @@
             <form th:action="@{/addQuiz}" th:object="${quiz}" method="post">
 
                 <label><input type="text" th:field="*{quizName}" placeholder="Quiz name"/></label>
-                <label><input type="hidden" th:field="*{course}" th:value="${courseId}"/></label>
+                <label><input type="hidden" name="courseId" th:value="${course.id}"/></label>
                 <button type="submit" class="button">Add</button>
             </form>
         </div>
+
+
         <div>
             <h3>Quizes</h3>
             <div th:each="quiz : ${myQuizes}">
