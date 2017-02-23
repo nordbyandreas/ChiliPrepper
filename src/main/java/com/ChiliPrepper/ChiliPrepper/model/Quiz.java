@@ -18,6 +18,9 @@ public class Quiz {
     @Column(name="quiz_name")
     private String quizName;
 
+    @Column
+    private boolean published;
+
     @ManyToOne
     @JoinColumn(name="course_id")
     private Course course;
@@ -30,6 +33,14 @@ public class Quiz {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public boolean isPublished() {
+        return published;
+    }
+
+    public void setPublished(boolean published) {
+        this.published = published;
     }
 
     public String getQuizName() {

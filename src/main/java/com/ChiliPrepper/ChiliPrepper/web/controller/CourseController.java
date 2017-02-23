@@ -52,19 +52,26 @@ public class CourseController {
         model.addAttribute("course", new Course());
 
 
+
+
         return "index";
     }
 
     //Single Course page
     @RequestMapping("/courses/{courseId}")
-    public String course(@PathVariable Long courseId, Model model){
+    public String course(@PathVariable Long courseId, Model model, Principal principal){
+        User user = (User)((UsernamePasswordAuthenticationToken)principal).getPrincipal();
         Course course = courseService.findOne(courseId);
+
+        model.addAttribute("userId", user.getId());
+        User creator = course.getCreator();
+        model.addAttribute("creatorId", creator.getId());
+
         model.addAttribute("quiz", new Quiz());
         model.addAttribute("courseId", courseId);
         Iterable<Quiz> myQuizes = quizService.findAll();
         model.addAttribute("myQuizes", myQuizes);
         model.addAttribute("course", course);
-        System.out.println(course.getCourseName() + course.getId());
         return "course";
     }
 

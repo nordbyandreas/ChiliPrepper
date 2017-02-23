@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: head('course')">
+
+</head>
+
+<body>
+
+<header th:replace="layout :: header">
+
+</header>
+
+<div id="wrapper">
+    <section>
+
+
+
+
+        <div>
+            <h3 th:text="${quiz.quizName}"></h3>
+            <div th:each="question : ${quiz}">
+                <div>
+
+                    <a><h2 style="color: black">Text text</h2></a>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+    </section>
+
+    <footer th:replace="layout :: footer">
+
+    </footer>
+</div>
+</body>
+</html>
