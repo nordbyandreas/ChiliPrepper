@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9d2dea1a-0c9f-428d-807a-4482baf644e1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/templates/quiz.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/resources/main/templates/index.html" afterPath="$PROJECT_DIR$/build/resources/main/templates/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/ChiliPrepper/ChiliPrepper/model/Quiz.java" afterPath="$PROJECT_DIR$/src/main/java/com/ChiliPrepper/ChiliPrepper/model/Quiz.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/ChiliPrepper/ChiliPrepper/web/controller/CourseController.java" afterPath="$PROJECT_DIR$/src/main/java/com/ChiliPrepper/ChiliPrepper/web/controller/CourseController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/ChiliPrepper/ChiliPrepper/web/controller/QuizController.java" afterPath="$PROJECT_DIR$/src/main/java/com/ChiliPrepper/ChiliPrepper/web/controller/QuizController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/course.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/course.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" />
-    </list>
+    <list default="true" id="9d2dea1a-0c9f-428d-807a-4482baf644e1" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -229,8 +220,8 @@
       <file leaf-file-name="course.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/course.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="66" column="31" lean-forward="true" selection-start-line="66" selection-start-column="31" selection-end-line="66" selection-end-column="31" />
+            <state relative-caret-position="438">
+              <caret line="79" column="0" lean-forward="true" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -1439,12 +1430,12 @@
       <workItem from="1487601392956" duration="5281000" />
       <workItem from="1487607487682" duration="7014000" />
       <workItem from="1487663989821" duration="957000" />
-      <workItem from="1487852410650" duration="7485000" />
+      <workItem from="1487852410650" duration="8479000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="72167000" />
+    <option name="totallyTimeSpent" value="73161000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="953" y="0" width="974" height="1047" extended-state="0" />
@@ -1892,8 +1883,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/course.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="66" column="31" lean-forward="true" selection-start-line="66" selection-start-column="31" selection-end-line="66" selection-end-column="31" />
+        <state relative-caret-position="438">
+          <caret line="79" column="0" lean-forward="true" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
           <folding />
         </state>
       </provider>
