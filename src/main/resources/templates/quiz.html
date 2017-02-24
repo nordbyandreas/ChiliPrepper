@@ -19,7 +19,19 @@
 
         <div>
             <h3 th:text="${quiz.quizName}"></h3>
-            <div th:each="question : ${quiz}">
+
+            <div>
+                <form th:action="@{/addQuestion}" th:object="${question}" method="post">
+                    <label><input type="text" th:field="*{question}" placeholder="Ask question"/></label>
+                    <label><input type="hidden" name="quizId" th:value="${quiz.id}"/></label>
+                    <button type="submit" class="button">Add</button>
+                </form>
+
+
+            </div>
+
+
+            <div th:each="question : ${questions}">
                 <div>
 
                     <a><h2 style="color: black">Text text</h2></a>

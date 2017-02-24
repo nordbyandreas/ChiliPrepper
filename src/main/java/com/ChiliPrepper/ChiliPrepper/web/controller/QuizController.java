@@ -1,8 +1,10 @@
 package com.ChiliPrepper.ChiliPrepper.web.controller;
 
 import com.ChiliPrepper.ChiliPrepper.model.Course;
+import com.ChiliPrepper.ChiliPrepper.model.Question;
 import com.ChiliPrepper.ChiliPrepper.model.Quiz;
 import com.ChiliPrepper.ChiliPrepper.service.CourseService;
+import com.ChiliPrepper.ChiliPrepper.service.QuestionService;
 import com.ChiliPrepper.ChiliPrepper.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 public class QuizController {
     @Autowired
     private QuizService quizService;
+
+    @Autowired
+    private QuestionService questionService;
 
     @Autowired
     private CourseService courseService;
@@ -33,6 +38,8 @@ public class QuizController {
     @RequestMapping("/courses/{courseId}/{quizId}")
     public String quiz(Model model, @PathVariable Long quizId){
         model.addAttribute("quiz", quizService.findOne(quizId));
+        model.addAttribute("question", new Question());
+        model.addAttribute("questions", questionService.findAll());
 
 
 
