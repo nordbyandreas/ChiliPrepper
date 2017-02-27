@@ -16,8 +16,8 @@ public class QuizServiceImpl implements QuizService {
 
 
     @Override
-    public Iterable<Quiz> findAll() {
-        return quizDao.findAll();
+    public Iterable<Quiz> findAllByCourse_id(Long id) {
+        return quizDao.findAllByCourse_id(id);
     }
 
     @Override

@@ -51,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/static/**");    //allow user access to templates before log in
+
     }
 
 
@@ -58,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/register").permitAll()  //allows all users to access the register-form
+                .antMatchers("/register", "/img/LogoLiten.png", "/css/**").permitAll()  //allows all users to access the register-form
                 .anyRequest().authenticated()   //hasRole("USER")  somewhere here?
                 .and()
                 .formLogin()

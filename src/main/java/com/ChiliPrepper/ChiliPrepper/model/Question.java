@@ -18,8 +18,8 @@ public class Question {
     @Column(name = "topic")
     private String topic;
 
-    @Column(name = "question")
-    private String question;
+    @Column(name = "theQuestion")
+    private String theQuestion;
 
     @Column(name = "correct_answer")
     private String correctAnswer;
@@ -50,12 +50,12 @@ public class Question {
         this.topic = topic;
     }
 
-    public String getQuestion() {
-        return question;
+    public String getTheQuestion() {
+        return theQuestion;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public void setTheQuestion(String theQuestion) {
+        this.theQuestion = theQuestion;
     }
 
     public String getCorrectAnswer() {

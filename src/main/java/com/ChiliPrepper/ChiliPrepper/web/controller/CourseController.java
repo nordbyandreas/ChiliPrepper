@@ -69,7 +69,7 @@ public class CourseController {
 
         model.addAttribute("quiz", new Quiz());
         model.addAttribute("courseId", courseId);
-        Iterable<Quiz> myQuizes = quizService.findAll();
+        Iterable<Quiz> myQuizes = quizService.findAllByCourse_id(courseId);
         model.addAttribute("myQuizes", myQuizes);
         model.addAttribute("course", course);
         return "course";

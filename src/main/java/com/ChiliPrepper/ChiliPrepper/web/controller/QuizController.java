@@ -36,14 +36,21 @@ public class QuizController {
 
     //single quiz page
     @RequestMapping("/courses/{courseId}/{quizId}")
-    public String quiz(Model model, @PathVariable Long quizId){
-        model.addAttribute("quiz", quizService.findOne(quizId));
-        model.addAttribute("question", new Question());
-        model.addAttribute("questions", questionService.findAll());
+    public String quiz(Model model, @PathVariable Long quizId, @PathVariable Long courseId){
+
+        Quiz quiz = quizService.findOne(quizId);
+        model.addAttribute("quiz", quiz);
 
 
+        model.addAttribute("newQuestion", new Question());
 
-        System.out.println(quizService.findOne(quizId));
+
+        Iterable<Question> questions = questionService.findAll();
+        model.addAttribute("questions", questions);
+
+
+        Course course = courseService.findOne(courseId);
+        model.addAttribute("course", course);
 
         return "quiz";
     }

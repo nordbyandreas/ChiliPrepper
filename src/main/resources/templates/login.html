@@ -6,10 +6,10 @@
     <div class="row">
         <div class="col s12 m6 offset-m3">
             <div class="card">
-                <div class="card-image">
-                    <img th:src="@{/assets/images/desktop-computer.svg}" alt="desktop computer" />
+                <div>
+                    <img th:src="@{/img/LogoLiten.png}" alt="ChiliPrepper logo" class="logo-image"/>
                 </div>
-                <div class="card-content">
+                <div>
                     <div th:replace="layout :: flash"></div>
                     <form th:action="@{/login}" th:object="${user}" method="post" class="login">
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
