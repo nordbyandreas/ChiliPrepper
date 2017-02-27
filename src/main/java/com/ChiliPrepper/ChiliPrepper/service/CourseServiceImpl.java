@@ -5,6 +5,8 @@ import com.ChiliPrepper.ChiliPrepper.model.Course;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by Andreas on 16.02.2017.
  */
@@ -28,5 +30,10 @@ public class CourseServiceImpl implements CourseService{
     @Override
     public void save(Course course) {
         courseDao.save(course);
+    }
+
+    @Override
+    public Course findByAccessCode(String accessCode) {
+        return courseDao.findByAccessCode(accessCode);
     }
 }

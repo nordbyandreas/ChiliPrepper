@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: head('course')">
+
+</head>
+
+<body>
+
+<header th:replace="layout :: header">
+
+</header>
+
+<div id="wrapper">
+    <section>
+
+
+
+
+        <div>
+            <h3 th:text="${quiz.quizName}"></h3>
+
+            <div>
+                <form th:action="@{/addQuestion}" th:object="${newQuestion}" method="post">
+                    <label><input type="text" th:field="*{theQuestion}" placeholder="Ask the question"/></label>
+                    <label><input type="text" th:field="*{topic}" placeholder="topic"/></label>
+                    <label><input type="text" th:field="*{correctAnswer}" placeholder="Correct Answer"/></label>
+                    <label><input type="text" name="alt1" placeholder="Alternative 1"/></label>
+                    <label><input type="text" name="alt2" placeholder="Alternative 2"/></label>
+                    <label><input type="text" name="alt3" placeholder="Alternative 3"/></label>
+                    <label><input type="hidden" name="quizId" th:value="${quiz.id}"/></label>
+                    <button type="submit" class="button">Add new question</button>
+                </form>
+            </div>
+
+
+
+
+
+            <div th:each="question : ${questions}">
+                <div>
+
+                    <a th:href="@{|/courses/${course.id}/${quiz.id}/${question.id}|}"><h2 th:text="${question.theQuestion}" style="color: black">Text text</h2></a>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+    </section>
+
+    <footer th:replace="layout :: footer">
+
+    </footer>
+</div>
+</body>
+</html>

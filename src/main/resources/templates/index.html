@@ -2,13 +2,6 @@
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="layout :: head('courses')">
-    <meta charset="utf-8"/>
-    <title>ChiliPrepper | Prototype</title>
-    <link rel="stylesheet" th:href="@{/css/normalize.css}"/>
-    <link href="https://fonts.googleapis.com/css?family=Changa+One:400,400i|Open+Sans:400,400i,700,700i,800" rel="stylesheet"/>
-    <link rel="stylesheet" th:href="@{/css/main.css}"/>
-    <link rel="stylesheet" th:href="@{/css/responsive.css}"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 </head>
 
@@ -26,23 +19,67 @@
 
         </div>
 
-        <form th:action="@{addCourse}" th:object="${course}" method="post">
 
-            <label><input type="text" th:field="*{courseName}" placeholder="Course name"/></label>
-            <label><input type="text" th:field="*{accessCode}" placeholder="access code"/></label>
-            <button type="submit" class="button">Add</button>
-        </form>
+        <div>
+            <h3>Form for creating course</h3>
+            <form th:action="@{addCourse}" th:object="${course}" method="post">
 
-        <div th:each="course : ${courses}">
-            <div>
+                <label><input type="text" th:field="*{courseName}" placeholder="Course name"/></label>
+                <label><input type="text" th:field="*{accessCode}" placeholder="access code"/></label>
+                <button type="submit" class="button">Add</button>
+            </form>
 
-                <h2 th:text="${course.courseName}" style="color: black">Text text</h2>
-            </div>
+
         </div>
 
 
 
 
+        <div>
+            <h3>List of created courses</h3>
+            <ul id="gallery" th:each="course : ${myCourses}">
+                <li>
+                    <a th:href="@{|/courses/${course.id}|}">
+                        <img th:src="@{http://placehold.it/350x350}" alt=""/>
+                        <p th:text="${course.courseName}">Course name</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+
+
+        <div>
+            <h3>Form for registering in a course</h3>
+            <form th:action="@{regCourse}" method="post">
+
+                <label><input type="text" name="accessCode" placeholder="Enter accessCode"/></label>
+
+                <button type="submit" class="button">Register</button>
+            </form>
+
+
+        </div>
+
+
+
+        <div>
+            <h3>List of registered courses</h3>
+            <div th:each="course : ${regCourses}">
+                <div>
+
+                    <a th:href="@{|/courses/${course.id}|}">
+                        <h2 th:text="${course.courseName}" style="color: black">Text text</h2>
+                    </a>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+<!--
         <ul id="gallery">
 
             <li>
@@ -77,7 +114,7 @@
                 </a>
             </li>
         </ul>
-
+-->
     </section>
 
     <footer th:replace="layout :: footer">

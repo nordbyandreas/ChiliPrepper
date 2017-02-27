@@ -7,7 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
-@EnableAutoConfiguration
+@EnableAutoConfiguration                                                      //searches for classes marked as @Configuration and uses them for config
 @ComponentScan(basePackages = "com.ChiliPrepper.ChiliPrepper")
 public class Application {
     public static void main(String[] args) {
