@@ -3,6 +3,7 @@ package com.ChiliPrepper.ChiliPrepper.model;
 /**
  * Created by Andreas on 15.02.2017.
  */
+import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +31,10 @@ public class User implements UserDetails {
     @Column(length = 100)
     private String password;
 
+    @Column(unique = true, nullable = false)
+    @Email
+    private String email;
+
     @Column(nullable = false)
     private boolean enabled;
 
@@ -56,13 +61,16 @@ public class User implements UserDetails {
         return authorities;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
 
-
-
-
-
-    //Getters and Setters
+//Getters and Setters
 
     public Set<Course> getRegCourses() {
         return regCourses;

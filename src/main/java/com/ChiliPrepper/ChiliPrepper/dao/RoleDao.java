@@ -10,8 +10,10 @@ import org.springframework.stereotype.Repository;
 
 //data access object for ROLES
 
+
+
+
 @Repository
 public interface RoleDao extends CrudRepository<Role, Long>{
-
 
 }

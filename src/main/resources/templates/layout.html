@@ -19,14 +19,15 @@
 
 <header th:fragment="header">
     <a th:href="@{/}" id="logo">
+        <img th:src="@{/img/LogoLiten.png}" alt="ChiliPrepper logo" class="logo-image"/>
         <h1>ChiliPrepper</h1>
-        <h2>Logo</h2>
     </a>
     <nav>
         <ul>
             <li><a th:href="@{/}"  class="selected">Courses</a></li>
             <li><a th:href="@{/profile}">Profile</a></li>
             <li><a th:href="@{/about}">About</a></li>
+            <li><a th:href="@{/logout}">Logout</a></li>
         </ul>
     </nav>
 </header>
@@ -37,9 +38,6 @@
 
 <footer th:fragment="footer">
 
-    <a href="https://www.facebook.com/andreas.nordby.39">
-        <img src="img/facebook-wrap.png" alt="Facebook Logo"  class="social-icon"/>
-    </a>
     <p>&copy; 2017 ChiliPrepper</p>
 
 </footer>
