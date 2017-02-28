@@ -9,26 +9,16 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
+
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'jacoco'
 
-
 jacoco {
     toolVersion = "0.7.6.201602180812"
     reportsDir = file("$buildDir/customJacocoReportDir")
 }
-
-jacocoTestReport {
-    reports {
-        xml.enabled false
-        csv.enabled false
-        html.destination "${buildDir}/jacocoHtml"
-    }
-}
-
-
 
 jar {
     baseName = 'ChiliPrepper'
@@ -55,6 +45,16 @@ dependencies {
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
+
+jacocoTestReport {
+    reports {
+        html.destination "${buildDir}/jacocoHtml"
+        xml.enabled = false
+        csv.enabled = false
+    }
+}
+
+test.finalizedBy jacocoTestReport
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.9'
