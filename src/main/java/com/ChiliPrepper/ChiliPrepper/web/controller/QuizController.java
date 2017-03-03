@@ -1,21 +1,22 @@
 package com.ChiliPrepper.ChiliPrepper.web.controller;
 
-import com.ChiliPrepper.ChiliPrepper.model.Course;
-import com.ChiliPrepper.ChiliPrepper.model.Question;
-import com.ChiliPrepper.ChiliPrepper.model.Quiz;
-import com.ChiliPrepper.ChiliPrepper.service.CourseService;
-import com.ChiliPrepper.ChiliPrepper.service.QuestionService;
-import com.ChiliPrepper.ChiliPrepper.service.QuizService;
+import com.ChiliPrepper.ChiliPrepper.model.*;
+import com.ChiliPrepper.ChiliPrepper.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.List;
 
 /**
  * Created by Christer on 20.02.2017.
  */
 @Controller
 public class QuizController {
+
     @Autowired
     private QuizService quizService;
 
@@ -24,6 +25,13 @@ public class QuizController {
 
     @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private AnswerService answerService;
+
+    @Autowired
+    private AlternativeService alternativeService;
+
 
     @RequestMapping(path = "/addQuiz", method = RequestMethod.POST)
     public String addQuiz(@ModelAttribute Quiz quiz, @RequestParam Long courseId) {
@@ -38,6 +46,9 @@ public class QuizController {
     @RequestMapping("/courses/{courseId}/{quizId}")
     public String quiz(Model model, @PathVariable Long quizId, @PathVariable Long courseId){
 
+        Course course = courseService.findOne(courseId);
+
+
         Quiz quiz = quizService.findOne(quizId);
         model.addAttribute("quiz", quiz);
 
@@ -45,17 +56,52 @@ public class QuizController {
         model.addAttribute("newQuestion", new Question());
 
 
-        Iterable<Question> questions = questionService.findAll();
+        Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
         model.addAttribute("questions", questions);
 
-
-        Course course = courseService.findOne(courseId);
         model.addAttribute("course", course);
 
         return "quiz";
     }
 
-    //publish quiz
+    //method for serving questions to a quiz-taker
+    @RequestMapping("/courses/{courseId}/{quizId}/quiz")
+    public String quizzer(Principal principal, Model model, @PathVariable Long quizId, @PathVariable Long courseId){
+
+        Course course = courseService.findOne(courseId);
+        Quiz quiz = quizService.findOne(quizId);
+
+
+        Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
+
+        for (Question question : questions){
+
+            if(answerService.findOneByQuestion_Id(question.getId()) == null){
+                Iterable<Alternative> alternatives = alternativeService.findAllByQuestion_Id(question.getId());
+
+                model.addAttribute("quiz", quiz);
+                model.addAttribute("alternatives", alternatives);
+                model.addAttribute("course", course);
+                String correctAnswer = question.getCorrectAnswer();
+                model.addAttribute("correctAnswer", correctAnswer);
+                return "quizEvent";
+
+            }
+        }
+
+
+
+        
+
+
+
+        return "quizEvent";
+    }
+
+
+
+
+        //publish quiz
     @RequestMapping("/publishQuiz")
     public String publishQuiz(@RequestParam Long quizId){
 

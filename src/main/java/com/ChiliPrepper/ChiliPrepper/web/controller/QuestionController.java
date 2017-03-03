@@ -1,8 +1,10 @@
 package com.ChiliPrepper.ChiliPrepper.web.controller;
 
+import com.ChiliPrepper.ChiliPrepper.model.Alternative;
 import com.ChiliPrepper.ChiliPrepper.model.Course;
 import com.ChiliPrepper.ChiliPrepper.model.Question;
 import com.ChiliPrepper.ChiliPrepper.model.Quiz;
+import com.ChiliPrepper.ChiliPrepper.service.AlternativeService;
 import com.ChiliPrepper.ChiliPrepper.service.QuestionService;
 import com.ChiliPrepper.ChiliPrepper.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class QuestionController {
     @Autowired
     private QuizService quizService;
 
+    @Autowired
+    private AlternativeService alternativeService;
+
 
     @RequestMapping(path = "/addQuestion", method = RequestMethod.POST)
     public String addQuestion(Model model, @ModelAttribute Question newQuestion, @RequestParam Long quizId, @RequestParam String alt1, @RequestParam String alt2, @RequestParam String alt3){
@@ -30,20 +35,26 @@ public class QuestionController {
         Quiz quiz = quizService.findOne(quizId);
         newQuestion.setQuiz(quiz);
 
-
         Course course = quiz.getCourse();
-
-        System.out.println(alt1);
-        System.out.println(alt2);
-        System.out.println(alt3);
-
-        System.out.println(newQuestion.getTheQuestion());
-        System.out.println(newQuestion.getCorrectAnswer());
-
 
         questionService.save(newQuestion);
 
 
+        Alternative altOne = new Alternative();
+        altOne.setAlternative(alt1);
+        altOne.setQuestion(newQuestion);
+        alternativeService.save(altOne);
+
+        Alternative altTwo = new Alternative();
+        altTwo.setAlternative(alt2);
+        altTwo.setQuestion(newQuestion);
+        alternativeService.save(altTwo);
+
+
+        Alternative altThree = new Alternative();
+        altThree.setAlternative(alt3);
+        altThree.setQuestion(newQuestion);
+        alternativeService.save(altThree);
 
         return "redirect:/courses/" + course.getId() + "/" + quizId;
     }

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: head('course')">
+
+</head>
+
+<body>
+
+<header th:replace="layout :: header">
+
+</header>
+
+<div id="wrapper">
+    <section>
+
+
+        <!-- FOR QUIZ CREATORS -->
+
+        <div>
+            <h3 th:text="${quiz.quizName}"></h3>
+
+            <div>
+                <h3>test</h3>
+                <!--
+                 add question
+                 answer
+                 alt1
+                 alt2
+                 alt3
+                 -->
+
+
+            </div>
+
+
+
+
+
+            <div th:each="question : ${questions}">
+                <div>
+
+                    <a th:href="@{|/courses/${course.id}/${quiz.id}/${question.id}|}"><h2 th:text="${question.theQuestion}" style="color: black">Text text</h2></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOR QUIZ CREATORS -->
+
+
+
+
+
+
+    </section>
+
+    <footer th:replace="layout :: footer">
+
+    </footer>
+</div>
+</body>
+</html>

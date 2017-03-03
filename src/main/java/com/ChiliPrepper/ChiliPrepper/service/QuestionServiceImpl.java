@@ -16,8 +16,8 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionDao questionDao;
 
     @Override
-    public Iterable<Question> findAll() {
-        return questionDao.findAll();
+    public Iterable<Question> findAllByQuiz_Id(Long id) {
+        return questionDao.findAllByQuiz_Id(id);
     }
 
     @Override

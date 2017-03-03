@@ -15,9 +15,9 @@
     <section>
 
 
+        <!-- FOR QUIZ CREATORS -->
 
-
-        <div>
+        <div th:if="${userId} == ${creatorId}">
             <h3 th:text="${quiz.quizName}"></h3>
 
             <div>
@@ -45,7 +45,7 @@
             </div>
         </div>
 
-
+        <!-- FOR QUIZ CREATORS -->
 
 
 

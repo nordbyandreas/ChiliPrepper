@@ -57,6 +57,8 @@
 
 
 
+
+
         <!-- FOR COURSE PARTICIPANTS -->
 
         <div th:if="${userId} != ${creatorId}">
@@ -68,7 +70,7 @@
                 <div th:each="quiz : ${myQuizes}">
                     <div th:if="${quiz.published} == true">
 
-                        <a th:href="@{|/courses/${course.id}/${quiz.id}|}"><h2 th:text="${quiz.quizName}" style="color: black">Text text</h2></a>
+                        <a th:href="@{|/courses/${course.id}/${quiz.id}/quiz|}"><h2 th:text="${quiz.quizName}" style="color: black">Text text</h2></a>
 
                     </div>
                 </div>

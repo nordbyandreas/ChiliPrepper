@@ -11,3 +11,39 @@ insert into course (courseName, accessCode, user_id) values ('othertestCourse', 
 insert into course (courseName, accessCode, user_id) values ('osetest', 'otestord', 2);
 
 
+
+insert into quiz (quiz_name, published, course_id) values ('Databaser', true, 1);
+insert into quiz (quiz_name, published, course_id) values ('MMI', true, 1);
+insert into quiz (quiz_name, published, course_id) values ('PVU', false, 1);
+insert into quiz (quiz_name, published, course_id) values ('testQuiz', true, 2);
+insert into quiz (quiz_name, published, course_id) values ('film', false, 2);
+insert into quiz (quiz_name, published, course_id) values ('sport', true, 3);
+insert into quiz (quiz_name, published, course_id) values ('bøker', true, 4);
+
+
+
+
+insert into question (topic, theQuestion, correct_answer, quiz_id) values ('ER-diagram', 'Hva er en svak entitetsklasse?', 'En klasse som ikke har noen unike attributter', 1);
+insert into question (topic, theQuestion, correct_answer, quiz_id) values ('SQL', 'Hvorfor bruker man CASCADE?', 'For å unngå at en tabell kan referere til noe som ikke finnes lengre', 1);
+insert into question (topic, theQuestion, correct_answer, quiz_id) values ('Von neumann', 'Hvem er Von Neumann?', 'En designer', 2);
+insert into question (topic, theQuestion, correct_answer, quiz_id) values ('Design prinsipper', 'Hvilke av disse er et designprinsipp?', 'Affordance', 2);
+
+
+
+insert into alternative (alternative, question_id) values ('En klasse som ikke er sterk', 1);
+insert into alternative (alternative, question_id) values ('En relasjonsklasse', 1);
+insert into alternative (alternative, question_id) values ('Feil svar', 1);
+
+insert into alternative (alternative, question_id) values ('For å validere input', 2);
+insert into alternative (alternative, question_id) values ('For å gjøre ting mer komplisert', 2);
+insert into alternative (alternative, question_id) values ('For å bruke mindre lagringsplass', 2);
+
+insert into alternative (alternative, question_id) values ('En filosof', 3);
+insert into alternative (alternative, question_id) values ('En software ingenør', 3);
+insert into alternative (alternative, question_id) values ('', 3);
+
+insert into alternative (alternative, question_id) values ('Coolness', 4);
+insert into alternative (alternative, question_id) values ('Hotness', 4);
+insert into alternative (alternative, question_id) values ('Greenability', 4);
+
+
