@@ -75,7 +75,7 @@ public class UserTest {
 
     @Test
     public void getAuthorities() throws Exception {
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>(Arrays.asList(new SimpleGrantedAuthority("participant")));
+
     }
 
     @Test

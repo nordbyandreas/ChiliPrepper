@@ -21,15 +21,15 @@ public class RoleTest {
         Long roleId = 10L;
         assertNull("Role ID should be null before a value is assigned", role.getId());
         role.setId(roleId);
-        assertEquals("Role ID users should be set to the assigned value", roleId, role.getId());
+        assertEquals("Role ID should be set to the assigned value", roleId, role.getId());
     }
 
     @Test
     public void roleName() throws Exception {
         String roleName = "participant";
-        assertNull("Role name users should be null before a value is assigned", role.getName());
+        assertNull("Role name should be null before a value is assigned", role.getName());
         role.setName(roleName);
-        assertEquals("Role name users should be set to the assigned value", roleName, role.getName());
+        assertEquals("Role name should be set to the assigned value", roleName, role.getName());
     }
 
 }

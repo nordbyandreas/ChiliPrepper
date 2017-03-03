@@ -50,7 +50,7 @@ public class QuestionTest {
     }
 
     @Test
-    public void assignQuestionToQuiz() throws Exception {
+    public void assingQuestionToQuiz() throws Exception {
         assertNull("The question shouldn't be assigned a quiz", question.getQuiz());
         question.setQuiz(quiz);
         assertEquals("The question's text should be set to the assigned value", quiz, question.getQuiz());

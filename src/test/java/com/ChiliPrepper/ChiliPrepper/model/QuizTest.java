@@ -29,16 +29,9 @@ public class QuizTest {
     @Test
     public void courseId() throws Exception {
         Long quizId = 10L;
-        assertNull("Quiz ID should be null before a value is assigned", quiz.getId());
+        assertNull("The quiz's ID should be null before a value is assigned", quiz.getId());
         quiz.setId(quizId);
-        assertEquals("Quiz ID should be set to the assigned value", quizId, quiz.getId());
-    }
-
-    @Test
-    public void coursePublishedStatus() throws Exception {
-        assertFalse("The quiz should not be published as default", quiz.isPublished());
-        quiz.setPublished(true);
-        assertEquals("The quiz should be published", true, quiz.isPublished());
+        assertEquals("The quiz's ID should be set to the assigned value", quizId, quiz.getId());
     }
 
     @Test
@@ -46,6 +39,13 @@ public class QuizTest {
         assertNull("The quiz should not be assigned to a course", quiz.getCourse());
         quiz.setCourse(course);
         assertEquals("The quiz should be assigned to the course", course, quiz.getCourse());
+    }
+
+    @Test
+    public void coursePublishedStatus() throws Exception {
+        assertFalse("The quiz should not be published as default", quiz.isPublished());
+        quiz.setPublished(true);
+        assertEquals("The quiz should be published", true, quiz.isPublished());
     }
 
 }

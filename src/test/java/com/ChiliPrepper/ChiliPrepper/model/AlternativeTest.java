@@ -19,15 +19,15 @@ public class AlternativeTest {
     }
 
     @Test
-    public void alternativeId() throws Exception {
+    public void alternativeAnswerId() throws Exception {
         Long alternativeId = 10L;
-        assertNull("The alternative ID should be null before a value is assigned", alternative.getId());
+        assertNull("The alternative answer ID should be null before a value is assigned", alternative.getId());
         alternative.setId(alternativeId);
-        assertEquals("The alternative ID should be set to the assigned value", alternativeId, alternative.getId());
+        assertEquals("The alternative answer ID should be set to the assigned value", alternativeId, alternative.getId());
     }
 
     @Test
-    public void getAlternative() throws Exception {
+    public void alternativeAnswerText() throws Exception {
         String alternativeAnswer = "Unit testing is a waste of time";
         assertNull("The alternative answer should be null before a value is assigned", alternative.getAlternative());
         alternative.setAlternative(alternativeAnswer);
@@ -35,7 +35,7 @@ public class AlternativeTest {
     }
 
     @Test
-    public void assignAlternativeToQuestion() throws Exception {
+    public void assingAlternativeAnswerToQuestion() throws Exception {
         assertNull("The alternative answer shouldn't be assigned to a question", alternative.getQuestion());
         alternative.setQuestion(question);
         assertEquals("The alternative answer should be assigned to the question", question, alternative.getQuestion());
