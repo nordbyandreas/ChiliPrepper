@@ -20,10 +20,10 @@ public class QuizTest {
 
     @Test
     public void quizName() throws Exception {
-        String quizName = "Unit testing";
-        assertNull("The quiz name should be null before a value is assigned", quiz.getQuizName());
+        String quizName = "UniT testing";
+        assertNull("The quiz's name should be null before a value is assigned", quiz.getQuizName());
         quiz.setQuizName(quizName);
-        assertEquals("The quiz name should be set to the assigned value", quizName, quiz.getQuizName());
+        assertEquals("The quiz's name should be set to the assigned value", quizName, quiz.getQuizName());
     }
 
     @Test
