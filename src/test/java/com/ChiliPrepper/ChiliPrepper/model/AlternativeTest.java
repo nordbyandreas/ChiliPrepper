@@ -10,64 +10,35 @@ import static org.junit.Assert.*;
  */
 public class AlternativeTest {
     private Alternative alternative;
+    private Question question;
 
     @Before
     public void setUp() throws Exception {
         alternative = new Alternative();
+        question = new Question();
     }
 
     @Test
-    public void getSetId() throws Exception {
-        //Check init alternative ID.
-        Long alternativeInitId = alternative.getId();
-        assertEquals(alternativeInitId, alternative.getId());
-
-        //Set new ID and check if it has changed.
-        Long newAlternativeId = 10000L;
-        alternative.setId(newAlternativeId);
-        assertNotEquals(alternativeInitId, alternative.getId());
-        assertEquals(newAlternativeId, alternative.getId());
-    }
-
-    @Test
-    public void setId() throws Exception {
-
+    public void alternativeId() throws Exception {
+        Long alternativeId = 10L;
+        assertNull("The alternative ID should be null before a value is assigned", alternative.getId());
+        alternative.setId(alternativeId);
+        assertEquals("The alternative ID should be set to the assigned value", alternativeId, alternative.getId());
     }
 
     @Test
     public void getAlternative() throws Exception {
-        //Check init alternative alternative.
-        String alternativeInitAlt = alternative.getAlternative();
-        assertEquals(alternativeInitAlt, alternative.getAlternative());
-
-        //Set new ID and check if it has changed.
-        String newAlternativeAlt = "Anton Tsjekov";
-        alternative.setAlternative(newAlternativeAlt);
-        assertNotEquals(alternativeInitAlt, alternative.getAlternative());
-        assertEquals(newAlternativeAlt, alternative.getAlternative());
+        String alternativeAnswer = "Unit testing is a waste of time";
+        assertNull("The alternative answer should be null before a value is assigned", alternative.getAlternative());
+        alternative.setAlternative(alternativeAnswer);
+        assertEquals("The alternative answer should be set to the assigned value", alternativeAnswer, alternative.getAlternative());
     }
 
     @Test
-    public void setAlternative() throws Exception {
-
-    }
-
-    @Test
-    public void getQuestion() throws Exception {
-        //Check init alternative question.
-        Question alternativeInitQuestion = alternative.getQuestion();
-        assertEquals(alternativeInitQuestion, alternative.getQuestion());
-
-        //Set new question and check if it has changed.
-        Question newAlternativeQuestion = new Question();
-        alternative.setQuestion(newAlternativeQuestion);
-        assertNotEquals(alternativeInitQuestion, alternative.getQuestion());
-        assertEquals(newAlternativeQuestion, alternative.getQuestion());
-    }
-
-    @Test
-    public void setQuestion() throws Exception {
-
+    public void assignAlternativeToQuestion() throws Exception {
+        assertNull("The alternative answer shouldn't be assigned to a question", alternative.getQuestion());
+        alternative.setQuestion(question);
+        assertEquals("The alternative answer should be assigned to the question", question, alternative.getQuestion());
     }
 
 }
