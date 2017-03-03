@@ -75,7 +75,6 @@ public class UserTest {
 
     @Test
     public void getAuthorities() throws Exception {
-
     }
 
     @Test
