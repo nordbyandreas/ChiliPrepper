@@ -15,37 +15,44 @@
     <section>
 
 
-        <!-- FOR QUIZ CREATORS -->
 
-        <div>
+        <div th:if="${alternatives}">
             <h3 th:text="${quiz.quizName}"></h3>
 
             <div>
-                <h3>test</h3>
-                <!--
-                 add question
-                 answer
-                 alt1
-                 alt2
-                 alt3
-                 -->
+                <h3 th:text="${question.theQuestion}"></h3>
 
 
-            </div>
+                <form th:action="@{/submitAnswer}" method="post">
+                <div th:each="alternative : ${alternatives}">
+                    <div>
+
+                        <input type="radio" name="answer" th:value="${alternative}" th:text="${alternative}"/>
+
+                    </div>
 
 
-
-
-
-            <div th:each="question : ${questions}">
-                <div>
-
-                    <a th:href="@{|/courses/${course.id}/${quiz.id}/${question.id}|}"><h2 th:text="${question.theQuestion}" style="color: black">Text text</h2></a>
                 </div>
+                    <input type="hidden" name="quizId" th:value="${quizId}"/>
+                    <input type="hidden" name="questionId" th:value="${questionId}"/>
+                    <input type="hidden" name="courseId" th:value="${courseId}"/>
+                    <button type="submit" class="button">Submit answer</button>
+                </form>
+
             </div>
+
         </div>
 
-        <!-- FOR QUIZ CREATORS -->
+
+
+        <div th:if="!${alternatives}">
+
+            <h3 th:text="${message}"></h3>
+            <p>Maybe list results??</p><br/>
+            <a th:href="@{|/courses/${courseId}|}">Back to course</a>
+
+        </div>
+
 
 
 

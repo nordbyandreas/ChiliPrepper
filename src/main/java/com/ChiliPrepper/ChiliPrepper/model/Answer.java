@@ -17,6 +17,9 @@ public class Answer {
     @Column(name = "correct")
     private boolean correct;
 
+    @Column(name = "answer")
+    private String answer;
+
     @OneToOne
     @JoinColumn(name = "question_id")
     private Question question;
@@ -51,6 +54,14 @@ public class Answer {
 
     public void setCorrect(boolean correct) {
         this.correct = correct;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     public Question getQuestion() {

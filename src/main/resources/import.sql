@@ -40,7 +40,7 @@ insert into alternative (alternative, question_id) values ('For å bruke mindre 
 
 insert into alternative (alternative, question_id) values ('En filosof', 3);
 insert into alternative (alternative, question_id) values ('En software ingenør', 3);
-insert into alternative (alternative, question_id) values ('', 3);
+insert into alternative (alternative, question_id) values ('En mann', 3);
 
 insert into alternative (alternative, question_id) values ('Coolness', 4);
 insert into alternative (alternative, question_id) values ('Hotness', 4);
