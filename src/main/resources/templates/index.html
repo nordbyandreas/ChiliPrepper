@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="layout :: head('courses')">
+<head th:replace="layout :: head('Courses')">
 
 </head>
 
@@ -11,110 +11,70 @@
 
 </header>
 
+<div class="spacer"></div>
+
 <div id="wrapper">
-    <section>
-        <div>
-            <a href="/add" style="font-size: 30px;">+</a>
+    <section id="course">
 
+        <div id="course-registered">
+            <h3>Registered courses</h3>
+            <div th:each="course : ${regCourses}">
+                <div>
 
+                    <a th:href="@{|/courses/${course.id}|}" th:text="${course.courseName}">Text text</a>
+                    <!--    <h2 th:text="${course.courseName}" style="color: black">Text text</h2>
+                    </a>-->
+                </div>
+            </div>
         </div>
 
-
-        <div>
-            <h3>Form for creating course</h3>
-            <form th:action="@{addCourse}" th:object="${course}" method="post">
-
-                <label><input type="text" th:field="*{courseName}" placeholder="Course name"/></label>
-                <label><input type="text" th:field="*{accessCode}" placeholder="access code"/></label>
-                <button type="submit" class="button">Add</button>
-            </form>
-
-
-        </div>
-
-
-
-
-        <div>
-            <h3>List of created courses</h3>
+        <div id="course-created">
+            <h3>Created courses</h3>
             <ul id="gallery" th:each="course : ${myCourses}">
                 <li>
-                    <a th:href="@{|/courses/${course.id}|}">
-                        <img th:src="@{http://placehold.it/350x350}" alt=""/>
-                        <p th:text="${course.courseName}">Course name</p>
-                    </a>
+                    <a th:href="@{|/courses/${course.id}|}" th:text="${course.courseName}">Course name</a>
+                    <!--<img th:src="@{http://placehold.it/350x350}" alt=""/>
+                    <p th:text="${course.courseName}">Course name</p>
+                </a> -->
                 </li>
             </ul>
         </div>
 
-
-
-        <div>
-            <h3>Form for registering in a course</h3>
+        <div id="course-register">
+            <h3>Register in a course</h3>
             <form th:action="@{regCourse}" method="post">
-
-                <label><input type="text" name="accessCode" placeholder="Enter accessCode"/></label>
-
+                <label><input type="text" name="accessCode" placeholder="Enter access code"/></label>
                 <button type="submit" class="button">Register</button>
             </form>
-
-
         </div>
 
-
+        <div id="course-create">
+            <h3>Create a course</h3>
+            <form th:action="@{addCourse}" th:object="${course}" method="post">
+                <label><input type="text" th:field="*{courseName}" placeholder="Course name"/></label>
+                <label><input type="text" th:field="*{accessCode}" placeholder="Access code"/></label>
+                <button type="submit" class="button">Add</button>
+            </form>
+        </div>
 
         <div>
-            <h3>List of registered courses</h3>
-            <div th:each="course : ${regCourses}">
-                <div>
-
-                    <a th:href="@{|/courses/${course.id}|}">
-                        <h2 th:text="${course.courseName}" style="color: black">Text text</h2>
-                    </a>
-                </div>
-            </div>
-
-
+            <a href="#">&#8593; Go to top</a>
         </div>
 
+    </section>
 
+    <section id="menu">
 
-<!--
-        <ul id="gallery">
+        <div id="course-menu">
+            <h3>Menu</h3>
+            <ul>
+                <li><a href="#course-registered">Registered courses</a></li>
+                <li><a href="#course-created">Created courses</a></li>
+                <li><a href="#course-register">Register in a course</a></li>
+                <li><a href="#course-create">Create a course</a></li>
+            </ul>
+        </div>
 
-            <li>
-                <a href="">
-                    <img th:src="@{http://placehold.it/350x350}" alt=""/>
-                    <p>Objektorientert programmering</p>
-                </a>
-            </li>
-
-            <li>
-                <a href="">
-                    <img th:src="@{http://placehold.it/350x350}" alt=""/>
-                    <p>ITGK.</p>
-                </a>
-            </li>
-            <li>
-                <a href="img/number-06.jpg">
-                    <img th:src="@{http://placehold.it/350x350}" alt=""/>
-                    <p>Datamodellering og databasersystemer</p>
-                </a>
-            </li>
-            <li>
-                <a href="img/number-09.jpg">
-                    <img th:src="@{http://placehold.it/350x350}" alt=""/>
-                    <p>Menneske-maskin interaksjon</p>
-                </a>
-            </li>
-            <li>
-                <a href="img/number-12.jpg">
-                    <img th:src="@{http://placehold.it/350x350}" alt=""/>
-                    <p>Siste eksempel</p>
-                </a>
-            </li>
-        </ul>
--->
     </section>
 
     <footer th:replace="layout :: footer">

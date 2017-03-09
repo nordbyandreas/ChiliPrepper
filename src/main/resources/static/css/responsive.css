@@ -5,10 +5,20 @@
 @media screen and (min-width: 480px) {
 
     /********************
+    HEADER
+
+    ********************/
+
+    .logo-image{
+        max-width: 150px;
+    }
+
+    /********************
     TWO COLUMN LAYOUT
 
     ********************/
 
+    /*
     #primary {
         width: 50%;
         float: left;
@@ -18,18 +28,34 @@
         width: 40%;
         float: right;
     }
+    */
 
     /********************
-    PAGE: PORTFOLIO
+    PAGE: COURSES
 
     ********************/
 
+    /*Courses*/
+
+    #course-created li, #course-registered li {
+        margin: 30px 0;
+    }
+
+    #course-created a, #course-registered a {
+        font-size: 1.5em;
+    }
+
+    /*Menu*/
+
+
+    /*
     #gallery li {
         width: 28.3333%;
     }
     #gallery li:nth-child(4n) {
         clear: left;
     }
+    */
 
     /********************
     PAGE: ABOUT
@@ -49,10 +75,50 @@
 @media screen and (min-width: 660px) {
 
     /********************
+    GENERAL
+
+    ********************/
+
+    input, button {
+        min-height: 0;
+        min-width: 0;
+        padding: 5px;
+    }
+
+    button {
+        /*margin: 3px;*/
+        padding: 10px 15px;
+    }
+
+    button:hover, button:focus {
+        font-weight: bold;
+        outline: none;
+        /*margin: 0;
+        border: 3px solid #A00005;*/
+        transform: scale(1.1);
+        transition-duration: 0.1s;
+    }
+
+    button:active {
+        background: #6A0003;
+        color: #FFCACB;
+        /*border: none;*/
+        transform: scale(1);
+    }
+
+    input:focus, input:hover {
+        outline: none;
+        border-width: 5px;
+        /*margin: 0;*/
+        transition-duration: 0.1s;
+    }
+
+    /********************
     HEADER
 
     ********************/
     nav {
+        clear: none;
         background: none;
         float: right;
         font-size: 1.125em;
@@ -75,8 +141,59 @@
         margin-bottom: 20px;
     }
     header{
-        border-bottom: 5px solid #849852;
         margin-bottom: 60px;
+        position: fixed;
+        top: 0;
+    }
+
+    .spacer {
+        width: 100%;
+        height: 200px;
+    }
+
+    /********************
+    PAGE: COURSES
+
+    ********************/
+
+    /*Courses*/
+
+    #course {
+        display: block;
+        float: left;
+    }
+
+    #course-created li, #course-registered li {
+        margin: 50px 0;
+    }
+
+    #course-created a, #course-registered a {
+        font-size: 2em;
+    }
+
+    #course-created a:hover, #course-registered a:hover {
+        font-weight: bold;
+        outline: none;
+        border: 3px solid #A00005;
+        transition-duration: 0.1s;
+    }
+
+    #course-created a:active, #course-registered a:active {
+        background: #6A0003;
+        color: #FFCACB;
+        border: none;
+    }
+
+    /*Menu*/
+
+    #menu {
+        display: block;
+        float: right;
+        padding: 50px;
+        border: 3px solid #F0B04A;
+        position: fixed;
+        top: 200px;
+        right: 50px;
     }
 
 }
