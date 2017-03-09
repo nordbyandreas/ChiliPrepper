@@ -8,30 +8,30 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.junit.Assert.*;
 
 /**
- * Created by dagki on 03/03/2017.
+ * Created by dagki on 04/03/2017.
  */
-public class LoginControllerTest {
+public class QuizControllerTest {
     private MockMvc mockMvc;
-    private LoginController controller;
+    private QuizController controller;
 
     @Before
     public void setUp() throws Exception {
-        controller = new LoginController();
+        controller = new QuizController();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
     @Test
-    public void loginForm() throws Exception {
+    public void addQuiz() throws Exception {
 
     }
 
     @Test
-    public void accessDenied() throws Exception {
+    public void quiz() throws Exception {
 
     }
 
     @Test
-    public void logout() throws Exception {
+    public void publishQuiz() throws Exception {
 
     }
 
