@@ -1,13 +1,16 @@
 package com.ChiliPrepper.ChiliPrepper.model;
 
+
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
  * Created by dagki on 23/02/2017.
  */
 public class QuestionTest {
+
     private Quiz quiz;
     private Question question;
 

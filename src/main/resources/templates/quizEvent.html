@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: head('course')">
+
+</head>
+
+<body>
+
+<header th:replace="layout :: header">
+
+</header>
+
+<div id="wrapper">
+    <section>
+
+
+
+        <div th:if="${alternatives}">
+            <h3 th:text="${quiz.quizName}"></h3>
+
+            <div>
+                <h3 th:text="${question.theQuestion}"></h3>
+
+
+                <form th:action="@{/submitAnswer}" method="post">
+                <div th:each="alternative : ${alternatives}">
+                    <div>
+
+                        <input type="radio" name="answer" th:value="${alternative}" th:text="${alternative}"/>
+
+                    </div>
+
+
+                </div>
+                    <input type="hidden" name="quizId" th:value="${quizId}"/>
+                    <input type="hidden" name="questionId" th:value="${questionId}"/>
+                    <input type="hidden" name="courseId" th:value="${courseId}"/>
+                    <button type="submit" class="button">Submit answer</button>
+                </form>
+
+            </div>
+
+        </div>
+
+
+
+        <div th:if="!${alternatives}">
+
+            <h3 th:text="${message}"></h3>
+            <p>Maybe list results??</p><br/>
+            <a th:href="@{|/courses/${courseId}|}">Back to course</a>
+
+        </div>
+
+
+
+
+
+
+
+    </section>
+
+    <footer th:replace="layout :: footer">
+
+    </footer>
+</div>
+</body>
+</html>

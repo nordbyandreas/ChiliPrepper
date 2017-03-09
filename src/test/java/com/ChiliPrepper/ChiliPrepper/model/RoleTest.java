@@ -1,11 +1,14 @@
 package com.ChiliPrepper.ChiliPrepper.model;
 
+
 import org.junit.Before;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 /**
+
  * Created by dagki on 28/02/2017.
  */
 public class RoleTest {
@@ -30,6 +33,7 @@ public class RoleTest {
         assertNull("Role name should be null before a value is assigned", role.getName());
         role.setName(roleName);
         assertEquals("Role name should be set to the assigned value", roleName, role.getName());
+
     }
 
 }

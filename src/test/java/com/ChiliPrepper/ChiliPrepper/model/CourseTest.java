@@ -1,5 +1,6 @@
 package com.ChiliPrepper.ChiliPrepper.model;
 
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -62,5 +63,6 @@ public class CourseTest {
         course.setRegUsers(regUsers);
         assertEquals("Registered course users should be set to the assigned value", regUsers, course.getRegUsers());
     }
+
 
 }

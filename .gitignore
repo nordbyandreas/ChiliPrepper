@@ -1,16 +1,16 @@
+
+
+
 ## IntelliJ
+
+
 *.iml
-.idea/
-/out/
-/build/
-
-## Gradle
-.gradle/
 
 
 
-## Package Files #
-*.jar
-*.war
-*.ear
-.xml
+/build
+
+
+
+.gradle
+/.idea/workspace.xml
