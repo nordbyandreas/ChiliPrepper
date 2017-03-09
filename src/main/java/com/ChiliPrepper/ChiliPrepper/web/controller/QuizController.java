@@ -194,18 +194,9 @@ public class QuizController {
             results.add((double)numCorrectAnswers.size() / numAnswers.size() * 100);
         }
 
-        // den finner flere answers til en questionID, så det blir feil
-        //må finne alle  ?
 
-        System.out.println("\n\n\n\n");
-        System.out.println(results);
-        System.out.println("\n\n\n\n");
-
-
-
-
-        String message = "Andreas";
-        model.addAttribute("message", message);
+        String quizName = quizService.findOne(quizId).getQuizName();
+        model.addAttribute("quizName", quizName);
 
         model.addAttribute("results", results);
 
