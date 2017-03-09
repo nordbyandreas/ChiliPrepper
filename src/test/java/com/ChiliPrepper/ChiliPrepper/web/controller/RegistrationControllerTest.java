@@ -31,12 +31,12 @@ public class RegistrationControllerTest {
 
     @Before
     public void setUp() throws Exception {
+        controller = new RegistrationController();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
     @Test
     public void regForm() throws Exception {
-
         mockMvc.perform(get("/register.html")).andExpect(view().name("registration"));
     }
     /*

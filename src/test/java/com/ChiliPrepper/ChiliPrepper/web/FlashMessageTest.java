@@ -9,9 +9,6 @@ import static org.junit.Assert.*;
  * Created by dagki on 09/03/2017.
  */
 public class FlashMessageTest {
-    String message;
-    FlashMessage.Status status;
-    FlashMessage flashMessage;
 
     @Before
     public void setUp() throws Exception {
@@ -20,7 +17,6 @@ public class FlashMessageTest {
 
     @Test
     public void flashMessage() throws Exception {
-        assertNull("Flash message should be null before ", flashMessage.getMessage());
 
     }
 
