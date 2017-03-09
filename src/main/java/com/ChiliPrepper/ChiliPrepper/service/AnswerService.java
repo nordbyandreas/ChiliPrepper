@@ -12,9 +12,10 @@ import java.util.List;
 
 public interface AnswerService {
 
-    Answer findOneByQuestion_Id(Long id);
+    Iterable<Answer> findAllByQuestion_Id(Long id);
     Iterable<Answer> findAllByQuiz_Id(Long id);
     Iterable<Answer> findAllByCourse_Id(Long id);
+    Answer findOneByQuestion_Id(Long id);
 
 
 

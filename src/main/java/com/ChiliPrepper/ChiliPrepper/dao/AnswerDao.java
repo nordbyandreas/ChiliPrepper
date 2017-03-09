@@ -13,7 +13,8 @@ import java.util.List;
 @Repository
 public interface AnswerDao extends CrudRepository<Answer, Long> {
 
-    Answer findOneByQuestion_Id(Long id);
+    List<Answer> findAllByQuestion_Id(Long id);
     List<Answer> findAllByQuiz_Id(Long id);
     List<Answer> findAllByCourse_Id(Long id);
+    Answer findOneByQuestion_Id(Long id);
 }

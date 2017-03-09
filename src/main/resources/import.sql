@@ -4,6 +4,9 @@ insert into role (name) values ('ROLE_USER');
 -- Insert two users (passwords are both 'password')
 insert into user (username,enabled,password,role_id, email) values ('user',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'example@example.com');
 insert into user (username,enabled,password,role_id, email) values ('user2',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'test@test.no');
+insert into user (username,enabled,password,role_id, email) values ('user3',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'test2@test.no');
+insert into user (username,enabled,password,role_id, email) values ('user4',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'test3@test.no');
+
 
 insert into course (courseName, accessCode, user_id) values ('testCourse', 'thePassword', 1);
 insert into course (courseName, accessCode, user_id) values ('testTestCourse', 'theword', 1);
@@ -45,5 +48,15 @@ insert into alternative (alternative, question_id) values ('En mann', 3);
 insert into alternative (alternative, question_id) values ('Coolness', 4);
 insert into alternative (alternative, question_id) values ('Hotness', 4);
 insert into alternative (alternative, question_id) values ('Greenability', 4);
+
+
+
+insert into answer (correct, answer, question_id, quiz_id, course_id, user_id) values (true, 'En klasse som ikke har noen unike attributter', 1, 1, 1, 2);
+insert into answer (correct, answer, question_id, quiz_id, course_id, user_id) values (false, 'En klasse som ikke er sterk', 1, 1, 1, 3);
+
+
+
+insert into answer (correct, answer, question_id, quiz_id, course_id, user_id) values (true, 'For å unngå at en tabell kan referere til noe som ikke finnes lengre', 2, 1, 1, 3);
+insert into answer (correct, answer, question_id, quiz_id, course_id, user_id) values (true, 'For å unngå at en tabell kan referere til noe som ikke finnes lengre', 2, 1, 1, 2);
 
 

@@ -19,8 +19,8 @@ public class AnswerServiceImpl implements AnswerService {
 
 
     @Override
-    public Answer findOneByQuestion_Id(Long id) {
-        return answerDao.findOneByQuestion_Id(id);
+    public Iterable<Answer> findAllByQuestion_Id(Long id) {
+        return answerDao.findAllByQuestion_Id(id);
     }
 
     @Override
@@ -31,6 +31,11 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public Iterable<Answer> findAllByCourse_Id(Long id) {
         return answerDao.findAllByCourse_Id(id);
+    }
+
+    @Override
+    public Answer findOneByQuestion_Id(Long id) {
+        return answerDao.findOneByQuestion_Id(id);
     }
 
     @Override

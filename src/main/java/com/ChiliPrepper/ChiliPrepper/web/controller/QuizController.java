@@ -8,10 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.annotation.WebServlet;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Christer on 20.02.2017.
@@ -173,6 +172,48 @@ public class QuizController {
         return "redirect:/courses/" + course.getId();
     }
 
+
+    @RequestMapping(value = "/quizChart/{quizId}", method = RequestMethod.GET)
+    public String quizChart(Model model, @PathVariable Long quizId) {
+
+        Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
+        List<Double> results = new ArrayList<Double>();
+
+        for (Question question : questions){
+            Iterable<Answer> ans = answerService.findAllByQuestion_Id(question.getId());
+            List<Answer> numAnswers = new ArrayList<>();
+            List<Answer> numCorrectAnswers = new ArrayList<>();
+            ans.forEach(numAnswers :: add);
+            for (Answer answer : ans){
+                if(answer.isCorrect()){
+                    numCorrectAnswers.add(answer);
+                }
+            }
+            System.out.println(numCorrectAnswers.size());
+            System.out.println(numAnswers.size());
+            results.add((double)numCorrectAnswers.size() / numAnswers.size() * 100);
+        }
+
+        // den finner flere answers til en questionID, så det blir feil
+        //må finne alle  ?
+
+        System.out.println("\n\n\n\n");
+        System.out.println(results);
+        System.out.println("\n\n\n\n");
+
+
+
+
+        String message = "Andreas";
+        model.addAttribute("message", message);
+
+        model.addAttribute("results", results);
+
+
+
+
+        return "graph:: quizChart";
+    }
 
 
 }
