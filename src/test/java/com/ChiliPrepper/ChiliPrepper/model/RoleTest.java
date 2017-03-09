@@ -1,31 +1,38 @@
 package com.ChiliPrepper.ChiliPrepper.model;
 
+
+import org.junit.Before;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 /**
- * Created by dagki on 24/02/2017.
+
+ * Created by dagki on 28/02/2017.
  */
 public class RoleTest {
+    private Role role;
 
-    @Test
-    public void getId() throws Exception {
-
+    @Before
+    public void setUp() throws Exception {
+        role = new Role();
     }
 
     @Test
-    public void setId() throws Exception {
-
+    public void roleId() throws Exception {
+        Long roleId = 10L;
+        assertNull("Role ID should be null before a value is assigned", role.getId());
+        role.setId(roleId);
+        assertEquals("Role ID should be set to the assigned value", roleId, role.getId());
     }
 
     @Test
-    public void getName() throws Exception {
-
-    }
-
-    @Test
-    public void setName() throws Exception {
+    public void roleName() throws Exception {
+        String roleName = "participant";
+        assertNull("Role name should be null before a value is assigned", role.getName());
+        role.setName(roleName);
+        assertEquals("Role name should be set to the assigned value", roleName, role.getName());
 
     }
 
