@@ -102,7 +102,7 @@ public class QuestionController {
     }
 
 
-    
+
     //method for saving editedQuestion
     @RequestMapping("/courses/{courseId}/{quizId}/{questionId}/editQuestion/saveEditQuestion")
     public String saveEditQuestion(@RequestParam String alt1, @RequestParam String alt2, @RequestParam String alt3,
