@@ -39,6 +39,16 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
+    public void deleteAllByQuiz_Id(Long id) {
+        answerDao.deleteAllByQuiz_Id(id);
+    }
+
+    @Override
+    public void deleteAllByQuestion_Id(Long id) {
+        answerDao.deleteAllByQuestion_Id(id);
+    }
+
+    @Override
     public void save(Answer answer) {
         answerDao.save(answer);
 

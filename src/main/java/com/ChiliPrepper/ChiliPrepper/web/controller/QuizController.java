@@ -206,5 +206,40 @@ public class QuizController {
         return "graph:: quizChart";
     }
 
+    //for returning the editQuiz page
+    @RequestMapping("/courses/{courseId}/{quizId}/editQuiz")
+    public String editQuiz(Model model, @RequestParam Long quizId){
+        Quiz quiz = quizService.findOne(quizId);
+        Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
+        model.addAttribute("quiz", quiz);
+        model.addAttribute("questions", questions);
+        model.addAttribute("course", quiz.getCourse());
+        return "editQuiz";
+    }
+
+
+    @RequestMapping(path = "/saveEditQuiz", method = RequestMethod.POST)
+    public String saveEditQuiz(@ModelAttribute Quiz quiz) {
+        Course course = courseService.findOne(quiz.getCourse().getId());
+        System.out.println("\n\n\n\n Fant course \n\n\n\n");
+        quizService.save(quiz);
+        System.out.println("\n\n\n\n saved quiz? \n\n\n\n");
+
+        return "redirect:/courses/" + course.getId() + "/" + quiz.getId();
+    }
+
+
+
+    //method for deleting quiz
+    @RequestMapping("/deleteQuiz")
+    public String deleteQuiz(@RequestParam Long quizId){
+        Quiz quiz = quizService.findOne(quizId);
+
+
+        quizService.delete(quiz);
+        return "redirect:/courses/" + quiz.getCourse().getId();
+    }
+
+
 
 }

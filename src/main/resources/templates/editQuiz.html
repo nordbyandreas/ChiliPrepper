@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: head('editQuiz')">
+
+</head>
+
+<body>
+
+<header th:replace="layout :: header">
+
+</header>
+
+<div id="wrapper">
+    <section>
+
+
+
+
+        <h3 th:text="${quiz.quizName}"></h3>
+        <form th:action="@{/saveEditQuiz}" th:object="${quiz}" method="post">
+
+            <label><input type="text" th:field="*{quizName}" th:placeholder="${quiz.quizName}"/></label>
+            <label><input type="hidden" th:field="*{course}" th:value="${quiz.course}"/></label>
+            <label><input type="hidden" th:field="*{published}" th:value="${quiz.published}"/></label>
+            <label><input type="hidden" th:field="*{id}" th:value="${quiz.id}"/></label>
+
+            <button type="submit" class="button">Save changes</button>
+        </form>
+        <form th:action="@{/deleteQuiz}" method="post">
+            <label><input type="hidden" name="quizId" th:value="${quiz.id}"/></label>
+            <button type="submit" class="button">Delete Quiz</button>
+        </form>
+
+
+
+        <h3>Questions</h3>
+        <div th:each="question : ${questions}">
+            <div>
+
+                <a th:href="@{|/courses/${course.id}/${quiz.id}/${question.id}/editQuestion|}"><h2 th:text="${question.theQuestion}" style="color: black">Text text</h2></a>
+                <form th:action="@{/deleteQuestion}" method="post">
+                    <input type="hidden" name="questionId" th:value="${question.id}"/>
+                    <button type="submit" class="button">Delete</button>
+                </form>
+                <form th:action="@{|/courses/${course.id}/${quiz.id}/${question.id}/editQuestion|}" method="get">
+                    <input type="hidden" name="questionId" th:value="${question.id}"/>
+                    <button type="submit" class="button">Edit</button>
+                </form>
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+    </section>
+
+    <footer th:replace="layout :: footer">
+
+    </footer>
+</div>
+</body>
+
+</html>

@@ -17,6 +17,10 @@ public interface AnswerService {
     Iterable<Answer> findAllByCourse_Id(Long id);
     Answer findOneByQuestion_Id(Long id);
 
+    void deleteAllByQuiz_Id(Long id);
+
+    void deleteAllByQuestion_Id(Long id);
+
 
 
 

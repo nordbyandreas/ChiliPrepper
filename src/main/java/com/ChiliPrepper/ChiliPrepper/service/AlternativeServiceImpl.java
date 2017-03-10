@@ -31,4 +31,9 @@ public class AlternativeServiceImpl implements AlternativeService {
         alternativeDao.save(alternative);
 
     }
+
+    @Override
+    public void deleteAllByQuestion_Id(Long id) {
+        alternativeDao.deleteAllByQuestion_Id(id);
+    }
 }
