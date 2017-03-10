@@ -13,26 +13,12 @@ public class ProfileController {
 
     @RequestMapping("/profile")
     public String profile(Model model){
-
-
         return "profile";
     }
 
-
-
-
-
-
-
     @RequestMapping("/about")
     public String about(Model model){
-
-
         return "about";
     }
-
-
-
-
 
 }
