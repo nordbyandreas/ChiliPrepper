@@ -2,10 +2,12 @@ package com.ChiliPrepper.ChiliPrepper.web.controller;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by dagki on 04/03/2017.
@@ -27,7 +29,6 @@ public class CourseControllerTest {
 
     @Test
     public void course() throws Exception {
-
     }
 
     @Test

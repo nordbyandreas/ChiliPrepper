@@ -2,6 +2,7 @@ package com.ChiliPrepper.ChiliPrepper.model;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -27,7 +28,7 @@ public class UserTest {
     }
 
     @Test
-    public void userUsername() throws Exception {
+    public void assignUserUsername() throws Exception {
         String username = "William Hansen";
         assertNull("The user's username should be null before a value is assigned", user.getUsername());
         user.setUsername(username);
@@ -35,7 +36,7 @@ public class UserTest {
     }
 
     @Test
-    public void userPassword() throws Exception {
+    public void assignUserPassword() throws Exception {
         String password = "Password";
         assertNull("The user's password should be null before a value is assigned", user.getPassword());
         user.setPassword(password);
@@ -43,7 +44,7 @@ public class UserTest {
     }
 
     @Test
-    public void userId() throws Exception {
+    public void assignUserId() throws Exception {
         Long userId = 10L;
         assertNull("The user's ID should be null before a value is assigned", user.getId());
         user.setId(userId);
@@ -51,7 +52,7 @@ public class UserTest {
     }
 
     @Test
-    public void userEmail() throws Exception {
+    public void assignUserEmail() throws Exception {
         String email = "me@domain.com";
         assertNull("The user's email should be null before a value is assigned", user.getEmail());
         user.setEmail(email);
@@ -59,7 +60,7 @@ public class UserTest {
     }
 
     @Test
-    public void userRegisteredInCourses() throws Exception {
+    public void assignUserToCourses() throws Exception {
         Set<Course> regCourses = new HashSet<>(Arrays.asList(courseOne, courseTwo));
         assertNull("The user's registered courses should be null before a value is assigned", user.getRegCourses());
         user.setRegCourses(regCourses);
@@ -67,14 +68,21 @@ public class UserTest {
     }
 
     @Test
-    public void userRole() throws Exception {
+    public void assignUserRole() throws Exception {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        role.setName("creator");
         assertNull("The user's role should be null before a value is assigned", user.getRole());
         user.setRole(role);
         assertEquals("The user's role should be set to the assigned value", role, user.getRole());
+        authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
+        assertEquals(authorities, user.getAuthorities());
+
     }
 
     @Test
     public void getAuthorities() throws Exception {
+
+
     }
 
     @Test
