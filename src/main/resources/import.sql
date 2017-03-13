@@ -51,7 +51,7 @@ insert into alternative (alternative, question_id) values ('En software ingenør
 insert into alternative (alternative, question_id) values ('En mann', 4);
 
 insert into alternative (alternative, question_id) values ('Coolness', 5);
-insert into alternative (alternative, question_id) values ('Hotness', 5;
+insert into alternative (alternative, question_id) values ('Hotness', 5);
 insert into alternative (alternative, question_id) values ('Greenability', 5);
 
 

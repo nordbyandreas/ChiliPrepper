@@ -36,8 +36,6 @@ public class Course {
 
 
 
-
-
     //getters and setters for all fields:
 
     public Set<User> getRegUsers() {
@@ -80,4 +78,7 @@ public class Course {
     public void setCreator(User creator) {
         this.creator = creator;
     }
+
+
+
 }
