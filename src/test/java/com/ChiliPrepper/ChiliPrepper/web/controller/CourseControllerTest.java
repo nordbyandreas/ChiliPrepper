@@ -57,8 +57,6 @@ public class CourseControllerTest {
 
     @Test
     public void index_shouldRenderIndexView() throws Exception {
-        Role role = new Role.RoleBuilder(1L).withName("ROLE_USER").build();
-        User user = new User.UserBuilder(1L).withUsername("user").withPassword("password").withEmail("aaa@bbb.com").withEnabled(true).withRole(role).withRegCourses(regCourses).build();
 
     }
 

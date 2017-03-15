@@ -38,14 +38,9 @@ dependencies {
     compile 'org.apache.tomcat:tomcat-dbcp:8.0.30'
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:2.1.2.RELEASE'
+    compile 'com.sun.mail:javax.mail'
 
-    // https://mvnrepository.com/artifact/javax.mail/mail
-    compile group: 'javax.mail', name: 'mail', version: '1.4.1'
-
-    // https://mvnrepository.com/artifact/com.google.apis/google-api-services-gmail
-    compile group: 'com.google.apis', name: 'google-api-services-gmail', version: 'v1-rev3-1.18.0-rc'
-
-
+    compile 'org.springframework:spring-context-support'
 
 // https://mvnrepository.com/artifact/org.webjars/jquery
     compile group: 'org.webjars', name: 'jquery', version: '2.1.3'

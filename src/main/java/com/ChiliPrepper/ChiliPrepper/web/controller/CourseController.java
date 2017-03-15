@@ -6,6 +6,8 @@ import com.ChiliPrepper.ChiliPrepper.model.User;
 import com.ChiliPrepper.ChiliPrepper.service.CourseService;
 import com.ChiliPrepper.ChiliPrepper.service.QuizService;
 import com.ChiliPrepper.ChiliPrepper.service.UserService;
+
+import com.ChiliPrepper.ChiliPrepper.web.MailTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
