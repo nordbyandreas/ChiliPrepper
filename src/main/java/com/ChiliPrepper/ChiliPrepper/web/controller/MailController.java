@@ -17,7 +17,7 @@ public class MailController {
 
         String from = "chiliprepper.bot";
         String pass = "ChiliPrepperPassword";
-        String[] to = { "nordbyandreas@hotmail.com" }; // list of recipient email addresses
+        String[] to = { "chiliprepper.bot@gmail.com" }; // list of recipient email addresses
         String subject = "Java send mail example";
         String body = "Welcome to JavaMail!";
 
