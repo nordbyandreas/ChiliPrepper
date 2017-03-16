@@ -77,6 +77,7 @@ public class QuizController {
     @RequestMapping("/courses/{courseId}/{quizId}/quiz")
     public String quizzer(Principal principal, Model model, @PathVariable Long quizId, @PathVariable Long courseId){
 
+        User user = (User)((UsernamePasswordAuthenticationToken)principal).getPrincipal();
         Course course = courseService.findOne(courseId);
         Quiz quiz = quizService.findOne(quizId);
 
@@ -84,7 +85,7 @@ public class QuizController {
 
         for (Question question : questions){
 
-            if(answerService.findOneByQuestion_Id(question.getId()) == null){
+            if(answerService.findOneByQuestion_IdAndUser_Id(question.getId(), user.getId()) == null){
 
                 List<Alternative> alts = (List<Alternative>) alternativeService.findAllByQuestion_Id(question.getId());
                 List<String> alternatives = new ArrayList<String>();
@@ -104,10 +105,6 @@ public class QuizController {
                 model.addAttribute("quizId", quizId);
                 model.addAttribute("courseId", courseId);
 
-
-                System.out.println("\n\n this was called !!! \n\n\n\n");
-
-
                 return "quizEvent";
 
             }
@@ -119,6 +116,32 @@ public class QuizController {
         model.addAttribute("quizId", quizId);
         model.addAttribute("courseId", courseId);
 
+
+        Iterable<Answer> userAnswers = answerService.findAllByQuiz_IdAndUser_Id(quizId, user.getId());
+        List<Answer> userNumAnswers = new ArrayList<>();
+        List<Answer> userNumCorrectAnswers = new ArrayList<>();
+        userAnswers.forEach(userNumAnswers :: add);
+        for (Answer answer : userAnswers){
+            if(answer.isCorrect()){
+                userNumCorrectAnswers.add(answer);
+            }
+        }
+        double userScore = (double)(userNumCorrectAnswers.size() * 100 / userNumAnswers.size());
+
+
+        Iterable<Answer> totalAnswers = answerService.findAllByQuiz_Id(quizId);
+        List<Answer> numAnswers = new ArrayList<>();
+        List<Answer> numCorrectAnswers = new ArrayList<>();
+        totalAnswers.forEach(numAnswers :: add);
+        for (Answer answer : totalAnswers){
+            if(answer.isCorrect()){
+                numCorrectAnswers.add(answer);
+            }
+        }
+        double avgScore = (double)(numCorrectAnswers.size() * 100 / numAnswers.size());
+
+        model.addAttribute("userScore", userScore);
+        model.addAttribute("avgScore", avgScore);
         return "quizEvent";
     }
 
@@ -189,9 +212,8 @@ public class QuizController {
                     numCorrectAnswers.add(answer);
                 }
             }
-            System.out.println(numCorrectAnswers.size());
-            System.out.println(numAnswers.size());
-            results.add((double)numCorrectAnswers.size() / numAnswers.size() * 100);
+
+            results.add((double)numCorrectAnswers.size() * 100 / numAnswers.size());
         }
 
 

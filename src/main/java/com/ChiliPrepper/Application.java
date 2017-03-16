@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = "com.ChiliPrepper.ChiliPrepper")
 public class Application {
     public static void main(String[] args) {
+
         SpringApplication.run(Application.class, args);
     }
 }

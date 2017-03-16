@@ -17,6 +17,9 @@ public interface AnswerDao extends CrudRepository<Answer, Long> {
     List<Answer> findAllByQuiz_Id(Long id);
     List<Answer> findAllByCourse_Id(Long id);
     Answer findOneByQuestion_Id(Long id);
+    Answer findOneByQuestion_IdAndUser_Id(Long questionId, Long userId);
     void deleteAllByQuiz_Id(Long id);
     void deleteAllByQuestion_Id(Long id);
+    List<Answer> findAllByCourse_IdAndUser_Id(Long courseId, Long userId);
+    List<Answer> findAllByQuiz_IdAndUser_Id(Long quizId, Long userId);
 }

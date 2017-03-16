@@ -39,6 +39,11 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
+    public Answer findOneByQuestion_IdAndUser_Id(Long questionId, Long userId) {
+        return answerDao.findOneByQuestion_IdAndUser_Id(questionId, userId);
+    }
+
+    @Override
     public void deleteAllByQuiz_Id(Long id) {
         answerDao.deleteAllByQuiz_Id(id);
     }
@@ -46,6 +51,16 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public void deleteAllByQuestion_Id(Long id) {
         answerDao.deleteAllByQuestion_Id(id);
+    }
+
+    @Override
+    public Iterable<Answer> findAllByCourse_IdAndUser_Id(Long courseId, Long userId) {
+        return answerDao.findAllByCourse_IdAndUser_Id(courseId, userId);
+    }
+
+    @Override
+    public Iterable<Answer> findAllByQuiz_IdAndUser_Id(Long quizId, Long userId) {
+        return answerDao.findAllByQuiz_IdAndUser_Id(quizId, userId);
     }
 
     @Override
