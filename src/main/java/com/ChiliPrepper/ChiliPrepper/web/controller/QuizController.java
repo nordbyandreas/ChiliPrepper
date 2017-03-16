@@ -75,21 +75,21 @@ public class QuizController {
 
     //method for serving questions to a quiz-taker
     @RequestMapping("/courses/{courseId}/{quizId}/quiz")
-    public String quizzer(Principal principal, Model model, @PathVariable Long quizId, @PathVariable Long courseId){
+    public String quizzer(Principal principal, Model model, @PathVariable Long quizId, @PathVariable Long courseId) {
 
-        User user = (User)((UsernamePasswordAuthenticationToken)principal).getPrincipal();
+        User user = (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
         Course course = courseService.findOne(courseId);
         Quiz quiz = quizService.findOne(quizId);
 
         Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
 
-        for (Question question : questions){
+        for (Question question : questions) {
 
-            if(answerService.findOneByQuestion_IdAndUser_Id(question.getId(), user.getId()) == null){
+            if (answerService.findOneByQuestion_IdAndUser_Id(question.getId(), user.getId()) == null) {
 
                 List<Alternative> alts = (List<Alternative>) alternativeService.findAllByQuestion_Id(question.getId());
                 List<String> alternatives = new ArrayList<String>();
-                for(Alternative alt : alts){
+                for (Alternative alt : alts) {
                     alternatives.add(alt.getAlternative());
                 }
                 alternatives.add(question.getCorrectAnswer());
@@ -120,29 +120,43 @@ public class QuizController {
         Iterable<Answer> userAnswers = answerService.findAllByQuiz_IdAndUser_Id(quizId, user.getId());
         List<Answer> userNumAnswers = new ArrayList<>();
         List<Answer> userNumCorrectAnswers = new ArrayList<>();
-        userAnswers.forEach(userNumAnswers :: add);
-        for (Answer answer : userAnswers){
-            if(answer.isCorrect()){
+        userAnswers.forEach(userNumAnswers::add);
+        for (Answer answer : userAnswers) {
+            if (answer.isCorrect()) {
                 userNumCorrectAnswers.add(answer);
             }
         }
-        double userScore = (double)(userNumCorrectAnswers.size() * 100 / userNumAnswers.size());
+        double userScore = (double) (userNumCorrectAnswers.size() * 100 / userNumAnswers.size());
 
 
         Iterable<Answer> totalAnswers = answerService.findAllByQuiz_Id(quizId);
         List<Answer> numAnswers = new ArrayList<>();
         List<Answer> numCorrectAnswers = new ArrayList<>();
-        totalAnswers.forEach(numAnswers :: add);
-        for (Answer answer : totalAnswers){
-            if(answer.isCorrect()){
+        totalAnswers.forEach(numAnswers::add);
+        for (Answer answer : totalAnswers) {
+            if (answer.isCorrect()) {
                 numCorrectAnswers.add(answer);
             }
         }
-        double avgScore = (double)(numCorrectAnswers.size() * 100 / numAnswers.size());
+        double avgScore = (double) (numCorrectAnswers.size() * 100 / numAnswers.size());
 
         model.addAttribute("userScore", userScore);
         model.addAttribute("avgScore", avgScore);
+
+        //Call method for sending mail
+        sendCriticalResultsByMail(user, quizId);
+
         return "quizEvent";
+    }
+
+    private void sendCriticalResultsByMail(User user, Long quizId) {
+        String userEmail = user.getEmail();
+
+        Iterable<Answer> userAnswers = answerService.findAllByQuiz_IdAndUser_Id(quizId, user.getId());
+
+        MailSenderTest.sendFromGMail("chiliprepper.bot@gmail.com", userEmail);
+
+
     }
 
     @RequestMapping(path = "/submitAnswer", method = RequestMethod.POST)
