@@ -1,13 +1,8 @@
 package com.ChiliPrepper.ChiliPrepper.web.controller;
 
-import com.ChiliPrepper.ChiliPrepper.model.Course;
-import com.ChiliPrepper.ChiliPrepper.model.Quiz;
-import com.ChiliPrepper.ChiliPrepper.model.User;
-import com.ChiliPrepper.ChiliPrepper.service.CourseService;
-import com.ChiliPrepper.ChiliPrepper.service.QuizService;
-import com.ChiliPrepper.ChiliPrepper.service.UserService;
+import com.ChiliPrepper.ChiliPrepper.model.*;
+import com.ChiliPrepper.ChiliPrepper.service.*;
 
-import com.ChiliPrepper.ChiliPrepper.web.MailTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
@@ -15,7 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -34,6 +30,8 @@ public class CourseController {
     @Autowired
     private QuizService quizService;
 
+    @Autowired
+    private AnswerService answerService;
 
 
 
@@ -55,7 +53,6 @@ public class CourseController {
 
 
 
-
         return "index";
     }
 
@@ -74,6 +71,26 @@ public class CourseController {
         Iterable<Quiz> myQuizes = quizService.findAllByCourse_id(courseId);
         model.addAttribute("myQuizes", myQuizes);
         model.addAttribute("course", course);
+
+        Iterable<Answer> answers = answerService.findAllByCourse_IdAndUser_Id(courseId, user.getId());
+        List<Answer> numAnswers = new ArrayList<>();
+        List<Answer> numCorrectAnswers = new ArrayList<>();
+
+        answers.forEach(numAnswers :: add);
+        for (Answer answer : answers){
+            if(answer.isCorrect()){
+                numCorrectAnswers.add(answer);
+            }
+        }
+
+        Iterable<Answer> totalAnswers = answerService.findAllByCourse_Id(courseId);
+        List<Answer> totalNumAnswers = new ArrayList<>();
+        totalAnswers.forEach(totalNumAnswers :: add);
+
+
+        model.addAttribute("score", numCorrectAnswers.size()*10);
+
+        model.addAttribute("maxScore", totalNumAnswers.size()*10);
         return "course";
     }
 

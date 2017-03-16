@@ -67,6 +67,13 @@
             <h1 th:text="${course.courseName}" style="color: black;"></h1>
 
             <div>
+                <h2>Current points: <span th:text="${score}"></span> of <span th:text="${maxScore}"></span> </h2>
+
+            </div>
+
+
+
+            <div>
                 <h3>Quizes</h3>
                 <div th:each="quiz : ${myQuizes}">
                     <div th:if="${quiz.published} == true">
