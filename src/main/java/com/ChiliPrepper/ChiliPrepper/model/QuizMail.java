@@ -12,20 +12,22 @@ public class QuizMail {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "participant_id")
-    private User user;
+    @JoinColumn(name = "user_id")
+    private User participant;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "course_id")
+    private Course course;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "quiz_id")
     private Quiz quiz;
 
-    @Column(name = "mail_sent")
-    private boolean mailSent;
+    @Column(name = "participant_mail_sent")
+    private boolean participantMailSent;
 
+    @Column(name = "creator_mail_sent")
+    private boolean creatorMailSent;
 
 
     public QuizMail() {
@@ -40,12 +42,20 @@ public class QuizMail {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public User getParticipant() {
+        return participant;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setParticipant(User participant) {
+        this.participant = participant;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public Quiz getQuiz() {
@@ -56,11 +66,19 @@ public class QuizMail {
         this.quiz = quiz;
     }
 
-    public boolean isMailSent() {
-        return mailSent;
+    public boolean isParticipantMailSent() {
+        return participantMailSent;
     }
 
-    public void setMailSent(boolean mailSent) {
-        this.mailSent = mailSent;
+    public void setParticipantMailSent(boolean participantMailSent) {
+        this.participantMailSent = participantMailSent;
+    }
+
+    public boolean isCreatorMailSent() {
+        return creatorMailSent;
+    }
+
+    public void setCreatorMailSent(boolean creatorMailSent) {
+        this.creatorMailSent = creatorMailSent;
     }
 }
