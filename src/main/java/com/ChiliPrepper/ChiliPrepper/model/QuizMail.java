@@ -5,18 +5,22 @@ import javax.persistence.*;
 /**
  * Created by Christer on 17.03.2017.
  */
-public class ParticipantMail {
+public class QuizMail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  //automaticly set unique ID
-    @Column(name = "participantmail_id")
+    @Column(name = "quizmail_id")
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "participant_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "quiz_id")
+    @JoinColumn(name = "user_id")
     private Quiz quiz;
 
     @Column(name = "mail_sent")
@@ -24,7 +28,7 @@ public class ParticipantMail {
 
 
 
-    public ParticipantMail() {
+    public QuizMail() {
 
     }
 
