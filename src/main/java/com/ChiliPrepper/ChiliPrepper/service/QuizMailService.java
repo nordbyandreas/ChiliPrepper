@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface QuizMailService {
 
-    Iterable<QuizMail> findAllByQuizmail_Id(Long id);
+    //Iterable<QuizMail> findOneByQuizMail_Id(Long id);
     Iterable<QuizMail> findAllByQuiz_Id(Long id);
     Iterable<QuizMail> findAllByParticipant_Id(Long id);
     Iterable<QuizMail> findAllByQuiz_IdAndCourse_Id(Long quizId, Long courseId);
@@ -18,7 +18,7 @@ public interface QuizMailService {
     QuizMail findOneByQuiz_IdAndParticipant_Id(Long quizId, Long participantId);
 
     void deleteAllByQuiz_Id(Long id);
-    void deleteAllByPartcipant_Id(Long id);
+    void deleteAllByParticipant_Id(Long id);
 
     void save(QuizMail quizMail);
 }

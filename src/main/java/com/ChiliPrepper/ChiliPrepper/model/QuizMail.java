@@ -5,10 +5,12 @@ import javax.persistence.*;
 /**
  * Created by Christer on 17.03.2017.
  */
+
+@Entity
 public class QuizMail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  //automaticly set unique ID
-    @Column(name = "quizmail_id")
+    @Column(name = "quizMail_id")
     private Long id;
 
     @ManyToOne
