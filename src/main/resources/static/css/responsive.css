@@ -66,6 +66,10 @@
         margin: 0 5% 80px 0;
     }
 
+    div.faq p {
+        margin-left: 2.5%;
+    }
+
 }
 
 
@@ -122,9 +126,11 @@
         background: none;
         float: right;
         font-size: 1.125em;
-        margin-right: 5%;
         text-align: right;
         width: 45%;
+        position: fixed;
+        right: 5%;
+        top: 89px;
     }
 
     #logo{
@@ -133,6 +139,7 @@
         text-align: left;
         width: 45%;
     }
+
     h1{
         font-size: 2.5em;
     }
@@ -189,11 +196,11 @@
     #menu {
         display: block;
         float: right;
-        padding: 50px;
+        padding: 5px 50px 25px 25px;
         border: 3px solid #F0B04A;
         position: fixed;
         top: 200px;
-        right: 50px;
+        right: 5%;
     }
 
 }

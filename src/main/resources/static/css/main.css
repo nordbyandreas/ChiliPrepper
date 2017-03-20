@@ -26,7 +26,7 @@ img {
 
 h3 {
     font-family: 'Oswald', sans-serif;
-    padding: 1em 0 0.5em;
+    /*padding: 1em 0 0.5em;*/
     font-size: 1.25em;
     font-weight: normal;
 }
@@ -194,6 +194,18 @@ footer {
 }
 
 
+/********************
+PAGE: LOGIN
+
+********************/
+
+.container {
+    width: 100%
+}
+
+.row {
+    margin: auto;
+}
 
 /********************
 PAGE: COURSES
