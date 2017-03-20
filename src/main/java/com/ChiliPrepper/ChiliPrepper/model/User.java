@@ -51,9 +51,6 @@ public class User implements UserDetails {
 
 
 
-
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -137,4 +134,74 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
+
+    public static class UserBuilder{
+        private Long id;
+        private String username;
+        private String password;
+        private String email;
+        private boolean enabled;
+        private Role role;
+        private Set<Course> regCourses;
+
+        public UserBuilder(Long id){
+            this.id = id;
+        }
+
+        public UserBuilder(){
+
+        }
+
+        public UserBuilder withId(Long id){
+            this.id = id;
+            return this;
+        }
+
+        public UserBuilder withUsername(String username){
+            this.username = username;
+            return this;
+        }
+
+        public UserBuilder withPassword(String password){
+            this.password = password;
+            return this;
+        }
+
+        public UserBuilder withEmail(String email){
+            this.email = email;
+            return this;
+        }
+
+        public UserBuilder withEnabled(boolean enabled){
+            this.enabled = enabled;
+            return this;
+        }
+
+        public UserBuilder withRole(Role role){
+            this.role = role;
+            return this;
+        }
+
+        public UserBuilder withRegCourses(Set<Course> regCourses){
+            this.regCourses = regCourses;
+            return this;
+        }
+
+        public User build(){
+            User user = new User();
+            user.setId(id);
+            user.setUsername(username);
+            user.setPassword(password);
+            user.setEmail(email);
+            user.setEnabled(enabled);
+            user.setRole(role);
+            user.setRegCourses(regCourses);
+            return user;
+        }
+
+    }
+
+
+
 }

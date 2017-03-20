@@ -13,14 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created by Andreas on 17.02.2017.
  */
 
-@Controller                         //marks class as a controller
+//marks class as a controller
+@Controller
 public class RegistrationController {
-
 
     @Autowired
     private UserService userService;
-
-
 
 
     @RequestMapping(path = "/register", method = RequestMethod.GET)
@@ -30,15 +28,11 @@ public class RegistrationController {
     }
 
 
-
-
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public String RegUser(@ModelAttribute User user) {
         userService.save(user);
         return "redirect:/login";
     }
-
-
 
 
 }

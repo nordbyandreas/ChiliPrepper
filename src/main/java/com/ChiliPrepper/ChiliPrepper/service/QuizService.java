@@ -12,4 +12,5 @@ public interface QuizService {
 
     Quiz findOne(Long id);
     void save(Quiz quiz);
+    void delete(Quiz quiz);
 }

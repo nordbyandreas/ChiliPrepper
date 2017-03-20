@@ -44,6 +44,7 @@
                         <input type="hidden" name="quizId" th:value="${quiz.id}"/>
                         <button type="submit" class="button">Publish</button>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -59,6 +60,8 @@
 
 
 
+
+
         <!-- FOR COURSE PARTICIPANTS -->
 
         <div th:if="${userId} != ${creatorId}">
@@ -66,11 +69,18 @@
             <h1 th:text="${course.courseName}" style="color: black;"></h1>
 
             <div>
+                <h2>Current points: <span th:text="${score}"></span> of <span th:text="${maxScore}"></span> </h2>
+
+            </div>
+
+
+
+            <div>
                 <h3>Quizes</h3>
                 <div th:each="quiz : ${myQuizes}">
                     <div th:if="${quiz.published} == true">
 
-                        <a th:href="@{|/courses/${course.id}/${quiz.id}|}"><h2 th:text="${quiz.quizName}" style="color: black">Text text</h2></a>
+                        <a th:href="@{|/courses/${course.id}/${quiz.id}/quiz|}"><h2 th:text="${quiz.quizName}" style="color: black">Text text</h2></a>
 
                     </div>
                 </div>
