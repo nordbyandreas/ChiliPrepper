@@ -16,12 +16,12 @@ public class QuizMailServiceImpl implements QuizMailService {
     private QuizMailDao quizMailDao;
 
 
-
+/*
     @Override
-    public Iterable<QuizMail> findAllByQuizmail_Id(Long id) {
-        return quizMailDao.findAllByQuizmail_Id(id);
+    public Iterable<QuizMail> findOneByQuizMail_Id(Long id) {
+        return quizMailDao.findOneByQuizMail_Id(id);
     }
-
+*/
     @Override
     public Iterable<QuizMail> findAllByQuiz_Id(Long id) {
         return quizMailDao.findAllByQuiz_Id(id);
@@ -53,8 +53,8 @@ public class QuizMailServiceImpl implements QuizMailService {
     }
 
     @Override
-    public void deleteAllByPartcipant_Id(Long id) {
-        quizMailDao.deleteAllByPartcipant_Id(id);
+    public void deleteAllByParticipant_Id(Long id) {
+        quizMailDao.deleteAllByParticipant_Id(id);
     }
 
     @Override

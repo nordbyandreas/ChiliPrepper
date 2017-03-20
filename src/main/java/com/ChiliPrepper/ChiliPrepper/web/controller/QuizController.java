@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.annotation.WebServlet;
 import java.security.Principal;
 import java.util.*;
 
@@ -144,19 +143,20 @@ public class QuizController {
         model.addAttribute("avgScore", avgScore);
 
         //Call method for sending mail
-        sendCriticalResultsByMail(user, quizId);
+        //sendQuizResultsByMail(user, quizId, courseId);
 
         return "quizEvent";
     }
 
-    private void sendCriticalResultsByMail(User user, Long quizId) {
-        String userEmail = user.getEmail();
-
-        Iterable<Answer> userAnswers = answerService.findAllByQuiz_IdAndUser_Id(quizId, user.getId());
-
-        MailSenderTest.sendFromGMail("chiliprepper.bot@gmail.com", userEmail);
+    private void sendQuizResultsByMail(User user, Long quizId, Long courseId) {
+        Iterable<Answer> allAnswers = answerService.findAllByQuiz_Id(quizId);
 
 
+        Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
+
+        ArrayList<Double> results = getQuizResults(questions);
+
+        //MailSenderTest.sendFromGMail("chiliprepper.bot@gmail.com", userEmail);
     }
 
     @RequestMapping(path = "/submitAnswer", method = RequestMethod.POST)
@@ -214,8 +214,23 @@ public class QuizController {
     public String quizChart(Model model, @PathVariable Long quizId) {
 
         Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
-        List<Double> results = new ArrayList<Double>();
 
+        ArrayList<Double> results = getQuizResults(questions);
+
+
+        String quizName = quizService.findOne(quizId).getQuizName();
+        model.addAttribute("quizName", quizName);
+
+        model.addAttribute("results", results);
+
+
+
+
+        return "graph:: quizChart";
+    }
+
+    private ArrayList<Double> getQuizResults(Iterable<Question> questions) {
+        ArrayList<Double> results = new ArrayList<>();
         for (Question question : questions){
             Iterable<Answer> ans = answerService.findAllByQuestion_Id(question.getId());
             List<Answer> numAnswers = new ArrayList<>();
@@ -229,17 +244,7 @@ public class QuizController {
 
             results.add((double)numCorrectAnswers.size() * 100 / numAnswers.size());
         }
-
-
-        String quizName = quizService.findOne(quizId).getQuizName();
-        model.addAttribute("quizName", quizName);
-
-        model.addAttribute("results", results);
-
-
-
-
-        return "graph:: quizChart";
+        return results;
     }
 
     //for returning the editQuiz page
