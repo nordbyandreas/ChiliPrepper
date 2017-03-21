@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
-<head th:fragment="head(page_title)">
+<head th:fragment="head('quiz')">
     <meta charset="utf-8"/>
     <link rel="stylesheet" th:href="@{/css/normalize.css}"/>
     <link href="https://fonts.googleapis.com/css?family=Changa+One:400,400i|Open+Sans:400,400i,700,700i,800" rel="stylesheet"/>
@@ -60,6 +60,10 @@
 
         <div th:if="${userId} == ${creatorId}">
             <h3 th:text="${quiz.quizName}"></h3>
+            <form th:action="@{|/courses/${course.id}/${quiz.id}/editQuiz|}" method="get">
+                <input type="hidden" name="quizId" th:value="${quiz.id}"/>
+                <button type="submit" class="button">Edit</button>
+            </form>
 
             <div>
                 <form th:action="@{/addQuestion}" th:object="${newQuestion}" method="post">

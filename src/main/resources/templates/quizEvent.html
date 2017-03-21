@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="layout :: head('course')">
+<head th:replace="layout :: head('quiz')">
 
 </head>
 
@@ -48,7 +48,10 @@
         <div th:if="!${alternatives}">
 
             <h3 th:text="${message}"></h3>
-            <p>Maybe list results??</p><br/>
+            <div>
+                <h2>You got: <span th:text="${userScore}"></span>% right. The course average is <span th:text="${avgScore}"></span>% </h2>
+
+            </div>
             <a th:href="@{|/courses/${courseId}|}">Back to course</a>
 
         </div>

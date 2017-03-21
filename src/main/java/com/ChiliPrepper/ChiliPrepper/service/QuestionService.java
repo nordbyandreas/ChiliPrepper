@@ -13,5 +13,9 @@ public interface QuestionService {
     Question findOne(Long id);
     void save(Question question);
 
+    void deleteAllByQuiz_Id(Long id);
+
+    void delete(Question question);
+
 
 }

@@ -38,6 +38,13 @@ dependencies {
     compile 'org.apache.tomcat:tomcat-dbcp:8.0.30'
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:2.1.2.RELEASE'
+    compile 'com.sun.mail:javax.mail'
+
+    compile 'org.springframework:spring-context-support'
+
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '1.5.2.RELEASE'
+
 
 // https://mvnrepository.com/artifact/org.webjars/jquery
     compile group: 'org.webjars', name: 'jquery', version: '2.1.3'

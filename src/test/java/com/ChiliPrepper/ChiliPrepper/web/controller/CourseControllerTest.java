@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -18,10 +19,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
+
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
@@ -35,20 +41,25 @@ import sun.security.acl.PrincipalImpl;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.Arrays;
+import java.util.List;
+
+
 
 import static org.junit.Assert.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import static org.mockito.Mockito.*;
+
 
 /**
  * Created by dagki on 04/03/2017.
  */
 
+
 @RunWith(MockitoJUnitRunner.class)
-@ContextConfiguration
-@WebAppConfiguration
 public class CourseControllerTest {
 
     private MockMvc mockMvc;
@@ -93,8 +104,8 @@ public class CourseControllerTest {
         when(userService.findByUsername(user.getUsername())).thenReturn(user);
 
         //mockMvc.perform(get("/")).andExpect(status().isOk());
-
     }
+
 
     @Test
     public void course() throws Exception {

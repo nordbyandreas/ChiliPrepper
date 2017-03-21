@@ -11,6 +11,7 @@ public interface AlternativeService {
     Iterable<Alternative> findAllByQuestion_Id(Long id);
     Alternative findOne(Long id);
     void save(Alternative alternative);
+    void deleteAllByQuestion_Id(Long id);
 }
 
 

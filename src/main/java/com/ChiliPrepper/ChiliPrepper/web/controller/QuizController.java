@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.annotation.WebServlet;
 import java.security.Principal;
 import java.util.*;
 
@@ -75,20 +74,21 @@ public class QuizController {
 
     //method for serving questions to a quiz-taker
     @RequestMapping("/courses/{courseId}/{quizId}/quiz")
-    public String quizzer(Model model, @PathVariable Long courseId, @PathVariable Long quizId){
+    public String quizzer(Principal principal, Model model, @PathVariable Long quizId, @PathVariable Long courseId) {
 
+        User user = (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
         Course course = courseService.findOne(courseId);
         Quiz quiz = quizService.findOne(quizId);
 
         Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
 
-        for (Question question : questions){
+        for (Question question : questions) {
 
-            if(answerService.findOneByQuestion_Id(question.getId()) == null){
+            if (answerService.findOneByQuestion_IdAndUser_Id(question.getId(), user.getId()) == null) {
 
                 List<Alternative> alts = (List<Alternative>) alternativeService.findAllByQuestion_Id(question.getId());
                 List<String> alternatives = new ArrayList<String>();
-                for(Alternative alt : alts){
+                for (Alternative alt : alts) {
                     alternatives.add(alt.getAlternative());
                 }
                 alternatives.add(question.getCorrectAnswer());
@@ -104,7 +104,6 @@ public class QuizController {
                 model.addAttribute("quizId", quizId);
                 model.addAttribute("courseId", courseId);
 
-
                 return "quizEvent";
 
             }
@@ -116,7 +115,49 @@ public class QuizController {
         model.addAttribute("quizId", quizId);
         model.addAttribute("courseId", courseId);
 
+
+        Iterable<Answer> userAnswers = answerService.findAllByQuiz_IdAndUser_Id(quizId, user.getId());
+        List<Answer> userNumAnswers = new ArrayList<>();
+        List<Answer> userNumCorrectAnswers = new ArrayList<>();
+        userAnswers.forEach(userNumAnswers::add);
+        for (Answer answer : userAnswers) {
+            if (answer.isCorrect()) {
+                userNumCorrectAnswers.add(answer);
+            }
+        }
+        double userScore = (double) (userNumCorrectAnswers.size() * 100 / userNumAnswers.size());
+
+
+        Iterable<Answer> totalAnswers = answerService.findAllByQuiz_Id(quizId);
+        List<Answer> numAnswers = new ArrayList<>();
+        List<Answer> numCorrectAnswers = new ArrayList<>();
+        totalAnswers.forEach(numAnswers::add);
+        for (Answer answer : totalAnswers) {
+            if (answer.isCorrect()) {
+                numCorrectAnswers.add(answer);
+            }
+        }
+        double avgScore = (double) (numCorrectAnswers.size() * 100 / numAnswers.size());
+
+        model.addAttribute("userScore", userScore);
+        model.addAttribute("avgScore", avgScore);
+
+        //Call method for sending mail
+        //sendQuizResultsByMail(user, quizId, courseId);
+
         return "quizEvent";
+    }
+
+
+    private void sendQuizResultsByMail(User user, Long quizId, Long courseId) {
+        Iterable<Answer> allAnswers = answerService.findAllByQuiz_Id(quizId);
+
+
+        Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
+
+        ArrayList<Double> results = getQuizResults(questions);
+
+        //MailSenderTest.sendFromGMail("chiliprepper.bot@gmail.com", userEmail);
     }
 
     @RequestMapping(path = "/submitAnswer", method = RequestMethod.POST)
@@ -173,23 +214,9 @@ public class QuizController {
     @RequestMapping(value = "/quizChart/{quizId}", method = RequestMethod.GET)
     public String quizChart(Model model, @PathVariable Long quizId) {
         Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
-        List<Double> results = new ArrayList<Double>();
 
 
-        for (Question question : questions){
-            Iterable<Answer> ans = answerService.findAllByQuestion_Id(question.getId());
-            List<Answer> numAnswers = new ArrayList<>();
-            List<Answer> numCorrectAnswers = new ArrayList<>();
-            ans.forEach(numAnswers :: add);
-            for (Answer answer : ans){
-                if(answer.isCorrect()){
-                    numCorrectAnswers.add(answer);
-                }
-            }
-            System.out.println(numCorrectAnswers.size());
-            System.out.println(numAnswers.size());
-            results.add((double)numCorrectAnswers.size() / numAnswers.size() * 100);
-        }
+        ArrayList<Double> results = getQuizResults(questions);
 
 
         String quizName = quizService.findOne(quizId).getQuizName();
@@ -202,6 +229,60 @@ public class QuizController {
 
         return "graph:: quizChart";
     }
+
+    private ArrayList<Double> getQuizResults(Iterable<Question> questions) {
+        ArrayList<Double> results = new ArrayList<>();
+
+        for (Question question : questions){
+            Iterable<Answer> ans = answerService.findAllByQuestion_Id(question.getId());
+            List<Answer> numAnswers = new ArrayList<>();
+            List<Answer> numCorrectAnswers = new ArrayList<>();
+            ans.forEach(numAnswers :: add);
+            for (Answer answer : ans){
+                if(answer.isCorrect()){
+                    numCorrectAnswers.add(answer);
+                }
+            }
+
+            results.add((double)numCorrectAnswers.size() * 100 / numAnswers.size());
+        }
+        return results;
+    }
+
+    //for returning the editQuiz page
+    @RequestMapping("/courses/{courseId}/{quizId}/editQuiz")
+    public String editQuiz(Model model, @RequestParam Long quizId){
+        Quiz quiz = quizService.findOne(quizId);
+        Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
+        model.addAttribute("quiz", quiz);
+        model.addAttribute("questions", questions);
+        model.addAttribute("course", quiz.getCourse());
+        return "editQuiz";
+    }
+
+
+    @RequestMapping(path = "/saveEditQuiz", method = RequestMethod.POST)
+    public String saveEditQuiz(@ModelAttribute Quiz quiz) {
+        Course course = courseService.findOne(quiz.getCourse().getId());
+        System.out.println("\n\n\n\n Fant course \n\n\n\n");
+        quizService.save(quiz);
+        System.out.println("\n\n\n\n saved quiz? \n\n\n\n");
+
+        return "redirect:/courses/" + course.getId() + "/" + quiz.getId();
+    }
+
+
+
+    //method for deleting quiz
+    @RequestMapping("/deleteQuiz")
+    public String deleteQuiz(@RequestParam Long quizId){
+        Quiz quiz = quizService.findOne(quizId);
+
+
+        quizService.delete(quiz);
+        return "redirect:/courses/" + quiz.getCourse().getId();
+    }
+
 
 
 }

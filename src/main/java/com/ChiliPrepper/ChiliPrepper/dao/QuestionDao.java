@@ -14,6 +14,7 @@ import java.util.List;
 public interface QuestionDao extends CrudRepository<Question, Long> {
 
     List<Question> findAllByQuiz_Id(Long id);
+    void deleteAllByQuiz_Id(Long id);
 
 
 }

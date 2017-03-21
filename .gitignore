@@ -4,8 +4,6 @@
 ## IntelliJ
 
 
-*.iml
-
 
 
 /build
@@ -14,3 +12,6 @@
 
 .gradle
 /.idea/workspace.xml
+
+
+*.iml

@@ -14,5 +14,6 @@ import java.util.List;
 public interface AlternativeDao extends CrudRepository<Alternative, Long> {
 
     List<Alternative> findAllByQuestion_Id(Long id);
+    void deleteAllByQuestion_Id(Long id);
 
 }
