@@ -38,12 +38,12 @@ public class QuizController {
 
 
     @RequestMapping(path = "/addQuiz", method = RequestMethod.POST)
-    public String addQuiz(@ModelAttribute Quiz quiz, @RequestParam Long courseId) {
+    public String addQuiz(Model model, @ModelAttribute Quiz quiz, @RequestParam Long courseId) {
         Course course = courseService.findOne(courseId);
         quiz.setCourse(course);
         quiz.setPublished(false);
         quizService.save(quiz);
-        return "redirect:/courses/" + course.getId();
+        return "redirect:/courses" + course.getId();
     }
 
 
@@ -75,7 +75,7 @@ public class QuizController {
 
     //method for serving questions to a quiz-taker
     @RequestMapping("/courses/{courseId}/{quizId}/quiz")
-    public String quizzer(Principal principal, Model model, @PathVariable Long quizId, @PathVariable Long courseId){
+    public String quizzer(Model model, @PathVariable Long courseId, @PathVariable Long quizId){
 
         Course course = courseService.findOne(courseId);
         Quiz quiz = quizService.findOne(quizId);
@@ -103,9 +103,6 @@ public class QuizController {
                 model.addAttribute("questionId", question.getId());
                 model.addAttribute("quizId", quizId);
                 model.addAttribute("courseId", courseId);
-
-
-                System.out.println("\n\n this was called !!! \n\n\n\n");
 
 
                 return "quizEvent";
@@ -175,9 +172,9 @@ public class QuizController {
 
     @RequestMapping(value = "/quizChart/{quizId}", method = RequestMethod.GET)
     public String quizChart(Model model, @PathVariable Long quizId) {
-
         Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
         List<Double> results = new ArrayList<Double>();
+
 
         for (Question question : questions){
             Iterable<Answer> ans = answerService.findAllByQuestion_Id(question.getId());

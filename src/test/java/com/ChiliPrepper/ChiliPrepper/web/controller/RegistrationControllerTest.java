@@ -41,7 +41,7 @@ public class RegistrationControllerTest {
 
     @Test
     public void regForm() throws Exception {
-        mockMvc.perform(get("/register.html"))
+        mockMvc.perform(get("/register"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("user"))
                 .andExpect(view().name("registration"));
@@ -49,7 +49,7 @@ public class RegistrationControllerTest {
 
     @Test
     public void regUser() throws Exception {
-        mockMvc.perform(post("/register.html"))
+        mockMvc.perform(post("/register"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login"));
         verify(service).save(any(User.class));

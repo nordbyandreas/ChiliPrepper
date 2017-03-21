@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 
 import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,11 +21,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @RunWith(MockitoJUnitRunner.class)
 public class ProfileControllerTest {
     private MockMvc mockMvc;
+
+    @InjectMocks
     private ProfileController controller;
 
     @Before
     public void setup() {
-        controller = new ProfileController();
+        MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 

@@ -81,6 +81,7 @@ public class CourseController {
     @RequestMapping(path = "/addCourse", method = RequestMethod.POST)
     public String addCourse(@ModelAttribute Course course, Principal principal) {
         User user = (User)((UsernamePasswordAuthenticationToken)principal).getPrincipal();
+
         course.setCreator(user);
         courseService.save(course);
         return "redirect:/";

@@ -16,8 +16,6 @@ public class Role {
     private String name;
 
 
-
-
     //Getters and Setters
 
     public Long getId() {
@@ -35,5 +33,6 @@ public class Role {
     public void setName(String name) {
         this.name = name;
     }
+
 }
 
