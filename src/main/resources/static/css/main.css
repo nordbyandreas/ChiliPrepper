@@ -25,9 +25,85 @@ img {
 }
 
 h3 {
-    margin: 0 0 1em 0;
+    font-family: 'Oswald', sans-serif;
+    /*padding: 1em 0 0.5em;*/
+    font-size: 1.25em;
+    font-weight: normal;
 }
 
+input, button {
+    margin: 5px;
+    min-height: 48px;
+    min-width: 48px;
+}
+
+input {
+    padding: 10px 5px;
+    border: 2px solid #849852;
+    /*margin: 3px;*/
+}
+
+input:focus {
+    outline: none;
+    border-width: 5px;
+    /*margin: 0;*/
+}
+
+button {
+    background-color: #A00005;
+    border: none;
+    color: #FFF;
+    font-family: 'Oswald', sans-serif;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+}
+
+/********************
+COLORS
+
+********************/
+
+/*site body*/
+body{
+    background-color:  #fff;
+    /*color: #999;*/
+}
+
+
+/*green header*/
+header {
+    background: #F5F3EB;
+    border-color: #849852;
+}
+
+/*logo text*/
+h1, h2 {
+    color: #F0B04A;
+}
+
+/*links*/
+a{
+    color: #A00005;
+}
+
+/*nav background mobile devices*/
+/* nav {
+    background-color: #599a68;
+
+} */
+
+/*nav link*/
+nav a, nav a:visited {
+    color: #A00005;
+}
+
+/*selected nav link*/
+nav a.selected, nav a:hover {
+    background: #A00005;
+    color: #fff;
+    border-radius: 25% 25% 0 0;
+}
 
 /********************
 HEADING
@@ -39,12 +115,13 @@ header {
     margin: 0 0 30px 0;
     padding: 5px 0 0 0;
     width: 100%;
+    border-bottom: 5px solid #849852;
 }
 
 .logo-image {
     float: left;
     display: block;
-    max-width: 150px;
+    max-width: 31.25%;
 }
 
 #logo{
@@ -53,7 +130,7 @@ header {
 }
 
 h1 {
-    font-family: 'Changa One', sans-serif;
+    font-family: 'Oswald', sans-serif;
     margin: 15px 0;
     font-size: 1.75em;
     font-weight: normal;
@@ -61,12 +138,11 @@ h1 {
 }
 
 h2 {
+    font-family: 'Oswald', sans-serif;
     font-size: 0.75em;
     margin: -5px 0 0;
     font-weight: normal;
 }
-
-
 
 /********************
 NAVIGATION
@@ -74,9 +150,9 @@ NAVIGATION
 ********************/
 
 nav {
-    padding: 10px 0 10px 30px;
-    margin: 20px 0 0;
     clear: both;
+    padding: 10px 0;
+    margin: 20px 0 0;
 }
 
 nav ul {
@@ -90,8 +166,10 @@ nav li {
 }
 
 nav a {
-    font-weight: 800;
+    font-family: 'Oswald', sans-serif;
     padding: 15px 10px;
+    min-height: 48px;
+    min-width: 48px;
 }
 
 
@@ -116,12 +194,54 @@ footer {
 }
 
 
-
 /********************
-PAGE: PORTFOLIO
+PAGE: LOGIN
 
 ********************/
 
+.container {
+    width: 100%
+}
+
+.row {
+    margin: auto;
+}
+
+/********************
+PAGE: COURSES
+
+********************/
+
+/*Courses*/
+
+#course-created ul, #course-registered ul{
+    padding: 0 0 0 5px;
+}
+
+#course-created li, #course-registered li{
+    list-style: none;
+    display: block;
+    min-height: 48px;
+    min-width: 48px;
+}
+
+#course-created a, #course-registered a {
+    background: #A00005;
+    color: #FFF;
+    padding: 15px 10px;
+    font-family: 'Oswald', sans-serif;
+    min-height: 48px;
+    min-width: 48px;
+}
+
+/*Menu*/
+
+#menu {
+    display: none;
+}
+
+
+/*
 #gallery {
     margin: 0;
     padding: 0;
@@ -142,7 +262,7 @@ PAGE: PORTFOLIO
     font-size: 0.75em;
     color: #bdc3c7;
 }
-
+'/
 
 /********************
 PAGE: ABOUT
@@ -187,57 +307,7 @@ PAGE: CONTACT
     background-image: url('../img/mail.png');
 }
 
-
-
-
-
-/********************
-COLORS
-
-********************/
-
-/*site body*/
-body{
-    background-color:  #fff;
-    color: #999;
-}
-
-
-/*green header*/
-header {
-    background: #F5F3EB;
-    border-color: #849852;
-}
-
-/*logo text*/
-h1, h2 {
-    color: #F0B04A;
-}
-
-/*links*/
-a{
-    color: #A00005;
-}
-
-/*nav background mobile devices*/
-/* nav {
-    background-color: #599a68;
-
-} */
-
-/*nav link*/
-nav a, nav a:visited {
-    color: #A00005;
-}
-
-/*selected nav link*/
-nav a.selected, nav a:hover {
-    background: #A00005;
-    color: #fff;
-    border-radius: 25% 25% 0 0;
-}
-
-
+/*CHARTDIV*/
 
 #chartdiv {
     width	: 100%;
