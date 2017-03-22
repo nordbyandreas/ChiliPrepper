@@ -25,4 +25,9 @@ public class ScheduleConsolePrint {
         log.info("Mail sent.");
         mailController.sendMail();
     }
+
+
+
+
+
 }
