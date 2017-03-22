@@ -1,6 +1,5 @@
 package com.ChiliPrepper.ChiliPrepper.web.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,9 +21,9 @@ public class MailController {
         String subject = "Java send mail example";
         String body = "Welcome to JavaMail!";
 
-        MailSenderTest mailSenderTest = new MailSenderTest();
+        BotMailSender botMailSender = new BotMailSender();
 
-        mailSenderTest.sendFromGMail(from, pass, to, subject, body);
+        botMailSender.sendFromGMail(to, subject, body);
     }
 
 
