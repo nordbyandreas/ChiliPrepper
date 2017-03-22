@@ -3,6 +3,7 @@ package com.ChiliPrepper.ChiliPrepper.web.controller;
 import com.ChiliPrepper.ChiliPrepper.model.*;
 import com.ChiliPrepper.ChiliPrepper.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +35,9 @@ public class QuizController {
 
     @Autowired
     private AlternativeService alternativeService;
+
+    @Autowired
+    private QuizMailService quizMailService;
 
 
     @RequestMapping(path = "/addQuiz", method = RequestMethod.POST)
@@ -116,18 +120,21 @@ public class QuizController {
         model.addAttribute("courseId", courseId);
 
 
-        Iterable<Answer> userAnswers = answerService.findAllByQuiz_IdAndUser_Id(quizId, user.getId());
-        List<Answer> userNumAnswers = new ArrayList<>();
-        List<Answer> userNumCorrectAnswers = new ArrayList<>();
-        userAnswers.forEach(userNumAnswers::add);
-        for (Answer answer : userAnswers) {
-            if (answer.isCorrect()) {
-                userNumCorrectAnswers.add(answer);
-            }
-        }
-        double userScore = (double) (userNumCorrectAnswers.size() * 100 / userNumAnswers.size());
+        double userScore = getUserScore(quizId, user);
 
 
+        double avgScore = getAvgScore(quizId);
+
+        model.addAttribute("userScore", userScore);
+        model.addAttribute("avgScore", avgScore);
+
+        //Call method for sending mail
+        sendQuizResultsByMail(user, quizId);
+
+        return "quizEvent";
+    }
+
+    private double getAvgScore(Long quizId) {
         Iterable<Answer> totalAnswers = answerService.findAllByQuiz_Id(quizId);
         List<Answer> numAnswers = new ArrayList<>();
         List<Answer> numCorrectAnswers = new ArrayList<>();
@@ -137,28 +144,77 @@ public class QuizController {
                 numCorrectAnswers.add(answer);
             }
         }
-        double avgScore = (double) (numCorrectAnswers.size() * 100 / numAnswers.size());
-
-        model.addAttribute("userScore", userScore);
-        model.addAttribute("avgScore", avgScore);
-
-        //Call method for sending mail
-        //sendQuizResultsByMail(user, quizId, courseId);
-
-        return "quizEvent";
+        return (double) (numCorrectAnswers.size() * 100 / numAnswers.size());
     }
+
+    private double getUserScore(Long quizId, User user) {
+        Iterable<Answer> userAnswers = answerService.findAllByQuiz_IdAndUser_Id(quizId, user.getId());
+        List<Answer> userNumAnswers = new ArrayList<>();
+        List<Answer> userNumCorrectAnswers = new ArrayList<>();
+        userAnswers.forEach(userNumAnswers::add);
+        for (Answer answer : userAnswers) {
+            if (answer.isCorrect()) {
+                userNumCorrectAnswers.add(answer);
+            }
+        }
+        return (double) (userNumCorrectAnswers.size() * 100 / userNumAnswers.size());
+    }
+
+    private void sendQuizResultsByMail(User user, Long quizId) {
+        System.out.println("\n\n\n\n quizmailService found: \n\n" + quizMailService.findOneByQuiz_IdAndParticipant_Id(quizId, user.getId()) + "\n\n\n");
+       if(quizMailService.findOneByQuiz_IdAndParticipant_Id(quizId, user.getId()) == null){
+           String[] to = {user.getEmail()};
+           BotMailSender.sendFromGMail(to, generateMailSubject(quizId), generateMailBody(quizId, user.getId()));
+           QuizMail quizMail = new QuizMail();
+           quizMail.setQuiz(quizService.findOne(quizId));
+           quizMail.setParticipant(user);
+           quizMailService.save(quizMail);
+       }
+
+        //BotMailSender.sendFromGMail("chiliprepper.bot@gmail.com", userEmail);
+    }
+
+    public String generateMailSubject(Long quizId){
+        Quiz q = quizService.findOne(quizId);
+
+        return q.getQuizName() + " - results";
+    }
+
 
 
     private void sendQuizResultsByMail(User user, Long quizId, Long courseId) {
         Iterable<Answer> allAnswers = answerService.findAllByQuiz_Id(quizId);
-
-
-        Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
-
-        ArrayList<Double> results = getQuizResults(questions);
-
-        //MailSenderTest.sendFromGMail("chiliprepper.bot@gmail.com", userEmail);
     }
+    public String generateMailBody(Long quizId, Long userId){
+        User user = userService.findOne(userId);
+        Quiz quiz = quizService.findOne(quizId);
+
+
+        String username = user.getUsername();
+        double userScore = getUserScore(quizId, user);
+
+        String message = "";
+
+        if(userScore < 30){
+            message = "Oh.. Not great =p  I'm guessing you didn't prepare for this quiz =/ \n  You should put in some more work.";
+        }
+        else if (userScore < 70){
+            message = "Not bad, but don't get cocky!  Keep it up :) ";
+        }
+        else if(userScore < 101 ){
+            message = "Excellent work!  You're doing great.  Keep it up!!";
+        }
+
+
+        String body = "Hi " + username + "!\n\n" +
+                "You got " + userScore + "% correct on the " + quiz.getQuizName() + " quiz.\n\n" +
+                message + "\n\n" + "ChiliPrepper";
+
+
+
+        return body;
+    }
+
 
     @RequestMapping(path = "/submitAnswer", method = RequestMethod.POST)
     public String submitAnswer(@RequestParam Long questionId, @RequestParam Long courseId, @RequestParam Long quizId, Principal principal, @RequestParam String answer) {
@@ -230,7 +286,7 @@ public class QuizController {
         return "graph:: quizChart";
     }
 
-    private ArrayList<Double> getQuizResults(Iterable<Question> questions) {
+    public ArrayList<Double> getQuizResults(Iterable<Question> questions) {
         ArrayList<Double> results = new ArrayList<>();
 
         for (Question question : questions){
