@@ -21,6 +21,7 @@ public interface QuizMailDao extends CrudRepository<QuizMail, Long> {
     QuizMail findOneByQuiz_Id(Long id);
     QuizMail findOneByQuiz_IdAndParticipant_Id(Long quizId, Long participantId);
 
+
     void deleteAllByQuiz_Id(Long id);
     void deleteAllByParticipant_Id(Long id);
 

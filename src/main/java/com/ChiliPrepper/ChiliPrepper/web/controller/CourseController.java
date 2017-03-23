@@ -38,7 +38,7 @@ public class CourseController {
     @RequestMapping("/")
     public String index(Model model, Principal principal) {
 
-        Iterable<Course> myCourses = courseService.findAll();
+        Iterable<Course> myCourses = courseService.findAllForCreator();
         model.addAttribute("myCourses", myCourses);
 
         User user = (User)((UsernamePasswordAuthenticationToken)principal).getPrincipal();

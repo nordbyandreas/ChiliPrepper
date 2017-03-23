@@ -8,6 +8,7 @@ import java.util.List;
  * Created by Andreas on 16.02.2017.
  */
 public interface CourseService {
+    Iterable<Course> findAllForCreator();
     Iterable<Course> findAll();
     Course findOne(Long id);
     void save(Course course);

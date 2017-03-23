@@ -134,7 +134,7 @@ public class QuizController {
         return "quizEvent";
     }
 
-    private double getAvgScore(Long quizId) {
+    public Double getAvgScore(Long quizId)  {
         Iterable<Answer> totalAnswers = answerService.findAllByQuiz_Id(quizId);
         List<Answer> numAnswers = new ArrayList<>();
         List<Answer> numCorrectAnswers = new ArrayList<>();
@@ -144,10 +144,16 @@ public class QuizController {
                 numCorrectAnswers.add(answer);
             }
         }
-        return (double) (numCorrectAnswers.size() * 100 / numAnswers.size());
+        try{
+            return (double) (numCorrectAnswers.size() * 100 / numAnswers.size());
+        }
+        catch(ArithmeticException ae){
+            System.out.println(ae.getMessage());
+            return null;
+        }
     }
 
-    private double getUserScore(Long quizId, User user) {
+    public Double getUserScore(Long quizId, User user) {
         Iterable<Answer> userAnswers = answerService.findAllByQuiz_IdAndUser_Id(quizId, user.getId());
         List<Answer> userNumAnswers = new ArrayList<>();
         List<Answer> userNumCorrectAnswers = new ArrayList<>();
@@ -157,7 +163,15 @@ public class QuizController {
                 userNumCorrectAnswers.add(answer);
             }
         }
-        return (double) (userNumCorrectAnswers.size() * 100 / userNumAnswers.size());
+        try{
+            return (double) (userNumCorrectAnswers.size() * 100 / userNumAnswers.size());
+        }
+        catch(ArithmeticException ae){
+            System.out.println(ae.getMessage());
+            return null;
+        }
+
+
     }
 
     private void sendQuizResultsByMail(User user, Long quizId) {
