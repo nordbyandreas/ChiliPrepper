@@ -5,9 +5,7 @@ package com.ChiliPrepper.ChiliPrepper;
  */
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import com.ChiliPrepper.ChiliPrepper.model.*;
 import com.ChiliPrepper.ChiliPrepper.service.*;
@@ -55,7 +53,7 @@ public class ScheduledMailSender {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
 
-    @Scheduled(fixedRate = 30000)  //finn 1 mnd i millisekunder
+    @Scheduled(initialDelay=60000, fixedRate = 120000)  //finn 1 mnd i millisekunder
     public void sendCourseAverage() {
         Iterable<Course> courses  = courseService.findAll();
 
@@ -86,7 +84,8 @@ public class ScheduledMailSender {
 
             if(answerCheck.size() > 0){
                 courseAvg = courseAvg / counter;
-                String message = "Yo, the course average is at:  " + courseAvg + "  right now";
+                String bot = generateBotResponse(courseAvg);
+                String message = "Yo, the course average is at:  " + courseAvg + "%  right now. \n\n" + bot;
                 BotMailSender.sendFromGMail(to, "Course average results update", message);
             }
 
@@ -95,7 +94,7 @@ public class ScheduledMailSender {
     }
 
 
-    @Scheduled(fixedRate = 20000)   //finn døgn i millisekunder
+    @Scheduled(initialDelay=60000, fixedRate = 60000)   //finn døgn i millisekunder
     public void sendQuizResults() {
         Iterable<Course> courses  = courseService.findAll();
 
@@ -111,7 +110,8 @@ public class ScheduledMailSender {
                 //check if creator has received mail of quizresults previously
                 if((creatorQuizMailService.findOneByQuiz_Id(quiz.getId()) == null) && (quizController.getAvgScore(quiz.getId()) != null)){
                     double quizAverage = quizController.getAvgScore(quiz.getId());
-                    String message = "Yo, the quiz average for " + quiz.getQuizName() + " was at:  " + quizAverage + "  !";
+                    String bot = generateBotResponse(quizAverage);
+                    String message = "Yo, the quiz average for " + quiz.getQuizName() + " was at:  " + quizAverage + "%  ! \n\n " + bot;
                     BotMailSender.sendFromGMail(to, "Quiz average results", message);
                     CreatorQuizMail creatorQuizMail = new CreatorQuizMail();
                     creatorQuizMail.setQuiz(quiz);
@@ -124,43 +124,67 @@ public class ScheduledMailSender {
     }
 
 
-/*
-    @Scheduled(fixedRate = 10000)   //finn døgn i millisekunder
+    @Scheduled(initialDelay=60000, fixedRate = 60000)   //finn døgn i millisekunder
     public void sendTopicResults() {
-        Iterable<Course> courses = courseService.findAll();
-        for (Course course : courses){
-            Iterable<Quiz> quizes = quizService.findAllByCourse_id(course.getId());
-            ArrayList<Question> courseQuestions = new ArrayList<>();
-            for (Quiz quiz : quizes){
-                Iterable<Question> questions = questionService.findAllByQuiz_Id(quiz.getId());
-                questions.forEach(courseQuestions::add);
+        Iterable<User> users = userService.findAll();
+        for (User user : users) {
+            HashMap<String, int[]> topicMap = new HashMap<>();
+            Iterable<Answer> userAnswers  = answerService.findAllByUser_Id(user.getId());
+            for(Answer answer : userAnswers) {
+                String currentTopic = answer.getQuestion().getTopic();
+                if (topicMap.containsKey(currentTopic)) {
+                    int[] stats = topicMap.get(currentTopic);
+                    stats[1] += 1;
+                } else {
+                    topicMap.put(currentTopic, new int[] {0,1});
+                }
+                if(answer.isCorrect()) {
+                    int[] stats = topicMap.get(currentTopic);
+                    stats[0] += 1;
+                }
             }
 
-            Iterable<User> allUsers = userService.findAll();
-            for(Question question : courseQuestions){
-                for(User user : allUsers){
+            Iterator it = topicMap.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry)it.next();
+                String topic = (String) pair.getKey();
+                int[] stats = (int[]) pair.getValue();
+                double correct = (double)stats[0];
+                double total = (double)stats[1];
+
+                if(((correct/total*100) < 20) && (total > 2)){
+                    System.out.println("\n\n\n\n\n" + topic + "\n\n\n\n\n\n" + (correct/total*100) + "\n\n\n\n\n\n");
+                    System.out.println("send Mail to" + user.getUsername() + "!");
+                    String message = "Yo,  " + user.getUsername() + "   seems you're struggling with questions with the topic: " + topic  + ".  \n\n Maybe you should ask somebody for help! \n\n Check out this link for some tips: " +
+                            "\n www.google.com \n\n  Have a nice day!";
+                    String[] to = {user.getEmail()};
+                    BotMailSender.sendFromGMail(to, "Smart Topic helper", message);
 
                 }
-                for (Answer answer : allAnswer){
 
-                }
 
-                System.out.println(question.getTopic());
+
             }
-
-
-
-            //Iterable<Answer> allAnswers = answerService.findAllByCourse_Id(course.getId());
-            //Iterable<User> allUsers = userService.findAll();
-            //Iterable<Question> allQuestions = questionService.find
         }
-
     }
 
 
-*/
 
+    public String generateBotResponse(double result){
+        String message = "";
 
+        if(result < 30){
+            message = "That's not great..  Step up your game! \n  ";
+        }
+        else if (result < 70){
+            message = "The class is doing OK, but not impressing anyone.  Acceptable, i guess.. \n\n ";
+        }
+        else if(result < 101 ){
+            message = "WooW, this is pretty good!  Keep it up!!";
+        }
+
+        return message;
+    }
 
 
 

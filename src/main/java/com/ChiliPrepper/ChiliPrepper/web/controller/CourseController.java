@@ -33,6 +33,9 @@ public class CourseController {
     @Autowired
     private AnswerService answerService;
 
+    @Autowired
+    private QuestionService questionService;
+
 
 
     @RequestMapping("/")
@@ -85,10 +88,18 @@ public class CourseController {
         List<Answer> totalNumAnswers = new ArrayList<>();
         totalAnswers.forEach(totalNumAnswers :: add);
 
+        Iterable<Quiz> quizes =  quizService.findAllByCourse_id(courseId);
+        ArrayList<Question> totalQuestions = new ArrayList<>();
+        for (Quiz quiz : quizes){
+            Iterable<Question> quizQuestions = questionService.findAllByQuiz_Id(quiz.getId());
+            quizQuestions.forEach(totalQuestions::add);
+
+        }
+
 
         model.addAttribute("score", numCorrectAnswers.size()*10);
 
-        model.addAttribute("maxScore", totalNumAnswers.size()*10);
+        model.addAttribute("maxScore", totalQuestions.size()*10);
         return "course";
     }
 
