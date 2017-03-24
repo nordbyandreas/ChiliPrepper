@@ -56,7 +56,6 @@ public class ScheduledMailSender {
     public void sendCourseAverage() {
         Iterable<Course> courses  = courseService.findAll();
 
-        //TODO extract into helper method.  Create check for user-bot-preferences
 
         for (Course course : courses) {
             String[] to = {course.getCreator().getEmail()};
@@ -106,6 +105,8 @@ public class ScheduledMailSender {
             Iterable<Quiz> quizes = quizService.findAllByCourse_id(course.getId());
 
             for (Quiz quiz : quizes) {
+
+                //check if creator has received mail of quizresults previously
                 if((creatorQuizMailService.findOneByQuiz_Id(quiz.getId()) == null) && (quizController.getAvgScore(quiz.getId()) != null)){
                     double quizAverage = quizController.getAvgScore(quiz.getId());
                     String message = "Yo, the quiz average for " + quiz.getQuizName() + " was at:  " + quizAverage + "  !";

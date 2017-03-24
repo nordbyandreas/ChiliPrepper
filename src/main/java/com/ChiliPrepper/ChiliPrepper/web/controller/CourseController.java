@@ -51,8 +51,6 @@ public class CourseController {
 
         model.addAttribute("course", new Course());
 
-
-
         return "index";
     }
 
