@@ -46,16 +46,18 @@ public class ScheduledMailSender {
     @Autowired
     private CreatorQuizMailService creatorQuizMailService;
 
+    @Autowired
+    private UserService userService;
+
 
     private static final Logger log = LoggerFactory.getLogger(ScheduledMailSender.class);
     private MailController mailController = new MailController();
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
 
-    @Scheduled(fixedRate = 3000000)  //finn 1 mnd i millisekunder
+    @Scheduled(fixedRate = 30000)  //finn 1 mnd i millisekunder
     public void sendCourseAverage() {
         Iterable<Course> courses  = courseService.findAll();
-
 
         for (Course course : courses) {
             String[] to = {course.getCreator().getEmail()};
@@ -93,7 +95,7 @@ public class ScheduledMailSender {
     }
 
 
-    @Scheduled(fixedRate = 3000000)   //finn døgn i millisekunder
+    @Scheduled(fixedRate = 20000)   //finn døgn i millisekunder
     public void sendQuizResults() {
         Iterable<Course> courses  = courseService.findAll();
 
@@ -116,17 +118,52 @@ public class ScheduledMailSender {
                     creatorQuizMail.setCreator(course.getCreator());
                     creatorQuizMailService.save(creatorQuizMail);
                 }
-                //log.info("Mail sent.");
-                //mailController.sendMail();
+
             }
         }
     }
 
-    @Scheduled(fixedRate = 20000)   //finn døgn i millisekunder
+
+/*
+    @Scheduled(fixedRate = 10000)   //finn døgn i millisekunder
     public void sendTopicResults() {
-        //log.info("Mail sent.");
-        //mailController.sendMail();
+        Iterable<Course> courses = courseService.findAll();
+        for (Course course : courses){
+            Iterable<Quiz> quizes = quizService.findAllByCourse_id(course.getId());
+            ArrayList<Question> courseQuestions = new ArrayList<>();
+            for (Quiz quiz : quizes){
+                Iterable<Question> questions = questionService.findAllByQuiz_Id(quiz.getId());
+                questions.forEach(courseQuestions::add);
+            }
+
+            Iterable<User> allUsers = userService.findAll();
+            for(Question question : courseQuestions){
+                for(User user : allUsers){
+
+                }
+                for (Answer answer : allAnswer){
+
+                }
+
+                System.out.println(question.getTopic());
+            }
+
+
+
+            //Iterable<Answer> allAnswers = answerService.findAllByCourse_Id(course.getId());
+            //Iterable<User> allUsers = userService.findAll();
+            //Iterable<Question> allQuestions = questionService.find
+        }
+
     }
+
+
+*/
+
+
+
+
+
 
 
 }

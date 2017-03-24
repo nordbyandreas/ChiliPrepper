@@ -17,5 +17,7 @@ public interface QuestionService {
 
     void delete(Question question);
 
+    Iterable<Question> findAllByTopic(String topic);
+
 
 }
