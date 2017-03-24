@@ -24,5 +24,7 @@ public class ScheduleConsolePrint {
     public void reportCurrentTime() {
         log.info("Mail sent.");
         mailController.sendMail();
+
     }*/
+
 }
