@@ -5,8 +5,6 @@ import com.ChiliPrepper.ChiliPrepper.model.Course;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * Created by Andreas on 16.02.2017.
  */
@@ -16,6 +14,11 @@ public class CourseServiceImpl implements CourseService{
 
     @Autowired
     private CourseDao courseDao;
+
+    @Override
+    public Iterable<Course> findAllForCreator() {
+        return courseDao.findAllForCreator();
+    }
 
     @Override
     public Iterable<Course> findAll() {

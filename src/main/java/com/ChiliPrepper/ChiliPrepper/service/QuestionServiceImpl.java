@@ -50,4 +50,9 @@ public class QuestionServiceImpl implements QuestionService {
         alternativeDao.deleteAllByQuestion_Id(question.getId());
         questionDao.delete(question);
     }
+
+    @Override
+    public Iterable<Question> findAllByTopic(String topic) {
+        return questionDao.findAllByTopic(topic);
+    }
 }

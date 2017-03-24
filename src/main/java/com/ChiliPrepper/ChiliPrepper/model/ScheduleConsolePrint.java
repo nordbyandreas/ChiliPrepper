@@ -20,11 +20,16 @@ public class ScheduleConsolePrint {
     private MailController mailController = new MailController();
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-    /*@Scheduled(fixedRate = 20000)
+
+    /*
+    @Scheduled(fixedRate = 20000)
     public void reportCurrentTime() {
         log.info("Mail sent.");
         mailController.sendMail();
+    }
+*/
 
-    }*/
+
+    }
 
 }
