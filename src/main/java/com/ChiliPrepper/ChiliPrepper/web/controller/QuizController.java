@@ -120,7 +120,7 @@ public class QuizController {
         model.addAttribute("courseId", courseId);
 
 
-       /*double userScore = getUserScore(quizId, user);
+       double userScore = getUserScore(quizId, user);
 
 
         double avgScore = getAvgScore(quizId);
@@ -128,7 +128,7 @@ public class QuizController {
         model.addAttribute("userScore", userScore);
         model.addAttribute("avgScore", avgScore);
 
-        //Call method for sending mail
+        /*//Call method for sending mail
         sendQuizResultsByMail(user, quizId);*/
 
         return "quizEvent";

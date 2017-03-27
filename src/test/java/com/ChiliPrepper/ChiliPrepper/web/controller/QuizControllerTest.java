@@ -155,6 +155,7 @@ public class QuizControllerTest {
         when(questionOne.getId()).thenReturn(1L);
         when(questionTwo.getId()).thenReturn(2L);
 
+
         when(answerService.findOneByQuestion_IdAndUser_Id(1L, 1L)).thenReturn(null);
         when(answerService.findOneByQuestion_IdAndUser_Id(2L, 1L)).thenReturn(answerOne);
 
@@ -176,6 +177,8 @@ public class QuizControllerTest {
     @Test
     public void quizzer_2() throws Exception {
         setUp_quizzer();
+        setUp_getUserScore();
+        setUp_getAvgScore();
 
         mockMvc.perform(get("/courses/{courseId}/{quizId}/quiz", 1L, 2L)
                 .principal(principal))
