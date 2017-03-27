@@ -2,7 +2,7 @@ package com.ChiliPrepper.ChiliPrepper.model;
 
 /**
  * Created by Christer on 16.03.2017.
- */
+
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,7 +27,5 @@ public class ScheduleConsolePrint {
     }
 
 
-
-
-
 }
+ */

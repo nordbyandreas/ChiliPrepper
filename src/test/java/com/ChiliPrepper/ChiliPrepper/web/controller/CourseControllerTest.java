@@ -1,20 +1,19 @@
 package com.ChiliPrepper.ChiliPrepper.web.controller;
 
-import com.ChiliPrepper.ChiliPrepper.model.Course;
-import com.ChiliPrepper.ChiliPrepper.model.Role;
-import com.ChiliPrepper.ChiliPrepper.model.User;
+import com.ChiliPrepper.ChiliPrepper.model.*;
+import com.ChiliPrepper.ChiliPrepper.service.AnswerService;
 import com.ChiliPrepper.ChiliPrepper.service.CourseService;
+import com.ChiliPrepper.ChiliPrepper.service.QuizService;
 import com.ChiliPrepper.ChiliPrepper.service.UserService;
+import com.sun.security.auth.UserPrincipal;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.test.context.ContextConfiguration;
@@ -29,14 +28,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.security.Principal;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.springframework.test.web.servlet.MockMvc;
 
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import sun.security.acl.PrincipalImpl;
+
+import javax.annotation.Resource;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -53,15 +52,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import static org.mockito.Mockito.*;
 
-
 /**
  * Created by dagki on 04/03/2017.
  */
 
-
 @RunWith(MockitoJUnitRunner.class)
 public class CourseControllerTest {
-
     private MockMvc mockMvc;
 
     @InjectMocks
@@ -74,60 +70,114 @@ public class CourseControllerTest {
     private CourseService courseService;
 
     @Mock
-    private Principal principal;
-
-    @Mock
-    private UsernamePasswordAuthenticationToken upat;
-
-    @Mock
     Iterable<Course> myCourses;
 
     @Mock
     Set<Course> regCourses;
 
     @Mock
+    Course course;
+
+    @Mock
     User user;
+
+    @Mock
+    User creator;
+
+    @Mock
+    Principal principal;
+
+    @Mock
+    QuizService quizService;
+
+    @Mock
+    AnswerService answerService;
+
+    @Mock
+    Quiz quizOne;
+
+    @Mock
+    Quiz quizTwo;
+
+    @Mock
+    Answer answerOne;
+
+    @Mock
+    Answer answerTwo;
+
+    @Mock
+    Answer answerThree;
+
+    @Mock
+    Answer answerFour;
 
     @Before
     public void setUp() throws Exception {
+
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-        user.setUsername("Unit test");
+
+        when(principal.getName()).thenReturn("Test user");
+        when(userService.findByUsername("Test user")).thenReturn(user);
     }
 
     @Test
     public void index_shouldRenderIndexView() throws Exception {
-        when(courseService.findAll()).thenReturn(myCourses);
-        when((User)upat.getPrincipal()).thenReturn(user);
         when(user.getRegCourses()).thenReturn(regCourses);
-        when(user.getUsername()).thenReturn("Unit test");
-        when(userService.findByUsername(user.getUsername())).thenReturn(user);
+        when(courseService.findAll()).thenReturn(myCourses);
 
-        //mockMvc.perform(get("/")).andExpect(status().isOk());
+        mockMvc.perform(get("/")
+                .principal(principal))
+                .andExpect(status().isOk())
+                .andExpect(view().name("index"))
+                .andExpect(model().attributeExists("course", "myCourses", "regCourses"));
+
+        verify(user).getRegCourses();
+        verify(courseService).findAll();
     }
-
 
     @Test
     public void course() throws Exception {
-        //mockMvc.perform(get("/courses/{courseId}"));
+
+        Iterable<Quiz> quizzes= new ArrayList<>(Arrays.asList(quizOne, quizTwo));
+        Iterable<Answer> answers= new ArrayList<>(Arrays.asList(answerOne, answerTwo));
+        Iterable<Answer> totalAnswers = new ArrayList<>(Arrays.asList(answerOne, answerTwo, answerThree, answerFour));
+
+
+
+        when(answerOne.isCorrect()).thenReturn(true);
+        when(answerTwo.isCorrect()).thenReturn(false);
+        when(user.getId()).thenReturn(1L);
+        when(courseService.findOne(1L)).thenReturn(course);
+        when(answerService.findAllByCourse_IdAndUser_Id(1L, 1L)).thenReturn(answers);
+        when(course.getCreator()).thenReturn(creator);
+        when(quizService.findAllByCourse_id(1L)).thenReturn(quizzes);
+        when(answerService.findAllByCourse_Id(1L)).thenReturn(totalAnswers);
+
+
+        mockMvc.perform(get("/courses/{courseId}", 1L).principal(principal)).andExpect(view().name("course"));
 
     }
 
     @Test
     public void addCourse() throws Exception {
-    /*
-            mockMvc.perform(post("/addCourse"))
-                .andExpect(model().attributeExists("course"))
+
+        mockMvc.perform(post("/addCourse")
+                .principal(principal))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"));
 
-*/
 
     }
 
     @Test
     public void regCourse() throws Exception {
-        //mockMvc.perform(post("/addCourse").param("accessCode", "accessCode"));
+        Set<User> users = new HashSet<User>();
+        when(courseService.findByAccessCode("accessCode")).thenReturn(course);
+        when(course.getRegUsers()).thenReturn(users);
+        when(user.getRegCourses()).thenReturn(regCourses);
+        mockMvc.perform(post("/regCourse").principal(principal).param("accessCode", "accessCode")).andExpect(redirectedUrl("/"));
     }
+
 
 }

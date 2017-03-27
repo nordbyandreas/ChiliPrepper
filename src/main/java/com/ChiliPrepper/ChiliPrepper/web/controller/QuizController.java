@@ -41,12 +41,12 @@ public class QuizController {
 
 
     @RequestMapping(path = "/addQuiz", method = RequestMethod.POST)
-    public String addQuiz(Model model, @ModelAttribute Quiz quiz, @RequestParam Long courseId) {
+    public String addQuiz(@ModelAttribute Quiz quiz, @RequestParam Long courseId) {
         Course course = courseService.findOne(courseId);
         quiz.setCourse(course);
         quiz.setPublished(false);
         quizService.save(quiz);
-        return "redirect:/courses" + course.getId();
+        return "redirect:/courses/" + course.getId();
     }
 
 
@@ -80,7 +80,8 @@ public class QuizController {
     @RequestMapping("/courses/{courseId}/{quizId}/quiz")
     public String quizzer(Principal principal, Model model, @PathVariable Long quizId, @PathVariable Long courseId) {
 
-        User user = (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+        String username = principal.getName();
+        User user = userService.findByUsername(username);
         Course course = courseService.findOne(courseId);
         Quiz quiz = quizService.findOne(quizId);
 
@@ -103,7 +104,6 @@ public class QuizController {
                 model.addAttribute("alternatives", alternatives);
                 model.addAttribute("course", course);
                 model.addAttribute("question", question);
-
                 model.addAttribute("questionId", question.getId());
                 model.addAttribute("quizId", quizId);
                 model.addAttribute("courseId", courseId);
@@ -120,7 +120,7 @@ public class QuizController {
         model.addAttribute("courseId", courseId);
 
 
-        double userScore = getUserScore(quizId, user);
+       /*double userScore = getUserScore(quizId, user);
 
 
         double avgScore = getAvgScore(quizId);
@@ -129,12 +129,12 @@ public class QuizController {
         model.addAttribute("avgScore", avgScore);
 
         //Call method for sending mail
-        sendQuizResultsByMail(user, quizId);
+        sendQuizResultsByMail(user, quizId);*/
 
         return "quizEvent";
     }
 
-    private double getAvgScore(Long quizId) {
+    public Double getAvgScore(Long quizId)  {
         Iterable<Answer> totalAnswers = answerService.findAllByQuiz_Id(quizId);
         List<Answer> numAnswers = new ArrayList<>();
         List<Answer> numCorrectAnswers = new ArrayList<>();
@@ -144,10 +144,16 @@ public class QuizController {
                 numCorrectAnswers.add(answer);
             }
         }
-        return (double) (numCorrectAnswers.size() * 100 / numAnswers.size());
+        try{
+            return (double) (numCorrectAnswers.size() * 100 / numAnswers.size());
+        }
+        catch(ArithmeticException ae){
+            System.out.println(ae.getMessage());
+            return null;
+        }
     }
 
-    private double getUserScore(Long quizId, User user) {
+    public Double getUserScore(Long quizId, User user) {
         Iterable<Answer> userAnswers = answerService.findAllByQuiz_IdAndUser_Id(quizId, user.getId());
         List<Answer> userNumAnswers = new ArrayList<>();
         List<Answer> userNumCorrectAnswers = new ArrayList<>();
@@ -157,19 +163,27 @@ public class QuizController {
                 userNumCorrectAnswers.add(answer);
             }
         }
-        return (double) (userNumCorrectAnswers.size() * 100 / userNumAnswers.size());
+        try{
+            return (double) (userNumCorrectAnswers.size() * 100 / userNumAnswers.size());
+        }
+        catch(ArithmeticException ae){
+            System.out.println(ae.getMessage());
+            return null;
+        }
+
+
     }
 
     private void sendQuizResultsByMail(User user, Long quizId) {
         System.out.println("\n\n\n\n quizmailService found: \n\n" + quizMailService.findOneByQuiz_IdAndParticipant_Id(quizId, user.getId()) + "\n\n\n");
-       if(quizMailService.findOneByQuiz_IdAndParticipant_Id(quizId, user.getId()) == null){
-           String[] to = {user.getEmail()};
-           BotMailSender.sendFromGMail(to, generateMailSubject(quizId), generateMailBody(quizId, user.getId()));
-           QuizMail quizMail = new QuizMail();
-           quizMail.setQuiz(quizService.findOne(quizId));
-           quizMail.setParticipant(user);
-           quizMailService.save(quizMail);
-       }
+        if(quizMailService.findOneByQuiz_IdAndParticipant_Id(quizId, user.getId()) == null){
+            String[] to = {user.getEmail()};
+            BotMailSender.sendFromGMail(to, generateMailSubject(quizId), generateMailBody(quizId, user.getId()));
+            QuizMail quizMail = new QuizMail();
+            quizMail.setQuiz(quizService.findOne(quizId));
+            quizMail.setParticipant(user);
+            quizMailService.save(quizMail);
+        }
 
         //BotMailSender.sendFromGMail("chiliprepper.bot@gmail.com", userEmail);
     }
@@ -180,15 +194,9 @@ public class QuizController {
         return q.getQuizName() + " - results";
     }
 
-
-
-    private void sendQuizResultsByMail(User user, Long quizId, Long courseId) {
-        Iterable<Answer> allAnswers = answerService.findAllByQuiz_Id(quizId);
-    }
     public String generateMailBody(Long quizId, Long userId){
         User user = userService.findOne(userId);
         Quiz quiz = quizService.findOne(quizId);
-
 
         String username = user.getUsername();
         double userScore = getUserScore(quizId, user);
@@ -219,8 +227,8 @@ public class QuizController {
     @RequestMapping(path = "/submitAnswer", method = RequestMethod.POST)
     public String submitAnswer(@RequestParam Long questionId, @RequestParam Long courseId, @RequestParam Long quizId, Principal principal, @RequestParam String answer) {
 
-        User user = (User)((UsernamePasswordAuthenticationToken)principal).getPrincipal();
-        user = userService.findByUsername(user.getUsername());
+        String username = principal.getName();
+        User user = userService.findByUsername(username);
 
         Course course = courseService.findOne(courseId);
         Quiz quiz = quizService.findOne(quizId);
@@ -251,7 +259,7 @@ public class QuizController {
 
 
 
-        //publish quiz
+    //publish quiz
     @RequestMapping("/publishQuiz")
     public String publishQuiz(@RequestParam Long quizId){
 
@@ -269,8 +277,8 @@ public class QuizController {
 
     @RequestMapping(value = "/quizChart/{quizId}", method = RequestMethod.GET)
     public String quizChart(Model model, @PathVariable Long quizId) {
-        Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
 
+        Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
 
         ArrayList<Double> results = getQuizResults(questions);
 
@@ -288,7 +296,6 @@ public class QuizController {
 
     public ArrayList<Double> getQuizResults(Iterable<Question> questions) {
         ArrayList<Double> results = new ArrayList<>();
-
         for (Question question : questions){
             Iterable<Answer> ans = answerService.findAllByQuestion_Id(question.getId());
             List<Answer> numAnswers = new ArrayList<>();

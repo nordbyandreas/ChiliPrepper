@@ -16,18 +16,11 @@ public class RoleServiceImpl implements RoleService {
     private RoleDao roleDao;
 
     @Override
-    public Iterable<Role> findAll() {
-        return roleDao.findAll();
-    }
+    public Iterable<Role> findAll() { return roleDao.findAll(); }
 
     @Override
-    public Role findOne(Long id) {
-        return roleDao.findOne(id);
-    }
-
+    public Role findOne(Long id) { return roleDao.findOne(id); }
 
     @Override
-    public void save(Role role) {
-        roleDao.save(role);
-    }
+    public void save(Role role) { roleDao.save(role); }
 }

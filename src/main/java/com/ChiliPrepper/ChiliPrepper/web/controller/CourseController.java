@@ -27,43 +27,40 @@ public class CourseController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private QuizService quizService;
+        @Autowired
+        private QuizService quizService;
 
-    @Autowired
-    private AnswerService answerService;
+        @Autowired
+        private AnswerService answerService;
 
+        @RequestMapping("/")
+        public String index(Model model, Principal principal) {
 
+            Iterable<Course> myCourses = courseService.findAll();
+            model.addAttribute("myCourses", myCourses);
 
-    @RequestMapping("/")
-    public String index(Model model, Principal principal) {
+            String username = principal.getName();
+            User user = userService.findByUsername(username);
 
-        Iterable<Course> myCourses = courseService.findAll();
-        model.addAttribute("myCourses", myCourses);
+            Set<Course> regCourses = user.getRegCourses();
 
-        User user = (User)((UsernamePasswordAuthenticationToken)principal).getPrincipal();
-        user = userService.findByUsername(user.getUsername());
+            //add courses user are registered in to the model
+            model.addAttribute("regCourses", regCourses);
 
-        Set<Course> regCourses = user.getRegCourses();
+            model.addAttribute("course", new Course());
 
-        //add courses user are registered in to the model
-        model.addAttribute("regCourses", regCourses);
+            return "index";
+        }
 
-        model.addAttribute("course", new Course());
+        //Single Course page
+        @RequestMapping("/courses/{courseId}")
+        public String course(@PathVariable Long courseId, Model model, Principal principal){
+            String username = principal.getName();
+            User user = userService.findByUsername(username);
+            Course course = courseService.findOne(courseId);
 
-
-
-        return "index";
-    }
-
-    //Single Course page
-    @RequestMapping("/courses/{courseId}")
-    public String course(@PathVariable Long courseId, Model model, Principal principal){
-        User user = (User)((UsernamePasswordAuthenticationToken)principal).getPrincipal();
-        Course course = courseService.findOne(courseId);
-
-        model.addAttribute("userId", user.getId());
-        User creator = course.getCreator();
+            model.addAttribute("userId", user.getId());
+            User creator = course.getCreator();
         model.addAttribute("creatorId", creator.getId());
 
         model.addAttribute("quiz", new Quiz());
@@ -99,7 +96,8 @@ public class CourseController {
 
     @RequestMapping(path = "/addCourse", method = RequestMethod.POST)
     public String addCourse(@ModelAttribute Course course, Principal principal) {
-        User user = (User)((UsernamePasswordAuthenticationToken)principal).getPrincipal();
+        String username = principal.getName();
+        User user = userService.findByUsername(username);
 
         course.setCreator(user);
         courseService.save(course);
@@ -112,9 +110,8 @@ public class CourseController {
 
     @RequestMapping(path = "/regCourse", method = RequestMethod.POST)
     public String regCourse (Principal principal, @RequestParam String accessCode){
-        User user = (User)((UsernamePasswordAuthenticationToken)principal).getPrincipal();
-
-        user = userService.findByUsername(user.getUsername());
+        String username = principal.getName();
+        User user = userService.findByUsername(username);
 
         Course course = courseService.findByAccessCode(accessCode);
 
