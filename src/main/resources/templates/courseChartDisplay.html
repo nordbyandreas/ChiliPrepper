@@ -1,0 +1,76 @@
+
+
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head('quiz')">
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" th:href="@{/css/normalize.css}"/>
+    <link href="https://fonts.googleapis.com/css?family=Changa+One:400,400i|Open+Sans:400,400i,700,700i,800" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/responsive.css}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="'Chiliprepper | ' + ${page_title}">ChiliPrepper | Prototype</title>
+
+    <script th:src="@{/js/jquery-min-1.9.1.js}" type="text/javascript"></script>
+
+    <script type="text/javascript"  th:inline="javascript">
+
+        /*<![CDATA[*/
+
+        var courseId = [[${courseId}]];
+
+        $(document).ready(function(){
+            var url = '/courseChart/' + courseId;
+            $("#courseChart").load(url);
+
+            setInterval(function () {
+                var url = '/courseChart/' + courseId;
+
+                $("#courseChart").load(url)
+
+
+            }, 2000);
+        });
+        /*]]>*/
+
+    </script>
+
+
+</head>
+
+<body>
+
+<!--<header th:replace="layout :: header"></header>
+-->
+
+
+
+<header th:replace="layout :: header">
+
+</header>
+
+<div class="spacer"></div>
+
+<div id="wrapper">
+    <section>
+
+
+        <h1>Course results:</h1>
+
+        <div id="courseChart">
+
+        </div>
+
+
+
+
+
+    </section>
+
+    <footer th:replace="layout :: footer">
+
+    </footer>
+</div>
+</body>
+</html>

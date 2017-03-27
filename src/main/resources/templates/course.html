@@ -23,6 +23,7 @@
     <div th:if="${userId} == ${creatorId}">
 
     <h1 th:text="${course.courseName}" style="color: black;"></h1>
+        <h1><a th:href="@{|/courses/${course.id}/chart|}">View course results:</a></h1>
         <div>
             <h3>Form for creating a quiz</h3>
             <form th:action="@{/addQuiz}" th:object="${quiz}" method="post">

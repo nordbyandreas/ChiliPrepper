@@ -143,4 +143,71 @@ public class CourseController {
     }
 
 
+    @RequestMapping(path = "/courses/{courseId}/chart", method = RequestMethod.GET)
+    public String courseChart(@PathVariable Long courseId, Model model){
+
+        model.addAttribute("courseId", courseId);
+
+        return "courseChartDisplay";
+    }
+
+    @RequestMapping(value = "/courseChart/{courseId}", method = RequestMethod.GET)
+    public String getCourseChart(Model model, @PathVariable Long courseId) {
+
+        Iterable<Quiz> quizes = quizService.findAllByCourse_id(courseId);
+
+        ArrayList<Double> results = getCourseResults(quizes);
+
+        String courseName = courseService.findOne(courseId).getCourseName();
+        model.addAttribute("courseName", courseName);
+
+        model.addAttribute("results", results);
+
+        System.out.println("\n\n\n\n" + results + "\n\n\n\n");
+        System.out.println("\n\n\n\n" + courseName + "\n\n\n\n");
+
+
+
+        return "courseChart:: courseChart";
+    }
+
+
+
+    public ArrayList<Double> getCourseResults(Iterable<Quiz> quizes) {
+        ArrayList<Double> results = new ArrayList<>();
+
+        for (Quiz quiz : quizes){
+
+            if(getAvgScoreForCourseChart(quiz.getId()) != null){
+                results.add(getAvgScoreForCourseChart(quiz.getId()));
+            }
+            else{
+                results.add(0.0);
+            }
+        }
+
+        return results;
+    }
+
+
+
+    private Double getAvgScoreForCourseChart(Long quizId)  {
+        Iterable<Answer> tAnswers = answerService.findAllByQuiz_Id(quizId);
+        List<Answer> nAnswers = new ArrayList<>();
+        List<Answer> nCorrectAnswers = new ArrayList<>();
+        tAnswers.forEach(nAnswers::add);
+        for (Answer answer : tAnswers) {
+            if (answer.isCorrect()) {
+                nCorrectAnswers.add(answer);
+            }
+        }
+        try{
+            return (double) (nCorrectAnswers.size() * 100 / nAnswers.size());
+        }
+        catch(ArithmeticException ae){
+            System.out.println(ae.getMessage());
+            return null;
+        }
+    }
+
 }
