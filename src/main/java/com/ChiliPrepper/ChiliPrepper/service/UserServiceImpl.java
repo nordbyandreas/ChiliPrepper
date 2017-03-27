@@ -46,6 +46,11 @@ public class UserServiceImpl implements UserService {
         return userDao.findOne(id);
     }
 
+    @Override
+    public Iterable<User> findAll() {
+        return userDao.findAll();
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

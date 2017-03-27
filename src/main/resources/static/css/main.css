@@ -307,7 +307,17 @@ PAGE: CONTACT
     background-image: url('../img/mail.png');
 }
 
-/*CHARTDIV*/
+/********************
+QUIZ QUESTIONS
+
+********************/
+
+
+
+/********************
+CHART
+
+********************/
 
 #chartdiv {
     width	: 100%;

@@ -17,6 +17,7 @@ public class QuizMail {
     @JoinColumn(name = "user_id")
     private User participant;
 
+
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
@@ -83,4 +84,5 @@ public class QuizMail {
     public void setCreatorMailSent(boolean creatorMailSent) {
         this.creatorMailSent = creatorMailSent;
     }
+
 }

@@ -1,10 +1,7 @@
 package com.ChiliPrepper.ChiliPrepper.web.controller;
 
 import com.ChiliPrepper.ChiliPrepper.model.*;
-import com.ChiliPrepper.ChiliPrepper.service.AnswerService;
-import com.ChiliPrepper.ChiliPrepper.service.CourseService;
-import com.ChiliPrepper.ChiliPrepper.service.QuizService;
-import com.ChiliPrepper.ChiliPrepper.service.UserService;
+import com.ChiliPrepper.ChiliPrepper.service.*;
 import com.sun.security.auth.UserPrincipal;
 import org.junit.Before;
 import org.junit.Test;
@@ -94,6 +91,15 @@ public class CourseControllerTest {
     AnswerService answerService;
 
     @Mock
+    QuestionService questionService;
+
+    @Mock
+    Question questionOne;
+
+    @Mock
+    Question questionTwo;
+
+    @Mock
     Quiz quizOne;
 
     @Mock
@@ -125,6 +131,7 @@ public class CourseControllerTest {
     public void index_shouldRenderIndexView() throws Exception {
         when(user.getRegCourses()).thenReturn(regCourses);
         when(courseService.findAll()).thenReturn(myCourses);
+        when(courseService.findAllForCreator()).thenReturn(new ArrayList<>(Arrays.asList(course)));
 
         mockMvc.perform(get("/")
                 .principal(principal))
@@ -133,18 +140,22 @@ public class CourseControllerTest {
                 .andExpect(model().attributeExists("course", "myCourses", "regCourses"));
 
         verify(user).getRegCourses();
-        verify(courseService).findAll();
+        verify(courseService).findAllForCreator();
     }
 
     @Test
     public void course() throws Exception {
 
         Iterable<Quiz> quizzes= new ArrayList<>(Arrays.asList(quizOne, quizTwo));
+
         Iterable<Answer> answers= new ArrayList<>(Arrays.asList(answerOne, answerTwo));
         Iterable<Answer> totalAnswers = new ArrayList<>(Arrays.asList(answerOne, answerTwo, answerThree, answerFour));
 
 
-
+        when(questionService.findAllByQuiz_Id(1L)).thenReturn(new ArrayList(Arrays.asList(questionOne)));
+        when(questionService.findAllByQuiz_Id(2L)).thenReturn(new ArrayList(Arrays.asList(questionTwo)));
+        when(quizOne.getId()).thenReturn(1L);
+        when(quizTwo.getId()).thenReturn(2L);
         when(answerOne.isCorrect()).thenReturn(true);
         when(answerTwo.isCorrect()).thenReturn(false);
         when(user.getId()).thenReturn(1L);
@@ -155,7 +166,9 @@ public class CourseControllerTest {
         when(answerService.findAllByCourse_Id(1L)).thenReturn(totalAnswers);
 
 
-        mockMvc.perform(get("/courses/{courseId}", 1L).principal(principal)).andExpect(view().name("course"));
+        mockMvc.perform(get("/courses/{courseId}", 1L)
+                .principal(principal))
+                .andExpect(view().name("course"));
 
     }
 

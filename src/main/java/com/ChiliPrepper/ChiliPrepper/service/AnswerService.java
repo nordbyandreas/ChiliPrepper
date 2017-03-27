@@ -27,7 +27,7 @@ public interface AnswerService {
     Iterable<Answer> findAllByCourse_IdAndUser_Id(Long courseId, Long userId);
     Iterable<Answer> findAllByQuiz_IdAndUser_Id(Long quizId, Long userId);
 
-
+    Iterable<Answer> findAllByUser_Id(Long id);
 
 
     void save(Answer answer);

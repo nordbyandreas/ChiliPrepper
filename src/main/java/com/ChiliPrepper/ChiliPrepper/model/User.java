@@ -31,7 +31,9 @@ public class User implements UserDetails {
     @Column(length = 100)
     private String password;
 
-    @Column(unique = true, nullable = false)
+
+    // @Column(unique = true, nullable = false)  removed uniqe for testing of mail sending
+    @Column(nullable = false)
     @Email
     private String email;
 

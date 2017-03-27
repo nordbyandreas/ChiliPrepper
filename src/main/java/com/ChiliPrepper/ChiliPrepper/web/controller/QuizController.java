@@ -175,7 +175,6 @@ public class QuizController {
     }
 
     private void sendQuizResultsByMail(User user, Long quizId) {
-        System.out.println("\n\n\n\n quizmailService found: \n\n" + quizMailService.findOneByQuiz_IdAndParticipant_Id(quizId, user.getId()) + "\n\n\n");
         if(quizMailService.findOneByQuiz_IdAndParticipant_Id(quizId, user.getId()) == null){
             String[] to = {user.getEmail()};
             BotMailSender.sendFromGMail(to, generateMailSubject(quizId), generateMailBody(quizId, user.getId()));
