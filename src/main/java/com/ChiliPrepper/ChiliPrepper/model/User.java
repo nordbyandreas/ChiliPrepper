@@ -51,6 +51,26 @@ public class User implements UserDetails {
     private Set<Course> regCourses;
 
 
+    //TODO: når vi lager disse må vi
+    // TODO              -oppdatere "import.sql"
+    //TODO:              -sette disse feltene under registration !
+    //TODO:              -
+
+    /*
+    @Column(name= "creator_quiz_results")
+    private boolean creatorQuizResults;
+
+    @Column(name= "creator_course_update")
+    private boolean creatorCourseUpdate;
+
+    @Column(name= "participant_quiz_results")
+    private boolean participantQuizResults;
+
+    @Column(name= "participant_topic_update")
+    private boolean participantTopicUpdate;
+
+*/
+
 
 
     @Override
@@ -137,73 +157,39 @@ public class User implements UserDetails {
         return enabled;
     }
 
-
-    public static class UserBuilder{
-        private Long id;
-        private String username;
-        private String password;
-        private String email;
-        private boolean enabled;
-        private Role role;
-        private Set<Course> regCourses;
-
-        public UserBuilder(Long id){
-            this.id = id;
-        }
-
-        public UserBuilder(){
-
-        }
-
-        public UserBuilder withId(Long id){
-            this.id = id;
-            return this;
-        }
-
-        public UserBuilder withUsername(String username){
-            this.username = username;
-            return this;
-        }
-
-        public UserBuilder withPassword(String password){
-            this.password = password;
-            return this;
-        }
-
-        public UserBuilder withEmail(String email){
-            this.email = email;
-            return this;
-        }
-
-        public UserBuilder withEnabled(boolean enabled){
-            this.enabled = enabled;
-            return this;
-        }
-
-        public UserBuilder withRole(Role role){
-            this.role = role;
-            return this;
-        }
-
-        public UserBuilder withRegCourses(Set<Course> regCourses){
-            this.regCourses = regCourses;
-            return this;
-        }
-
-        public User build(){
-            User user = new User();
-            user.setId(id);
-            user.setUsername(username);
-            user.setPassword(password);
-            user.setEmail(email);
-            user.setEnabled(enabled);
-            user.setRole(role);
-            user.setRegCourses(regCourses);
-            return user;
-        }
-
+/*
+    public boolean isCreatorQuizResults() {
+        return creatorQuizResults;
     }
 
+    public void setCreatorQuizResults(boolean creatorQuizResults) {
+        this.creatorQuizResults = creatorQuizResults;
+    }
 
+    public boolean isCreatorCourseUpdate() {
+        return creatorCourseUpdate;
+    }
+
+    public void setCreatorCourseUpdate(boolean creatorCourseUpdate) {
+        this.creatorCourseUpdate = creatorCourseUpdate;
+    }
+
+    public boolean isParticipantQuizResults() {
+        return participantQuizResults;
+    }
+
+    public void setParticipantQuizResults(boolean participantQuizResults) {
+        this.participantQuizResults = participantQuizResults;
+    }
+
+    public boolean isParticipantTopicUpdate() {
+        return participantTopicUpdate;
+    }
+
+    public void setParticipantTopicUpdate(boolean participantTopicUpdate) {
+        this.participantTopicUpdate = participantTopicUpdate;
+    }
+
+    */
 
 }

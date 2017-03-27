@@ -53,6 +53,9 @@ public class ScheduledMailSender {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
 
+
+    //TODO check if user has turned of botcontact for courseupdates
+
     @Scheduled(initialDelay=60000, fixedRate = 120000)  //finn 1 mnd i millisekunder
     public void sendCourseAverage() {
         Iterable<Course> courses  = courseService.findAll();
@@ -100,6 +103,8 @@ public class ScheduledMailSender {
 
         //TODO extract into helper method.  Create check for user-bot-preferences
 
+        //TODO check if user has turned of botcontact for quizresults
+
         for (Course course : courses) {
             String[] to = {course.getCreator().getEmail()};
 
@@ -126,6 +131,10 @@ public class ScheduledMailSender {
 
     @Scheduled(initialDelay=60000, fixedRate = 60000)   //finn døgn i millisekunder
     public void sendTopicResults() {
+
+
+        //TODO check if user has turned of botcontact for topics
+
         Iterable<User> users = userService.findAll();
         for (User user : users) {
             HashMap<String, int[]> topicMap = new HashMap<>();
