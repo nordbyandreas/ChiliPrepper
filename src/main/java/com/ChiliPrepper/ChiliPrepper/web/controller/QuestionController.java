@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class QuestionController {
 
 
     @RequestMapping(path = "/addQuestion", method = RequestMethod.POST)
-    public String addQuestion(Model model, @ModelAttribute Question newQuestion, @RequestParam Long quizId, @RequestParam String alt1, @RequestParam String alt2, @RequestParam String alt3){
+    public String addQuestion(@ModelAttribute Question newQuestion, @RequestParam Long quizId, @RequestParam String alt1, @RequestParam String alt2, @RequestParam String alt3){
 
 
         Quiz quiz = quizService.findOne(quizId);
@@ -95,9 +96,6 @@ public class QuestionController {
         }
 
 
-        System.out.println("\n\n\n\n   \n\n\n\n\n");
-
-
         return "editQuestion";
     }
 
@@ -138,7 +136,7 @@ public class QuestionController {
     public String deleteQuestion(@RequestParam Long questionId){
         Question question = questionService.findOne(questionId);
         questionService.delete(question);
-        Long courseId = question.getQuiz().getCourse().getId();
+        Long courseId =question.getQuiz().getCourse().getId();
         Long quizId = question.getQuiz().getId();
 
         return "redirect:/courses/" + courseId + "/" + quizId + "/editQuiz?quizId=" + quizId;

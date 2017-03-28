@@ -21,8 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 @Controller                   //marks class as a controller
 public class LoginController {
 
-
-
     @RequestMapping(path = "/login", method = RequestMethod.GET)
     public String loginForm(Model model, HttpServletRequest request) {
         model.addAttribute("user", new User());
@@ -36,13 +34,11 @@ public class LoginController {
         return "login";
     }
 
-
     //not in use
     @RequestMapping("/access_denied")
     public String accessDenied() {
         return "access_denied";
     }
-
 
     //logout
     @RequestMapping(path = "/logout", method = RequestMethod.GET)
@@ -55,7 +51,5 @@ public class LoginController {
         return "redirect:/login";
 
     }
-
-
 
 }

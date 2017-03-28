@@ -18,7 +18,8 @@ import java.util.Set;
  * Created by Andreas on 19.02.2017.
  */
 
-@Controller                      //marks class as a controller
+//marks class as a controller
+@Controller
 public class CourseController {
 
     @Autowired
@@ -36,16 +37,14 @@ public class CourseController {
     @Autowired
     private QuestionService questionService;
 
-
-
     @RequestMapping("/")
     public String index(Model model, Principal principal) {
 
         Iterable<Course> myCourses = courseService.findAllForCreator();
         model.addAttribute("myCourses", myCourses);
 
-        User user = (User)((UsernamePasswordAuthenticationToken)principal).getPrincipal();
-        user = userService.findByUsername(user.getUsername());
+        String username = principal.getName();
+        User user = userService.findByUsername(username);
 
         Set<Course> regCourses = user.getRegCourses();
 
@@ -60,8 +59,10 @@ public class CourseController {
     //Single Course page
     @RequestMapping("/courses/{courseId}")
     public String course(@PathVariable Long courseId, Model model, Principal principal){
-        User user = (User)((UsernamePasswordAuthenticationToken)principal).getPrincipal();
+        String username = principal.getName();
+        User user = userService.findByUsername(username);
         Course course = courseService.findOne(courseId);
+
 
         model.addAttribute("userId", user.getId());
         User creator = course.getCreator();
@@ -108,7 +109,9 @@ public class CourseController {
 
     @RequestMapping(path = "/addCourse", method = RequestMethod.POST)
     public String addCourse(@ModelAttribute Course course, Principal principal) {
-        User user = (User)((UsernamePasswordAuthenticationToken)principal).getPrincipal();
+        String username = principal.getName();
+        User user = userService.findByUsername(username);
+
         course.setCreator(user);
         courseService.save(course);
         return "redirect:/";
@@ -120,9 +123,8 @@ public class CourseController {
 
     @RequestMapping(path = "/regCourse", method = RequestMethod.POST)
     public String regCourse (Principal principal, @RequestParam String accessCode){
-        User user = (User)((UsernamePasswordAuthenticationToken)principal).getPrincipal();
-
-        user = userService.findByUsername(user.getUsername());
+        String username = principal.getName();
+        User user = userService.findByUsername(username);
 
         Course course = courseService.findByAccessCode(accessCode);
 

@@ -80,7 +80,8 @@ public class QuizController {
     @RequestMapping("/courses/{courseId}/{quizId}/quiz")
     public String quizzer(Principal principal, Model model, @PathVariable Long quizId, @PathVariable Long courseId) {
 
-        User user = (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+        String username = principal.getName();
+        User user = userService.findByUsername(username);
         Course course = courseService.findOne(courseId);
         Quiz quiz = quizService.findOne(quizId);
 
@@ -103,7 +104,6 @@ public class QuizController {
                 model.addAttribute("alternatives", alternatives);
                 model.addAttribute("course", course);
                 model.addAttribute("question", question);
-
                 model.addAttribute("questionId", question.getId());
                 model.addAttribute("quizId", quizId);
                 model.addAttribute("courseId", courseId);
@@ -120,7 +120,7 @@ public class QuizController {
         model.addAttribute("courseId", courseId);
 
 
-        double userScore = getUserScore(quizId, user);
+       double userScore = getUserScore(quizId, user);
 
 
         double avgScore = getAvgScore(quizId);
@@ -128,8 +128,8 @@ public class QuizController {
         model.addAttribute("userScore", userScore);
         model.addAttribute("avgScore", avgScore);
 
-        //Call method for sending mail
-        sendQuizResultsByMail(user, quizId);
+        /*//Call method for sending mail
+        sendQuizResultsByMail(user, quizId);*/
 
         return "quizEvent";
     }
@@ -175,14 +175,14 @@ public class QuizController {
     }
 
     private void sendQuizResultsByMail(User user, Long quizId) {
-       if(quizMailService.findOneByQuiz_IdAndParticipant_Id(quizId, user.getId()) == null){
-           String[] to = {user.getEmail()};
-           BotMailSender.sendFromGMail(to, generateMailSubject(quizId), generateMailBody(quizId, user.getId()));
-           QuizMail quizMail = new QuizMail();
-           quizMail.setQuiz(quizService.findOne(quizId));
-           quizMail.setParticipant(user);
-           quizMailService.save(quizMail);
-       }
+        if(quizMailService.findOneByQuiz_IdAndParticipant_Id(quizId, user.getId()) == null){
+            String[] to = {user.getEmail()};
+            BotMailSender.sendFromGMail(to, generateMailSubject(quizId), generateMailBody(quizId, user.getId()));
+            QuizMail quizMail = new QuizMail();
+            quizMail.setQuiz(quizService.findOne(quizId));
+            quizMail.setParticipant(user);
+            quizMailService.save(quizMail);
+        }
 
         //BotMailSender.sendFromGMail("chiliprepper.bot@gmail.com", userEmail);
     }
@@ -226,8 +226,8 @@ public class QuizController {
     @RequestMapping(path = "/submitAnswer", method = RequestMethod.POST)
     public String submitAnswer(@RequestParam Long questionId, @RequestParam Long courseId, @RequestParam Long quizId, Principal principal, @RequestParam String answer) {
 
-        User user = (User)((UsernamePasswordAuthenticationToken)principal).getPrincipal();
-        user = userService.findByUsername(user.getUsername());
+        String username = principal.getName();
+        User user = userService.findByUsername(username);
 
         Course course = courseService.findOne(courseId);
         Quiz quiz = quizService.findOne(quizId);
@@ -258,7 +258,7 @@ public class QuizController {
 
 
 
-        //publish quiz
+    //publish quiz
     @RequestMapping("/publishQuiz")
     public String publishQuiz(@RequestParam Long quizId){
 
