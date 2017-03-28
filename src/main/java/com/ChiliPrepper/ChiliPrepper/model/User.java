@@ -157,6 +157,7 @@ public class User implements UserDetails {
         return enabled;
     }
 
+
 /*
     public boolean isCreatorQuizResults() {
         return creatorQuizResults;
@@ -191,5 +192,6 @@ public class User implements UserDetails {
     }
 
     */
+
 
 }
