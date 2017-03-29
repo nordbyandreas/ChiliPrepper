@@ -54,9 +54,7 @@ public class ScheduledMailSender {
 
 
 
-    //TODO check if user has turned of botcontact for courseupdates
-
-    @Scheduled(initialDelay=60000, fixedRate = 120000)  //finn 1 mnd i millisekunder
+    @Scheduled(initialDelay=20000, fixedRate = 120000)  //finn 1 mnd i millisekunder
     public void sendCourseAverage() {
         Iterable<Course> courses  = courseService.findAll();
 
@@ -66,7 +64,7 @@ public class ScheduledMailSender {
             Iterable<Quiz> quizes = quizService.findAllByCourse_id(course.getId());
             double courseAvg = 0;
             int counter = 0;
-
+            boolean enableMail = course.getCreator().isCreatorCourseUpdate();
             for (Quiz quiz : quizes) {
                 if(quizController.getAvgScore(quiz.getId()) != null) {
                     courseAvg += quizController.getAvgScore(quiz.getId());
@@ -85,7 +83,7 @@ public class ScheduledMailSender {
 
             System.out.println(answerCheck.size());
 
-            if(answerCheck.size() > 0){
+            if((answerCheck.size() > 0) && enableMail){
                 courseAvg = courseAvg / counter;
                 String bot = generateBotResponse(courseAvg);
                 String message = "Yo, the course average is at:  " + courseAvg + "%  right now. \n\n" + bot;
@@ -97,23 +95,21 @@ public class ScheduledMailSender {
     }
 
 
-    @Scheduled(initialDelay=60000, fixedRate = 60000)   //finn døgn i millisekunder
+    @Scheduled(initialDelay=20000, fixedRate = 120000)   //finn døgn i millisekunder
     public void sendQuizResults() {
         Iterable<Course> courses  = courseService.findAll();
 
-        //TODO extract into helper method.  Create check for user-bot-preferences
-
-        //TODO check if user has turned of botcontact for quizresults
+        //TODO extract into helper method.
 
         for (Course course : courses) {
             String[] to = {course.getCreator().getEmail()};
 
             Iterable<Quiz> quizes = quizService.findAllByCourse_id(course.getId());
-
+            boolean enableMail = course.getCreator().isCreatorQuizResults();
             for (Quiz quiz : quizes) {
 
                 //check if creator has received mail of quizresults previously
-                if((creatorQuizMailService.findOneByQuiz_Id(quiz.getId()) == null) && (quizController.getAvgScore(quiz.getId()) != null)){
+                if((creatorQuizMailService.findOneByQuiz_Id(quiz.getId()) == null) && (quizController.getAvgScore(quiz.getId()) != null) && enableMail){
                     double quizAverage = quizController.getAvgScore(quiz.getId());
                     String bot = generateBotResponse(quizAverage);
                     String message = "Yo, the quiz average for " + quiz.getQuizName() + " was at:  " + quizAverage + "%  ! \n\n " + bot;
@@ -129,16 +125,15 @@ public class ScheduledMailSender {
     }
 
 
-    @Scheduled(initialDelay=60000, fixedRate = 60000)   //finn døgn i millisekunder
+    @Scheduled(initialDelay=20000, fixedRate = 120000)   //finn døgn i millisekunder
     public void sendTopicResults() {
 
-
-        //TODO check if user has turned of botcontact for topics
 
         Iterable<User> users = userService.findAll();
         for (User user : users) {
             HashMap<String, int[]> topicMap = new HashMap<>();
             Iterable<Answer> userAnswers  = answerService.findAllByUser_Id(user.getId());
+            boolean enableMail = user.isParticipantTopicUpdate();
             for(Answer answer : userAnswers) {
                 String currentTopic = answer.getQuestion().getTopic();
                 if (topicMap.containsKey(currentTopic)) {
@@ -161,7 +156,7 @@ public class ScheduledMailSender {
                 double correct = (double)stats[0];
                 double total = (double)stats[1];
 
-                if(((correct/total*100) < 20) && (total > 2)){
+                if(((correct/total*100) < 20) && (total > 2) && enableMail){
                     System.out.println("\n\n\n\n\n" + topic + "\n\n\n\n\n\n" + (correct/total*100) + "\n\n\n\n\n\n");
                     System.out.println("send Mail to" + user.getUsername() + "!");
                     String message = "Yo,  " + user.getUsername() + "   seems you're struggling with questions with the topic: " + topic  + ".  \n\n Maybe you should ask somebody for help! \n\n Check out this link for some tips: " +

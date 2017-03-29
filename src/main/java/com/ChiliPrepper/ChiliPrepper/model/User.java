@@ -51,12 +51,7 @@ public class User implements UserDetails {
     private Set<Course> regCourses;
 
 
-    //TODO: når vi lager disse må vi
-    // TODO              -oppdatere "import.sql"
-    //TODO:              -sette disse feltene under registration !
-    //TODO:              -
 
-    /*
     @Column(name= "creator_quiz_results")
     private boolean creatorQuizResults;
 
@@ -69,7 +64,7 @@ public class User implements UserDetails {
     @Column(name= "participant_topic_update")
     private boolean participantTopicUpdate;
 
-*/
+
 
 
 
@@ -158,7 +153,7 @@ public class User implements UserDetails {
     }
 
 
-/*
+
     public boolean isCreatorQuizResults() {
         return creatorQuizResults;
     }
@@ -191,7 +186,7 @@ public class User implements UserDetails {
         this.participantTopicUpdate = participantTopicUpdate;
     }
 
-    */
+
 
 
 }

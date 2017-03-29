@@ -128,8 +128,8 @@ public class QuizController {
         model.addAttribute("userScore", userScore);
         model.addAttribute("avgScore", avgScore);
 
-        /*//Call method for sending mail
-        sendQuizResultsByMail(user, quizId);*/
+
+        sendQuizResultsByMail(user, quizId);
 
         return "quizEvent";
     }
@@ -175,7 +175,8 @@ public class QuizController {
     }
 
     private void sendQuizResultsByMail(User user, Long quizId) {
-        if(quizMailService.findOneByQuiz_IdAndParticipant_Id(quizId, user.getId()) == null){
+        boolean enableMail = user.isParticipantQuizResults();
+        if((quizMailService.findOneByQuiz_IdAndParticipant_Id(quizId, user.getId()) == null) && enableMail){
             String[] to = {user.getEmail()};
             BotMailSender.sendFromGMail(to, generateMailSubject(quizId), generateMailBody(quizId, user.getId()));
             QuizMail quizMail = new QuizMail();
@@ -184,7 +185,7 @@ public class QuizController {
             quizMailService.save(quizMail);
         }
 
-        //BotMailSender.sendFromGMail("chiliprepper.bot@gmail.com", userEmail);
+
     }
 
     public String generateMailSubject(Long quizId){

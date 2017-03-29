@@ -15,10 +15,20 @@
 
 <div id="wrapper">
     <section>
-
-        <h1 style="color: black;">Profile page</h1>
-
-
+        <h1>Bot preferences</h1>
+        <form th:action="@{/saveBotDetails}" th:object="${user}" method="post">
+            <input type="checkbox" th:field="*{creatorCourseUpdate}" th:checked="*{creatorCourseUpdate}"/> Enable Course Updates(for courses you've created)<br/>
+            <input type="checkbox"  th:field="*{creatorQuizResults}" th:checked="*{creatorQuizResults}"/> Enable Quiz Results (for courses you've created)<br/><br/>
+            <input type="checkbox"  th:field="*{participantTopicUpdate}" th:checked="*{participantTopicUpdate}"/> Enable Topic updates (for courses you're taking)<br/>
+            <input type="checkbox" th:field="*{participantQuizResults}" th:checked="*{participantQuizResults}"/> Enable Quiz Results (for courses you're taking)<br/>
+            <label><input type="hidden" th:field="*{username}"/></label>
+            <label><input type="hidden" th:field="*{password}"/></label>
+            <label><input type="hidden" th:field="*{email}"/></label>
+            <label><input type="hidden" th:field="*{enabled}"/></label>
+            <label><input type="hidden" th:field="*{role}"/></label>
+            <label><input type="hidden" th:field="*{id}"/></label>
+            <button type="submit" class="button">Save changes</button>
+        </form>
 
 
 
