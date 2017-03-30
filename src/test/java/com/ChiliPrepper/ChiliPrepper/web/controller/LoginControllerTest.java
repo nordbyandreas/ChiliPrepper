@@ -1,7 +1,5 @@
 package com.ChiliPrepper.ChiliPrepper.web.controller;
 
-import com.ChiliPrepper.ChiliPrepper.model.Course;
-import com.ChiliPrepper.ChiliPrepper.model.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,13 +13,17 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import static org.mockito.Mockito.*;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -37,11 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class LoginControllerTest {
     private MockMvc mockMvc;
 
-    @InjectMocks
-    private LoginController controller;
 
-    @Mock
-    private Authentication authentication;
 
     @Mock
     private HttpServletRequest request;
@@ -50,8 +48,19 @@ public class LoginControllerTest {
     private HttpServletResponse response;
 
     @Mock
-    private SecurityContextHolder securityContextHolder;
+    private SecurityContextHolder securityContextHolder = new SecurityContextHolder();
 
+    @Mock
+    HttpSession httpSession;
+
+    @Mock
+    SecurityContext securityContext = new SecurityContextImpl();
+
+    @Mock
+    Authentication authentication;
+
+    @InjectMocks
+    private LoginController controller;
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -65,6 +74,16 @@ public class LoginControllerTest {
                 .andExpect(view().name("login"))
                 .andExpect(model().attributeExists("user"));
     }
+
+    /*@Test
+    public void logindsForm() throws Exception {
+        when(request.getSession()).thenReturn(httpSession);
+        when(httpSession.getAttribute("flash")).thenReturn(null);
+        mockMvc.perform(get("/login.html"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("login"))
+                .andExpect(model().attributeExists("user"));
+    }*/
 
     @Test
     public void accessDenied() throws Exception {
@@ -81,5 +100,6 @@ public class LoginControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login"));
     }
+
 
 }
