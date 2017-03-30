@@ -29,7 +29,7 @@ public class UserTest {
 
     @Test
     public void assignUserUsername() throws Exception {
-        String username = "William Hansen";
+        String username = "username";
         assertNull("The user's username should be null before a value is assigned", user.getUsername());
         user.setUsername(username);
         assertEquals("The user's username should be set to the assigned value", username, user.getUsername());
@@ -49,6 +49,24 @@ public class UserTest {
         assertNull("The user's ID should be null before a value is assigned", user.getId());
         user.setId(userId);
         assertEquals("The user's ID should be set to the assigned value", userId, user.getId());
+    }
+
+    @Test
+    public void assfewignUserId() throws Exception {
+        assertFalse(user.isCreatorQuizResults());
+    }
+
+    @Test
+    public void assfeignUserId() throws Exception {
+
+    }
+    @Test
+    public void assfeiwegnUserId() throws Exception {
+
+    }
+    @Test
+    public void assfeignUsweerId() throws Exception {
+
     }
 
     @Test

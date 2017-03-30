@@ -287,37 +287,7 @@ public class QuizControllerTest {
         assertThat(result, is("Hi username!\n\nYou got 50.0% correct on the quizName quiz.\n\nNot bad, but don't get cocky!  Keep it up :) \n\nChiliPrepper"));
 
     }
-    @Test
-    public void generateMailBody_10() throws Exception {
-        setUp_getUserScore();
-        when(userService.findOne(1L)).thenReturn(user);
-        when(quizService.findOne(3L)).thenReturn(quiz);
 
-        when(user.getUsername()).thenReturn("username");
-        //when(mockController.getUserScore(1L, user)).thenReturn(95.0);
-
-        when(quiz.getQuizName()).thenReturn("quizName");
-
-        String result = this.controller.generateMailBody(2L, 1L);
-        assertThat(result, is("Hi username!\n\nYou got 50.0% correct on the quizName quiz.\n\nNot bad, but don't get cocky!  Keep it up :) \n\nChiliPrepper"));
-
-    }
-
-    @Test
-    public void generateMailBody_100() throws Exception {
-        setUp_getUserScore();
-        when(userService.findOne(1L)).thenReturn(user);
-        when(quizService.findOne(4L)).thenReturn(quiz);
-
-        when(user.getUsername()).thenReturn("username");
-        //when(mockController.getUserScore(1L, user)).thenReturn(95.0);
-
-        when(quiz.getQuizName()).thenReturn("quizName");
-
-        String result = this.controller.generateMailBody(2L, 1L);
-        assertThat(result, is("Hi username!\n\nYou got 50.0% correct on the quizName quiz.\n\nNot bad, but don't get cocky!  Keep it up :) \n\nChiliPrepper"));
-
-    }
 
     private void setUpForSubmitAnswer() {
         when(course.getId()).thenReturn(1L);
