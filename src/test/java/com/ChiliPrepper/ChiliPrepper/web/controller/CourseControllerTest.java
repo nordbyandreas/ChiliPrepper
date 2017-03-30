@@ -34,6 +34,7 @@ import sun.security.acl.PrincipalImpl;
 
 import javax.annotation.Resource;
 
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -59,6 +60,9 @@ public class CourseControllerTest {
 
     @InjectMocks
     private CourseController controller;
+
+    @Mock
+    CourseController mockController;
 
     @Mock
     private UserService userService;
@@ -120,7 +124,7 @@ public class CourseControllerTest {
     @Before
     public void setUp() throws Exception {
 
-        MockitoAnnotations.initMocks(this);
+
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 
         when(principal.getName()).thenReturn("Test user");
@@ -143,17 +147,19 @@ public class CourseControllerTest {
         verify(courseService).findAllForCreator();
     }
 
+    //uses unchecked or unsafe operations.
     @Test
     public void course() throws Exception {
 
         Iterable<Quiz> quizzes= new ArrayList<>(Arrays.asList(quizOne, quizTwo));
-
+        Iterable<Question> questionsone = new ArrayList<>(Arrays.asList(questionOne));
+        Iterable<Question> questionstwo = new ArrayList<>(Arrays.asList(questionTwo));
         Iterable<Answer> answers= new ArrayList<>(Arrays.asList(answerOne, answerTwo));
         Iterable<Answer> totalAnswers = new ArrayList<>(Arrays.asList(answerOne, answerTwo, answerThree, answerFour));
 
 
-        when(questionService.findAllByQuiz_Id(1L)).thenReturn(new ArrayList(Arrays.asList(questionOne)));
-        when(questionService.findAllByQuiz_Id(2L)).thenReturn(new ArrayList(Arrays.asList(questionTwo)));
+        when(questionService.findAllByQuiz_Id(1L)).thenReturn(questionsone);
+        when(questionService.findAllByQuiz_Id(2L)).thenReturn(questionstwo);
         when(quizOne.getId()).thenReturn(1L);
         when(quizTwo.getId()).thenReturn(2L);
         when(answerOne.isCorrect()).thenReturn(true);
@@ -192,5 +198,59 @@ public class CourseControllerTest {
         mockMvc.perform(post("/regCourse").principal(principal).param("accessCode", "accessCode")).andExpect(redirectedUrl("/"));
     }
 
+    @Test
+    public void courseChart() throws Exception {
+        mockMvc.perform(get("/courses/{courseId}/chart", 1L))
+                .andExpect(status().isOk())
+                .andExpect(view().name("courseChartDisplay"));
+    }
+/*
+    @Test
+    public void getCourseChart() throws Exception {
+        setUp_getCourseResults();
+
+
+
+
+
+        mockMvc.perform(get("/courseChart/{courseId}", 1L))
+                .andExpect(status().isOk())
+                .andExpect(view().name("courseChart:: courseChart"));
+    }
+*/
+
+    public void getCourseResults_null() throws Exception {
+        /*when(answerService.findAllByQuiz_Id(1L)).thenReturn(new ArrayList<>(Arrays.asList()));
+        Long courseId = 1L;
+        Iterable<Quiz> quizIterable = new ArrayList<>(Arrays.asList());
+        when(courseService.findOne(courseId)).thenReturn(course);
+        when(course.getCourseName()).thenReturn("courseName");
+        when(quizOne.getId()).thenReturn(1L);
+        when(quizService.findAllByCourse_id(courseId)).thenReturn(quizIterable);
+        ArrayList<Double> results = new ArrayList<>();
+
+
+        assertThat(this.mockController.getCourseResults(quizIterable), is("dsdd"));
+        verify(controller).getCourseResults(quizIterable);*/
+    }
+
+
+    @Test
+    public void getAvgScore_shouldReturnNull() throws Exception {
+        when(answerService.findAllByQuiz_Id(1L)).thenReturn(new ArrayList<>(Arrays.asList()));
+        assertNull(this.controller.getAvgScoreForCourseChart(1L));
+        verify(answerService).findAllByQuiz_Id(1L);
+    }
+
+    @Test
+    public void getAvgScore_shouldReturnDouble() throws Exception {
+        Iterable<Answer> answerIterable = new ArrayList<>(Arrays.asList(answerOne, answerTwo));
+        when(answerOne.isCorrect()).thenReturn(true);
+        when(answerTwo.isCorrect()).thenReturn(false);
+        when(answerService.findAllByQuiz_Id(2L)).thenReturn(answerIterable);
+        double result = this.controller.getAvgScoreForCourseChart(2L);
+        assertThat(result, is(50.0));
+        verify(answerService).findAllByQuiz_Id(2L);
+    }
 
 }

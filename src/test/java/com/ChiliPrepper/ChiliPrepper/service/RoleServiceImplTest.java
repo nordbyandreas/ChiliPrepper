@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.instanceOf;
  */
 
 @RunWith(MockitoJUnitRunner.class)
-public class RoleServiceTest {
+public class RoleServiceImplTest {
 
     @Mock
     private RoleDao roleDao;
