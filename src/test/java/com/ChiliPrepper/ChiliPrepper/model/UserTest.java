@@ -48,33 +48,6 @@ public class UserTest {
         Long userId = 10L;
         assertNull("The user's ID should be null before a value is assigned", user.getId());
         user.setId(userId);
-        assertEquals("The user's ID should be set to the assigned value", userId, user.getId());
-    }
-
-    @Test
-    public void assfewignUserId() throws Exception {
-        assertFalse(user.isCreatorQuizResults());
-    }
-
-    @Test
-    public void assfeignUserId() throws Exception {
-
-    }
-    @Test
-    public void assfeiwegnUserId() throws Exception {
-
-    }
-    @Test
-    public void assfeignUsweerId() throws Exception {
-
-    }
-
-    @Test
-    public void assignUserEmail() throws Exception {
-        String email = "me@domain.com";
-        assertNull("The user's email should be null before a value is assigned", user.getEmail());
-        user.setEmail(email);
-        assertEquals("The user's email should be set to the assigned value", email, user.getEmail());
     }
 
     @Test
@@ -97,11 +70,6 @@ public class UserTest {
 
     }
 
-    @Test
-    public void getAuthorities() throws Exception {
-
-
-    }
 
     @Test
     public void userEnabled() throws Exception {
@@ -124,5 +92,31 @@ public class UserTest {
     public void userCredentialsNonExpired() throws Exception {
         assertTrue("The user's credentials shouldn't be expired as default", user.isCredentialsNonExpired());
     }
+    @Test
+    public void userCredentialsNonExre3434ired() throws Exception {
+        assertFalse(user.isCreatorQuizResults());
+        user.setCreatorQuizResults(true);
+        assertTrue(user.isCreatorQuizResults());
+    }
+    @Test
+    public void userCredentialsNonE343wxpired() throws Exception {
+        assertFalse(user.isCreatorCourseUpdate());
+        user.setCreatorCourseUpdate(true);
+        assertTrue(user.isCreatorCourseUpdate());
+    }
+    @Test
+    public void wr() throws Exception {
+        assertFalse(user.isParticipantQuizResults());
+        user.setParticipantQuizResults(true);
+        assertTrue(user.isParticipantQuizResults());
+
+    }
+    @Test
+    public void rwr34() throws Exception {
+        assertFalse(user.isParticipantTopicUpdate());
+        user.setParticipantTopicUpdate(true);
+        assertTrue(user.isParticipantTopicUpdate());
+    }
+
 
 }
