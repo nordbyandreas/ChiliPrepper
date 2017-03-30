@@ -193,7 +193,7 @@ public class CourseController {
 
 
 
-    private Double getAvgScoreForCourseChart(Long quizId)  {
+    public Double getAvgScoreForCourseChart(Long quizId)  {
         Iterable<Answer> tAnswers = answerService.findAllByQuiz_Id(quizId);
         List<Answer> nAnswers = new ArrayList<>();
         List<Answer> nCorrectAnswers = new ArrayList<>();

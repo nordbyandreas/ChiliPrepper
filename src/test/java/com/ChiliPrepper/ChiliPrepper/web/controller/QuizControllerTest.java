@@ -41,8 +41,6 @@ public class QuizControllerTest {
     private QuizController controller;
 
     @Mock
-    QuizMailService quizMailService;
-    @Mock
     private QuizController quizController;
 
     @Mock
@@ -82,7 +80,13 @@ public class QuizControllerTest {
     Question questionTwo;
 
     @Mock
+    QuizMailService quizMailService;
+
+    @Mock
     Answer answerOne;
+
+    @Mock
+    QuizMail quizMail;
 
     @Mock
     Answer answerTwo;
@@ -232,14 +236,26 @@ public class QuizControllerTest {
     }
 
     @Test
-    public void sendQuizResultByMail() throws Exception {
+    public void sendQuizResultsByMail() throws Exception {
         when(user.getId()).thenReturn(1L);
         when(user.getEmail()).thenReturn("username@domain.com");
 
         when(quizService.findOne(1L)).thenReturn(quiz);
+        when(quizService.findOne(2L)).thenReturn(quiz);
         when(quizMailService.findOneByQuiz_IdAndParticipant_Id(1L,1L)).thenReturn(null);
         when(quizMailService.findOneByQuiz_IdAndParticipant_Id(2L,1L)).thenReturn(new QuizMail());
 
+
+
+}
+
+    private void setUp_sendQuizResultsByMail() {
+        when(quiz.getQuizName()).thenReturn("Unit test");
+        when(quizService.findOne(1L)).thenReturn(quiz);
+
+        when(user.getId()).thenReturn(1L);
+        when(quizMailService.findOneByQuiz_IdAndParticipant_Id(1L, 1L)).thenReturn(null);
+        when(user.getEmail()).thenReturn("username@domain.com");
 
 
     }
@@ -257,18 +273,49 @@ public class QuizControllerTest {
     }
 
     @Test
-    public void generateMailBody() throws Exception {
-        /*when(userService.findOne(1L)).thenReturn(user);
-        when(quizService.findOne(1L)).thenReturn(quiz);
+    public void generateMailBody_50() throws Exception {
+        setUp_getUserScore();
+        when(userService.findOne(1L)).thenReturn(user);
+        when(quizService.findOne(2L)).thenReturn(quiz);
 
         when(user.getUsername()).thenReturn("username");
         //when(mockController.getUserScore(1L, user)).thenReturn(95.0);
 
         when(quiz.getQuizName()).thenReturn("quizName");
 
-        String result = this.controller.generateMailBody(1L, 1L);
+        String result = this.controller.generateMailBody(2L, 1L);
+        assertThat(result, is("Hi username!\n\nYou got 50.0% correct on the quizName quiz.\n\nNot bad, but don't get cocky!  Keep it up :) \n\nChiliPrepper"));
 
-        assertThat(result, is("Hi username!\n\nYou got 95.0% correct on the quizName quiz.\n\nExcellent work!  You're doing great.  Keep it up!!\n\nChiliPrepper"));*/
+    }
+    @Test
+    public void generateMailBody_10() throws Exception {
+        setUp_getUserScore();
+        when(userService.findOne(1L)).thenReturn(user);
+        when(quizService.findOne(3L)).thenReturn(quiz);
+
+        when(user.getUsername()).thenReturn("username");
+        //when(mockController.getUserScore(1L, user)).thenReturn(95.0);
+
+        when(quiz.getQuizName()).thenReturn("quizName");
+
+        String result = this.controller.generateMailBody(2L, 1L);
+        assertThat(result, is("Hi username!\n\nYou got 50.0% correct on the quizName quiz.\n\nNot bad, but don't get cocky!  Keep it up :) \n\nChiliPrepper"));
+
+    }
+
+    @Test
+    public void generateMailBody_100() throws Exception {
+        setUp_getUserScore();
+        when(userService.findOne(1L)).thenReturn(user);
+        when(quizService.findOne(4L)).thenReturn(quiz);
+
+        when(user.getUsername()).thenReturn("username");
+        //when(mockController.getUserScore(1L, user)).thenReturn(95.0);
+
+        when(quiz.getQuizName()).thenReturn("quizName");
+
+        String result = this.controller.generateMailBody(2L, 1L);
+        assertThat(result, is("Hi username!\n\nYou got 50.0% correct on the quizName quiz.\n\nNot bad, but don't get cocky!  Keep it up :) \n\nChiliPrepper"));
 
     }
 

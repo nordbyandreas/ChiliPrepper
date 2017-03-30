@@ -14,18 +14,16 @@ import java.util.List;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by dagki on 15/03/2017.
+ * Created by dagki on 29/03/2017.
  */
 
 @RunWith(MockitoJUnitRunner.class)
-public class AlternativeServiceTest {
+public class AlternativeServiceImplTest {
 
-    //Variables
     Long questionId = 1L;
     Long alternativeId = 1L;
     List<Alternative> alternativeList = Arrays.asList(new Alternative(), new Alternative());
@@ -58,8 +56,8 @@ public class AlternativeServiceTest {
 
     @Test
     public void deleteAllByQuestion_Id() throws Exception {
-       service.deleteAllByQuestion_Id(1L);
-       verify(dao).deleteAllByQuestion_Id(1L);
+        service.deleteAllByQuestion_Id(questionId);
+        verify(dao).deleteAllByQuestion_Id(questionId);
     }
-
 }
+

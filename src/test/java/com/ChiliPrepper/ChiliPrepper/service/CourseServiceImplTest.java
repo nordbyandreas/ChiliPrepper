@@ -15,19 +15,29 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.mockito.Mockito.any;
 
 /**
  * Created by dagki on 09/03/2017.
  */
 
 @RunWith(MockitoJUnitRunner.class)
-public class CourseServiceTest {
+public class CourseServiceImplTest {
 
     @Mock
     private CourseDao dao;
 
     @InjectMocks
     private CourseService service = new CourseServiceImpl();
+
+    @Test
+    public void findAllForCreator_shouldReturnCourseDaoFindAll() throws Exception {
+        List<Course> courseList = Arrays.asList(new Course(), new Course());
+
+        when(dao.findAllForCreator()).thenReturn(courseList);
+        assertTrue("findAll should return an Iterable<Course> object containing the two Course objects within roleList", service.findAllForCreator().equals(courseList));
+        verify(dao).findAllForCreator();
+    }
 
     @Test
     public void findAll_ShouldReturnCourseDaoFindAll() throws Exception {
@@ -50,7 +60,7 @@ public class CourseServiceTest {
     @Test
     public void save_ShouldSaveOneCourse() throws Exception {
         service.save(new Course());
-        verify(dao).save(Matchers.any(Course.class));
+        verify(dao).save(any(Course.class));
     }
 
     @Test
