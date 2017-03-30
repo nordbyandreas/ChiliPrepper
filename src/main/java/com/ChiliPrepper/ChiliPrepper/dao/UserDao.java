@@ -4,11 +4,9 @@ package com.ChiliPrepper.ChiliPrepper.dao;
  * Created by Andreas on 15.02.2017.
  */
 
-import com.ChiliPrepper.ChiliPrepper.model.Course;
+
 import com.ChiliPrepper.ChiliPrepper.model.User;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,7 +15,7 @@ import java.util.List;
 //data access object for USERS
 
 //Because of -Enabled JPARepository(DataConfig)  and  - extended Crudrepository (from the spring data library)
-//Spring data will generate the implemented class automaticly upon Application Boot
+//Spring data will generate the implemented class automatically upon Application Boot
 
 
 //uses "SMART METHOD NAMING"
