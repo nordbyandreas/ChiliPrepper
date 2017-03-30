@@ -199,7 +199,7 @@ public class QuizControllerTest {
     @Test
     public void getAvgScore_shouldReturnNull() throws Exception {
         setUp_getAvgScore();
-        assertNull(this.controller.getAvgScore(1L)); ;
+        assertNull(this.controller.getAvgScore(1L));
         verify(answerService).findAllByQuiz_Id(1L);
     }
 
