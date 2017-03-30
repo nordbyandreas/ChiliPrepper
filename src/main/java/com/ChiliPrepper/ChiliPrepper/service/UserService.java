@@ -4,7 +4,9 @@ package com.ChiliPrepper.ChiliPrepper.service;
  * Created by Andreas on 15.02.2017.
  */
 import com.ChiliPrepper.ChiliPrepper.model.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 
@@ -14,3 +16,4 @@ public interface UserService extends UserDetailsService {
     User findOne(Long id);
     Iterable<User> findAll();
 }
+

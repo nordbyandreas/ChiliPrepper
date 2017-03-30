@@ -3,6 +3,7 @@ package com.ChiliPrepper.ChiliPrepper.dao;
 import com.ChiliPrepper.ChiliPrepper.model.Course;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -35,6 +36,12 @@ public interface CourseDao extends CrudRepository<Course, Long> {
     List<Course> findAllForCreator();
 
     List<Course> findAll();
+
+    /*
+    @Query("select course from Course course inner join course.regCourses rc where rc.user_id = :userId")
+    List<Course> findAllRegCoursesForUser(@Param("userId") Long userId);
+*/
+
 
     Course findByAccessCode(String accessCode);
 

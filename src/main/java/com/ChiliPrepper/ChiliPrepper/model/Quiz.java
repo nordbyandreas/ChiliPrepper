@@ -58,4 +58,5 @@ public class Quiz {
     public void setCourse(Course course) {
         this.course = course;
     }
+
 }

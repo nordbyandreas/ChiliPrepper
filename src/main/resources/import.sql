@@ -2,11 +2,12 @@
 insert into role (name) values ('ROLE_USER');
 
 -- Insert two users (passwords are both 'password')
-insert into user (username,enabled,password,role_id, email) values ('user',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'chiliprepper.bot@gmail.com');
-insert into user (username,enabled,password,role_id, email) values ('user2',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'chiliprepper.bot@gmail.com');
-insert into user (username,enabled,password,role_id, email) values ('user3',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'chiliprepper.bot@gmail.com');
-insert into user (username,enabled,password,role_id, email) values ('user4',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'chiliprepper.bot@gmail.com');
-insert into user (username,enabled,password,role_id, email) values ('user5',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'chiliprepper.bot@gmail.com');
+insert into user (username,enabled,password,role_id, email, creator_quiz_results, creator_course_update, participant_quiz_results, participant_topic_update) values ('user',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'chiliprepper.bot@gmail.com', false, false, false, false);
+insert into user (username,enabled,password,role_id, email, creator_quiz_results, creator_course_update, participant_quiz_results, participant_topic_update) values ('user2',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'chiliprepper.bot@gmail.com', false, false, false, false);
+insert into user (username,enabled,password,role_id, email, creator_quiz_results, creator_course_update, participant_quiz_results, participant_topic_update) values ('user3',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'chiliprepper.bot@gmail.com', false, false, false, false);
+insert into user (username,enabled,password,role_id, email, creator_quiz_results, creator_course_update, participant_quiz_results, participant_topic_update) values ('user4',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'chiliprepper.bot@gmail.com', false, false, false, false);
+insert into user (username,enabled,password,role_id, email, creator_quiz_results, creator_course_update, participant_quiz_results, participant_topic_update) values ('user5',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'chiliprepper.bot@gmail.com', false, false, false, false);
+
 
 
 insert into course (courseName, accessCode, user_id) values ('testCourse', 'thePassword', 1);
