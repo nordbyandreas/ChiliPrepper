@@ -52,6 +52,21 @@ public class User implements UserDetails {
 
 
 
+    @Column(name= "creator_quiz_results")
+    private boolean creatorQuizResults;
+
+    @Column(name= "creator_course_update")
+    private boolean creatorCourseUpdate;
+
+    @Column(name= "participant_quiz_results")
+    private boolean participantQuizResults;
+
+    @Column(name= "participant_topic_update")
+    private boolean participantTopicUpdate;
+
+
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -136,5 +151,42 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
+
+
+    public boolean isCreatorQuizResults() {
+        return creatorQuizResults;
+    }
+
+    public void setCreatorQuizResults(boolean creatorQuizResults) {
+        this.creatorQuizResults = creatorQuizResults;
+    }
+
+    public boolean isCreatorCourseUpdate() {
+        return creatorCourseUpdate;
+    }
+
+    public void setCreatorCourseUpdate(boolean creatorCourseUpdate) {
+        this.creatorCourseUpdate = creatorCourseUpdate;
+    }
+
+    public boolean isParticipantQuizResults() {
+        return participantQuizResults;
+    }
+
+    public void setParticipantQuizResults(boolean participantQuizResults) {
+        this.participantQuizResults = participantQuizResults;
+    }
+
+    public boolean isParticipantTopicUpdate() {
+        return participantTopicUpdate;
+    }
+
+    public void setParticipantTopicUpdate(boolean participantTopicUpdate) {
+        this.participantTopicUpdate = participantTopicUpdate;
+    }
+
+
+
 
 }

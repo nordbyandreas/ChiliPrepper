@@ -28,6 +28,10 @@ public class RegistrationController {
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public String RegUser(@ModelAttribute User user) {
+        user.setCreatorCourseUpdate(true);
+        user.setCreatorQuizResults(true);
+        user.setParticipantTopicUpdate(true);
+        user.setParticipantQuizResults(true);
         userService.save(user);
         return "redirect:/login";
     }
