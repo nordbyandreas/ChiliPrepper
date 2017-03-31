@@ -25,6 +25,17 @@ public class UserTest {
         course = new Course();
     }
 
+    /**First confirms that the user's email ain't assigned,
+     * then assigns the email
+     * and concludes by confirming that the email is assigned to the user.*/
+    @Test
+    public void getAndSetEmail() throws Exception {
+        String email = "username@domain.com";
+        assertNull("The user's email ain't assigned, and should return: null", user.getEmail());
+        user.setEmail(email);
+        assertEquals("The user's email is assigned, and should return: email (String)", email, user.getEmail());
+    }
+
     /**First confirms that the user's username ain't assigned,
      * then assigns the username
      * and concludes by confirming that the username is assigned to the user.*/
