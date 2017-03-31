@@ -46,6 +46,10 @@ public class QuizController {
         quiz.setCourse(course);
         quiz.setPublished(false);
         quizService.save(quiz);
+
+        //Todo: Flashmessage for successfully added quiz
+        //Todo: FlashMessage for not successfully added quiz
+
         return "redirect:/courses/" + course.getId();
     }
 
@@ -269,6 +273,9 @@ public class QuizController {
 
         Course course = quiz.getCourse();
 
+        //Todo: flashmessage for published quiz.
+
+        //Todo: colorcode published vs unpublished?
 
         quizService.save(quiz);
         return "redirect:/courses/" + course.getId();

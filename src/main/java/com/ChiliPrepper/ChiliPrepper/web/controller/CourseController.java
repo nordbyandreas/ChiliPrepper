@@ -116,6 +116,8 @@ public class CourseController {
 
         course.setCreator(user);
         courseService.save(course);
+        //Todo: flashmessage for successfully added course
+        //TODO: message for not success add course
         return "redirect:/";
     }
 
@@ -141,7 +143,7 @@ public class CourseController {
 
         userService.save(user);
         courseService.save(course);
-
+        //TODO: flashmessage for unsuccessfull registration
         redirectAttributes.addFlashAttribute("flash",new FlashMessage("You've registered in " + course.getCourseName(), FlashMessage.Status.SUCCESS));
         return "redirect:/";
     }

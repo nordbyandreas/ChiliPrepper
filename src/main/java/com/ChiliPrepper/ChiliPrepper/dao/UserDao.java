@@ -32,8 +32,8 @@ public interface UserDao extends CrudRepository<User,Long> {
     /**
      * Retrieves a User by username
      *
-     * @param username
-     * @return User object
+     * @param username is the String to search for
+     * @return returns a User with matching username if it is found
      */
     User findByUsername(String username);
 
@@ -42,7 +42,7 @@ public interface UserDao extends CrudRepository<User,Long> {
     /**
      * Returns a list of all users
      *
-     * @return List of User's
+     * @return  returns a List of all User's
      */
     List<User> findAll();
 

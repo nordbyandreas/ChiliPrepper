@@ -58,7 +58,7 @@ public interface QuizMailDao extends CrudRepository<QuizMail, Long> {
     void deleteAllByQuiz_Id(Long id);
 
 
-    
+
 
     void deleteAllByParticipant_Id(Long id);
 

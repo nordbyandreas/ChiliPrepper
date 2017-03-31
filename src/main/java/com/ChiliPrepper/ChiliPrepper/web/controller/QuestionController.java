@@ -62,6 +62,10 @@ public class QuestionController {
         altThree.setQuestion(newQuestion);
         alternativeService.save(altThree);
 
+        //TODO: add flashmessage for adding question
+        //TODO: success and failure
+
+
         return "redirect:/courses/" + course.getId() + "/" + quizId;
     }
 
@@ -127,6 +131,8 @@ public class QuestionController {
 
         Quiz quiz = quizService.findOne(quizId);
 
+        //TODO: Flashmesagge for editing question
+
         return "redirect:/courses/" + quiz.getCourse().getId() + "/" + quiz.getId() + "/" + question.getId() + "/editQuestion?questionId=" + question.getId();
     }
 
@@ -138,6 +144,9 @@ public class QuestionController {
         questionService.delete(question);
         Long courseId =question.getQuiz().getCourse().getId();
         Long quizId = question.getQuiz().getId();
+
+        //TODO: Flashmesagge for saving question
+
 
         return "redirect:/courses/" + courseId + "/" + quizId + "/editQuiz?quizId=" + quizId;
     }

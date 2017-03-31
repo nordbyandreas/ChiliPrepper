@@ -16,7 +16,7 @@
 <div id="wrapper">
     <section>
 
-
+        <div th:replace="layout :: flash"></div>
         <h3 th:text="${question.theQuestion}">Question</h3>
 
         <form th:action="@{|/courses/${courseId}/${quizId}/${question.id}/editQuestion/saveEditQuestion|}"  method="post">

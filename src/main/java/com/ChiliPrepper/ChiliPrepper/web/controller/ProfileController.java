@@ -45,6 +45,8 @@ public class ProfileController {
 
         userService.save(user);
 
+        //TODO: Flashmessage for botDetails!
+
         return "redirect:/profile";
     }
 

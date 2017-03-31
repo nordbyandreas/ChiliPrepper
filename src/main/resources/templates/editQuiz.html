@@ -18,7 +18,7 @@
 
 
 
-
+        <div th:replace="layout :: flash"></div>
         <h3 th:text="${quiz.quizName}"></h3>
         <form th:action="@{/saveEditQuiz}" th:object="${quiz}" method="post">
 
