@@ -64,6 +64,11 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
+    public Iterable<Answer> findAllByUser_Id(Long id) {
+        return answerDao.findAllByUser_Id(id);
+    }
+
+    @Override
     public void save(Answer answer) {
         answerDao.save(answer);
 

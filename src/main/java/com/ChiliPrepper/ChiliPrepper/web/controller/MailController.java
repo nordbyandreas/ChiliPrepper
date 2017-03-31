@@ -23,7 +23,7 @@ public class MailController {
 
         BotMailSender botMailSender = new BotMailSender();
 
-        botMailSender.sendFromGMail(to, subject, body);
+        BotMailSender.sendFromGMail(to, subject, body);
     }
 
 

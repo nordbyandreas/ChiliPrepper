@@ -15,7 +15,7 @@
 
 <div id="wrapper">
     <section id="course">
-
+        <div th:replace="layout :: flash"></div>
         <div id="course-registered">
             <h3>Registered courses</h3>
             <div th:each="course : ${regCourses}">

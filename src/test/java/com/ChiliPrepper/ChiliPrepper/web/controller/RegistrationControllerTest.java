@@ -1,48 +1,58 @@
 package com.ChiliPrepper.ChiliPrepper.web.controller;
 
-
 import com.ChiliPrepper.ChiliPrepper.model.User;
 import com.ChiliPrepper.ChiliPrepper.service.UserService;
+
 import org.junit.Test;
 import org.junit.Before;
-import org.mockito.InjectMocks;
+import org.junit.runner.RunWith;
+
 import org.mockito.Mock;
+import org.mockito.InjectMocks;
+import org.mockito.runners.MockitoJUnitRunner;
+
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.any;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 /**
  * Created by dagki on 04/03/2017.
  */
+
+@RunWith(MockitoJUnitRunner.class)
 public class RegistrationControllerTest {
     private MockMvc mockMvc;
 
     @InjectMocks
-    private RegistrationController controller;
+    private RegistrationController controller = new RegistrationController();
 
     @Mock
     private UserService service;
 
     @Before
     public void setUp() throws Exception {
-        controller = new RegistrationController();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
     @Test
     public void regForm() throws Exception {
-        mockMvc.perform(get("/register.html")).andExpect(view().name("registration"));
+        mockMvc.perform(get("/register"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("user"))
+                .andExpect(view().name("registration"));
     }
-    /*
+
     @Test
     public void regUser() throws Exception {
-        mockMvc.perform(post("/register.html")).andExpect(redirectedUrl("redirect:/login"));
+        mockMvc.perform(post("/register"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login"));
+        verify(service).save(any(User.class));
     }
-    */
+
 }

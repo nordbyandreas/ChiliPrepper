@@ -16,7 +16,6 @@ public class Role {
     private String name;
 
 
-
     //Getters and Setters
 
     public Long getId() {
@@ -33,35 +32,6 @@ public class Role {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public static class RoleBuilder{
-        private Long id;
-        private String name;
-
-
-        public RoleBuilder(Long id){
-            this.id = id;
-        }
-
-        public RoleBuilder(){
-
-        }
-
-        public RoleBuilder withName(String name){
-            this.name = name;
-            return this;
-        }
-
-
-        public Role build(){
-            Role role = new Role();
-            role.setId(id);
-            role.setName(name);
-
-            return role;
-        }
-
     }
 
 

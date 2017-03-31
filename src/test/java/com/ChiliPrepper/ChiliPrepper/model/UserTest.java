@@ -2,6 +2,7 @@ package com.ChiliPrepper.ChiliPrepper.model;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -27,15 +28,15 @@ public class UserTest {
     }
 
     @Test
-    public void userUsername() throws Exception {
-        String username = "William Hansen";
+    public void assignUserUsername() throws Exception {
+        String username = "username";
         assertNull("The user's username should be null before a value is assigned", user.getUsername());
         user.setUsername(username);
         assertEquals("The user's username should be set to the assigned value", username, user.getUsername());
     }
 
     @Test
-    public void userPassword() throws Exception {
+    public void assignUserPassword() throws Exception {
         String password = "Password";
         assertNull("The user's password should be null before a value is assigned", user.getPassword());
         user.setPassword(password);
@@ -43,23 +44,14 @@ public class UserTest {
     }
 
     @Test
-    public void userId() throws Exception {
+    public void assignUserId() throws Exception {
         Long userId = 10L;
         assertNull("The user's ID should be null before a value is assigned", user.getId());
         user.setId(userId);
-        assertEquals("The user's ID should be set to the assigned value", userId, user.getId());
     }
 
     @Test
-    public void userEmail() throws Exception {
-        String email = "me@domain.com";
-        assertNull("The user's email should be null before a value is assigned", user.getEmail());
-        user.setEmail(email);
-        assertEquals("The user's email should be set to the assigned value", email, user.getEmail());
-    }
-
-    @Test
-    public void userRegisteredInCourses() throws Exception {
+    public void assignUserToCourses() throws Exception {
         Set<Course> regCourses = new HashSet<>(Arrays.asList(courseOne, courseTwo));
         assertNull("The user's registered courses should be null before a value is assigned", user.getRegCourses());
         user.setRegCourses(regCourses);
@@ -67,15 +59,17 @@ public class UserTest {
     }
 
     @Test
-    public void userRole() throws Exception {
+    public void assignUserRole() throws Exception {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        role.setName("creator");
         assertNull("The user's role should be null before a value is assigned", user.getRole());
         user.setRole(role);
         assertEquals("The user's role should be set to the assigned value", role, user.getRole());
+        authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
+        assertEquals(authorities, user.getAuthorities());
+
     }
 
-    @Test
-    public void getAuthorities() throws Exception {
-    }
 
     @Test
     public void userEnabled() throws Exception {
@@ -98,5 +92,31 @@ public class UserTest {
     public void userCredentialsNonExpired() throws Exception {
         assertTrue("The user's credentials shouldn't be expired as default", user.isCredentialsNonExpired());
     }
+    @Test
+    public void userCredentialsNonExre3434ired() throws Exception {
+        assertFalse(user.isCreatorQuizResults());
+        user.setCreatorQuizResults(true);
+        assertTrue(user.isCreatorQuizResults());
+    }
+    @Test
+    public void userCredentialsNonE343wxpired() throws Exception {
+        assertFalse(user.isCreatorCourseUpdate());
+        user.setCreatorCourseUpdate(true);
+        assertTrue(user.isCreatorCourseUpdate());
+    }
+    @Test
+    public void wr() throws Exception {
+        assertFalse(user.isParticipantQuizResults());
+        user.setParticipantQuizResults(true);
+        assertTrue(user.isParticipantQuizResults());
+
+    }
+    @Test
+    public void rwr34() throws Exception {
+        assertFalse(user.isParticipantTopicUpdate());
+        user.setParticipantTopicUpdate(true);
+        assertTrue(user.isParticipantTopicUpdate());
+    }
+
 
 }

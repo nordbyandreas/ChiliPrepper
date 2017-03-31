@@ -1,9 +1,9 @@
 package com.ChiliPrepper.ChiliPrepper.service;
 
-import com.ChiliPrepper.ChiliPrepper.dao.AlternativeDao;
-import com.ChiliPrepper.ChiliPrepper.model.Alternative;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.ChiliPrepper.ChiliPrepper.model.Alternative;
+import com.ChiliPrepper.ChiliPrepper.dao.AlternativeDao;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by Andreas on 02.03.2017.
@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AlternativeServiceImpl implements AlternativeService {
-
-
     @Autowired
     private AlternativeDao alternativeDao;
 
@@ -29,7 +27,6 @@ public class AlternativeServiceImpl implements AlternativeService {
     @Override
     public void save(Alternative alternative) {
         alternativeDao.save(alternative);
-
     }
 
     @Override
