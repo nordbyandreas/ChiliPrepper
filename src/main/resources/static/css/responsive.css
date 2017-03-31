@@ -203,4 +203,22 @@
         right: 5%;
     }
 
+    /********************
+    QUIZ QUESTIONS
+
+    ********************/
+
+    .quizquestion:hover {
+        font-weight: bold;
+        outline: none;
+        border: 3px solid #849852;
+        transition-duration: 0.1s;
+    }
+
+    .quizquestion:active {
+        background: #000000;
+        color: #FFF;
+        border: none;
+    }
+
 }

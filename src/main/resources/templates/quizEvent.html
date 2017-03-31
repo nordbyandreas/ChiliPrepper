@@ -29,7 +29,9 @@
                 <div th:each="alternative : ${alternatives}">
                     <div>
 
-                        <input type="radio" name="answer" th:value="${alternative}" th:text="${alternative}"/>
+                        <label class="quizquestion">
+                            <input type="radio" name="answer" th:value="${alternative}" th:text="${alternative}"/>
+                        </label>
 
                     </div>
 

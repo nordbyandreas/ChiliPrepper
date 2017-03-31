@@ -312,7 +312,22 @@ QUIZ QUESTIONS
 
 ********************/
 
+/*input[type="radio"]{
+    display: none;
+}*/
 
+.quizquestion {
+    background: #849852;
+    color: #FFF;
+    padding: 15px 10px;
+    font-family: 'Oswald', sans-serif;
+    min-height: 48px;
+    min-width: 48px;
+}
+
+input[type="radio"]:checked~.quizquestion {
+    background: #000;
+}
 
 /********************
 CHART

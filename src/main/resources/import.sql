@@ -2,10 +2,10 @@
 insert into role (name) values ('ROLE_USER');
 
 -- Insert two users (passwords are both 'password')
-insert into user (username,enabled,password,role_id, email) values ('user',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'nordbyandreas@hotmail.com');
-insert into user (username,enabled,password,role_id, email) values ('user2',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'nordbyandreas@hotmail.com');
-insert into user (username,enabled,password,role_id, email) values ('user3',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'nordbyandreas@hotmail.com');
-insert into user (username,enabled,password,role_id, email) values ('user4',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'nordbyandreas@hotmail.com');
+insert into user (username,enabled,password,role_id, email) values ('user',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'chiliprepper.bot@gmail.com');
+insert into user (username,enabled,password,role_id, email) values ('user2',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'chiliprepper.bot@gmail.com');
+insert into user (username,enabled,password,role_id, email) values ('user3',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'chiliprepper.bot@gmail.com');
+insert into user (username,enabled,password,role_id, email) values ('user4',true,'$2a$08$wgwoMKfYl5AUE9QtP4OjheNkkSDoqDmFGjjPE2XTPLDe9xso/hy7u',1, 'chiliprepper.bot@gmail.com');
 
 
 insert into course (courseName, accessCode, user_id) values ('testCourse', 'thePassword', 1);

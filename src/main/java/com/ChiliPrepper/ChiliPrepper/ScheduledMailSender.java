@@ -54,7 +54,7 @@ public class ScheduledMailSender {
     private MailController mailController = new MailController();
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-
+/*
     @Scheduled(fixedRate = 30000)  //finn 1 mnd i millisekunder
     public void sendCourseAverage() {
         Iterable<Course> courses  = courseService.findAll();
@@ -93,8 +93,8 @@ public class ScheduledMailSender {
 
         }
     }
-
-
+*/
+/*
     @Scheduled(fixedRate = 20000)   //finn døgn i millisekunder
     public void sendQuizResults() {
         Iterable<Course> courses  = courseService.findAll();
@@ -122,7 +122,7 @@ public class ScheduledMailSender {
             }
         }
     }
-
+*/
 
 /*
     @Scheduled(fixedRate = 10000)   //finn døgn i millisekunder
