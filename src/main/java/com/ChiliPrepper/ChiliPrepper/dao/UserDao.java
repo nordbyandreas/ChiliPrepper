@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by Andreas on 15.02.2017.
  *
- * Interface for generic CRUD operations on a the repository for the USER type.
+ * Interface for generic CRUD operations on the repository for the USER type.
  *
  * Because of -Enabled JPARepository(DataConfig)  and  - extended Crudrepository (from the spring data library)
  * Spring data will generate the implemented class automatically upon Application Boot

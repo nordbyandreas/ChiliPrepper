@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Created by Andreas on 23.03.2017.
  *
- * Interface for generic CRUD operations on a the repository for the CreatorQuizMail type.
+ * Interface for generic CRUD operations on the repository for the CreatorQuizMail type.
  *
  * Because of -Enabled JPARepository(DataConfig)  and  - extended Crudrepository (from the spring data library)
  * Spring data will generate the implemented class automatically upon Application Boot
@@ -25,6 +25,12 @@ import org.springframework.stereotype.Repository;
 public interface CreatorQuizMailDao extends CrudRepository<CreatorQuizMail, Long> {
 
 
+    /**
+     * Seaches the database for a CreatorQuizMail object with the given Quiz Id
+     *
+     * @param id
+     * @return  A CreatorQuizMail object matching the given Quiz Id
+     */
     CreatorQuizMail findOneByQuiz_Id(Long id);
 
 

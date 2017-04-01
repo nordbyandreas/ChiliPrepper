@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Andreas on 16.02.2017.
  *
- * Interface for generic CRUD operations on a the repository for the Course type.
+ * Interface for generic CRUD operations on the repository for the Course type.
  *
  * Because of -Enabled JPARepository(DataConfig)  and  - extended Crudrepository (from the spring data library)
  * Spring data will generate the implemented class automatically upon Application Boot
@@ -29,17 +29,30 @@ import java.util.List;
 @Repository
 public interface CourseDao extends CrudRepository<Course, Long> {
 
+
+    /**
+     * Searches the database for all Courses with the logged in user's id as creator id
+     *
+     * @return A List of all course objects matching the given Creator Id
+     */
     @Query("select course from Course course where course.creator.id=:#{principal.id}")
     List<Course> findAllForCreator();
 
+
+    /**
+     * Searches the database for all Courses
+     *
+     * @return A List of all Course objects
+     */
     List<Course> findAll();
 
-    /*
-    @Query("select course from Course course inner join course.regCourses rc where rc.user_id = :userId")
-    List<Course> findAllRegCoursesForUser(@Param("userId") Long userId);
-*/
 
-
+    /**
+     * Searches the Database for a Course with the given accessCode
+     *
+     * @param accessCode
+     * @return a Course matching the given accesscode
+     */
     Course findByAccessCode(String accessCode);
 
 }
