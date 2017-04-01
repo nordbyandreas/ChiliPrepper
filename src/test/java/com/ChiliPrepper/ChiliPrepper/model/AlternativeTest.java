@@ -1,44 +1,53 @@
 package com.ChiliPrepper.ChiliPrepper.model;
 
-import org.junit.Before;
 import org.junit.Test;
-
+import org.junit.Before;
 import static org.junit.Assert.*;
 
 /**
- * Created by Christer on 02.03.2017.
+ * Created by dagki on 02.03.2017.
  */
+
 public class AlternativeTest {
-    private Alternative alternative;
     private Question question;
+    private Alternative alternative;
 
     @Before
     public void setUp() throws Exception {
-        alternative = new Alternative();
         question = new Question();
+        alternative = new Alternative();
     }
 
+    /**First confirms that the alternative's ID ain't assigned,
+     * then assigns the ID
+     * and concludes by confirming that the ID is assigned to the alternative.*/
     @Test
-    public void assignIdToAlternativeAnswer() throws Exception {
-        Long alternativeId = 10L;
-        assertNull("The alternative answer ID should be null before a value is assigned", alternative.getId());
-        alternative.setId(alternativeId);
-        assertEquals("The alternative answer ID should be set to the assigned value", alternativeId, alternative.getId());
+    public void getAndSetId() throws Exception {
+        Long id = 1L;
+        assertNull("The alternative's ID ain't assigned, and should return: null", alternative.getId());
+        alternative.setId(id);
+        assertEquals("The alternative's ID is assigned, and should return: 1L (Long)", id, alternative.getId());
     }
 
+    /** First confirms that the alternative's text ain't assigned,
+     * then assigns the text
+     * and concludes by confirming that the text is assigned to the alternative.*/
     @Test
-    public void assignAlternativeAnswerText() throws Exception {
-        String alternativeAnswerText = "Unit testing is a waste of time";
-        assertNull("The alternative answer should be null before a value is assigned", alternative.getAlternative());
-        alternative.setAlternative(alternativeAnswerText);
-        assertEquals("The alternative answer should be set to the assigned value", alternativeAnswerText, alternative.getAlternative());
+    public void getAndSetTheAlternative() throws Exception {
+        String altText = "altText";
+        assertNull("The alternative's text ain't assigned, and should return: null", alternative.getAlternative());
+        alternative.setAlternative(altText);
+        assertEquals("The alternative' text is assigned, and should return: text (String)", altText, alternative.getAlternative());
     }
 
+    /**First confirms that the alternative ain't assigned to a question,
+     * then assigns it to a question
+     * and concludes by confirming that the alternative is assigned to the question.*/
     @Test
-    public void assignAlternativeAnswerToQuestion() throws Exception {
-        assertNull("The alternative answer shouldn't be assigned to a question", alternative.getQuestion());
+    public void getAndSetQuestion() throws Exception {
+        assertNull("The alternative ain't assigned to a question, and should return: null", alternative.getQuestion());
         alternative.setQuestion(question);
-        assertEquals("The alternative answer should be assigned to the question", question, alternative.getQuestion());
+        assertEquals("The alternative is assigned to a question, and should return: question (Question)", question, alternative.getQuestion());
     }
 
 }

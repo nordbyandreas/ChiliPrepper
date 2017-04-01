@@ -1,16 +1,13 @@
 package com.ChiliPrepper.ChiliPrepper.model;
 
-
-import org.junit.Before;
-
 import org.junit.Test;
-
+import org.junit.Before;
 import static org.junit.Assert.*;
 
 /**
-
  * Created by dagki on 28/02/2017.
  */
+
 public class RoleTest {
     private Role role;
 
@@ -19,21 +16,26 @@ public class RoleTest {
         role = new Role();
     }
 
+    /**First confirms that the role's ID ain't assigned,
+     * then assigns the ID
+     * and concludes by confirming that the ID is assigned to the role.*/
     @Test
-    public void roleId() throws Exception {
-        Long roleId = 10L;
-        assertNull("Role ID should be null before a value is assigned", role.getId());
-        role.setId(roleId);
-        assertEquals("Role ID should be set to the assigned value", roleId, role.getId());
+    public void getAndSetRoleId() throws Exception {
+        Long id = 1L;
+        assertNull("The role's ID ain't assigned, and should return: null", role.getId());
+        role.setId(id);
+        assertEquals("The role's ID is assigned, and should return: 1L (Long)", id, role.getId());
     }
 
+    /**First confirms that the role's name ain't assigned,
+     * then assigns the name
+     * and concludes by confirming that the name is assigned to the role.*/
     @Test
     public void roleName() throws Exception {
-        String roleName = "participant";
-        assertNull("Role name should be null before a value is assigned", role.getName());
+        String roleName = "roleName";
+        assertNull("The role's name ain't assigned, and should return: null", role.getName());
         role.setName(roleName);
-        assertEquals("Role name should be set to the assigned value", roleName, role.getName());
-
+        assertEquals("The role's name is assigned, and should return: 'roleName' (String)", roleName, role.getName());
     }
 
 }

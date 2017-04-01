@@ -1,51 +1,62 @@
 package com.ChiliPrepper.ChiliPrepper.web;
 
-import com.sun.net.httpserver.Authenticator;
-import org.junit.Before;
 import org.junit.Test;
-
-import static com.ChiliPrepper.ChiliPrepper.web.FlashMessage.*;
+import org.junit.Before;
+import static org.junit.Assert.*;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.Assert.*;
+import static com.ChiliPrepper.ChiliPrepper.web.FlashMessage.*;
 
 /**
  * Created by dagki on 29/03/2017.
  */
+
 public class FlashMessageTest {
     FlashMessage flashMessage;
+    FlashMessage.Status statusInfo = Status.INFO;
+    FlashMessage.Status statusFailure = Status.FAILURE;
+    FlashMessage.Status statusSuccess = Status.SUCCESS;
 
     @Before
     public void setUp() throws Exception {
+        statusInfo = Status.INFO;
+        statusFailure = Status.FAILURE;
+        statusSuccess = Status.SUCCESS;
         flashMessage = new FlashMessage(null, null);
     }
 
+    /**Confirms that the statuses INFO, FAILURE and SUCCESS exists.
+     * */
     @Test
-    public void getMessage() throws Exception {
+    public void Status() throws Exception {
+        assertThat("Status INFO should exist", Status.valueOf("INFO"), is(notNullValue()));
+        assertThat("Status FAILURE should exist", Status.valueOf("FAILURE"), is(notNullValue()));
+        assertThat("Status STATUS should exist", Status.valueOf("SUCCESS"), is(notNullValue()));
+    }
+
+    /**First confirms that the flash message's message ain't assigned,
+     * then assigns the message
+     * and concludes by confirming that the message is assigned to the flash message.*/
+    @Test
+    public void getAndSetMessage() throws Exception {
         String message = "message";
-        assertNull("Question ID should be null", flashMessage.getMessage());
+        assertNull("Flash message ain't assigned, and should return: null", flashMessage.getMessage());
         flashMessage.setMessage(message);
-        assertEquals("Question ID should be set to the assigned value", message, flashMessage.getMessage());
+        assertEquals("Flash message is assigned, and should return: message (String)", message, flashMessage.getMessage());
     }
 
+    /**First confirms that the flash message's status ain't assigned,
+     * then assigns the INFO status and confirms that it's assigned to the flash message,
+     * then assigns the FAILURE status and confirms that it's assigned to the flash message,
+     * and concludes by then assigning the SUCCESS status and confirms that it's assigned to the flash message,*/
     @Test
-    public void setMessage() throws Exception {
-        assertThat(Status.valueOf("INFO"), is(notNullValue()));
-        assertThat(Status.valueOf("FAILURE"), is(notNullValue()));
-        assertThat(Status.valueOf("SUCCESS"), is(notNullValue()));
-    }
-
-    @Test
-    public void getStatus() throws Exception {
-        FlashMessage.Status statusInfo = Status.INFO;
-        FlashMessage.Status statusFailure = Status.FAILURE;
-        FlashMessage.Status statusSuccess = Status.SUCCESS;
-        assertNull("Question ID should be null", flashMessage.getStatus());
+    public void getAndSetStatus() throws Exception {
+        assertNull("Flash status ain't assigned, and should return: null", flashMessage.getStatus());
         flashMessage.setStatus(statusInfo);
-        assertEquals("Question ID should be set to the assigned value", statusInfo, flashMessage.getStatus());
+        assertEquals("Flash message is assigned, and should return: INFO (Status)", statusInfo, flashMessage.getStatus());
         flashMessage.setStatus(statusFailure);
-        assertEquals("Question ID should be set to the assigned value", statusFailure, flashMessage.getStatus());
+        assertEquals("Flash message is assigned, and should return: FAILURE (Status)", statusFailure, flashMessage.getStatus());
         flashMessage.setStatus(statusSuccess);
-        assertEquals("Question ID should be set to the assigned value", statusSuccess, flashMessage.getStatus());
+        assertEquals("Flash message is assigned, and should return: SUCCESS (Status)", statusSuccess, flashMessage.getStatus());
     }
 }

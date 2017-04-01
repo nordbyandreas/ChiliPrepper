@@ -1,47 +1,66 @@
 package com.ChiliPrepper.ChiliPrepper.model;
 
-import org.junit.Before;
 import org.junit.Test;
-
+import org.junit.Before;
 import static org.junit.Assert.*;
 
 /**
  * Created by dagki on 28/03/2017.
  */
+
 public class CreatorQuizMailTest {
+    private Quiz quiz;
+    private User creator;
+    private Course course;
+    private CreatorQuizMail creatorQuizMail;
 
-    private CreatorQuizMail creatorQuizMail = new CreatorQuizMail();
-
-    @Test
-    public void getId() throws Exception {
-        Long creatorQuizMailId = 1L;
-        assertNull("Question ID should be null before a value is assigned", creatorQuizMail.getId());
-        creatorQuizMail.setId(creatorQuizMailId);
-        assertEquals("Question ID should be set to the assigned value", creatorQuizMailId, creatorQuizMail.getId());
+    @Before
+    public void setUp() throws Exception {
+        quiz = new Quiz();
+        creator = new User();
+        course = new Course();
+        creatorQuizMail = new CreatorQuizMail();
     }
 
+    /**First confirms that the creator's quiz mail ID ain't assigned,
+     * then assigns the ID
+     * and concludes by confirming that the ID is assigned to the creator's quiz mail.*/
     @Test
-    public void getCreator() throws Exception {
-        User creator = new User();
-        assertNull("Question ID should be null before a value is assigned", creatorQuizMail.getCreator());
+    public void getAndSetId() throws Exception {
+        Long id = 1L;
+        assertNull("The creator's quiz mail ID ain't assigned, and should return: null", creatorQuizMail.getId());
+        creatorQuizMail.setId(id);
+        assertEquals("The creator's quiz mail is assigned, and should return: 1L (Long)", id, creatorQuizMail.getId());
+    }
+
+    /**First confirms that the creator's quiz mail ain't assigned to a user,
+     * then assigns it to a user
+     * and concludes by confirming that the creator's quiz mail is assigned to the user.*/
+    @Test
+    public void getAndSetCreator() throws Exception {
+        assertNull("The creator's quiz mail ain't assigned to a creator, and should return: null", creatorQuizMail.getCreator());
         creatorQuizMail.setCreator(creator);
-        assertEquals("Question ID should be set to the assigned value", creator, creatorQuizMail.getCreator());
+        assertEquals("The creator's quiz mail is assigned to a creator, and should return: creator (User)", creator, creatorQuizMail.getCreator());
     }
 
+    /**First confirms that the creator's quiz mail ain't assigned to a course,
+     * then assigns it to a course
+     * and concludes by confirming that the creator's quiz mail is assigned to the course.*/
     @Test
-    public void setCreator() throws Exception {
-        Course course = new Course();
-        assertNull("Question ID should be null before a value is assigned", creatorQuizMail.getCourse());
+    public void getAndSetCourse() throws Exception {
+        assertNull("The creator's quiz mail ain't assigned to a course, and should return: null", creatorQuizMail.getCourse());
         creatorQuizMail.setCourse(course);
-        assertEquals("Question ID should be set to the assigned value", course, creatorQuizMail.getCourse());
+        assertEquals("The creator's quiz mail is assigned to a course, and should return: course (Course)", course, creatorQuizMail.getCourse());
     }
 
+    /**First confirms that the creator's quiz mail ain't assigned to a quiz,
+     * then assigns it to a quiz
+     * and concludes by confirming that the creator's quiz mail is assigned to the quiz.*/
     @Test
-    public void getCourse() throws Exception {
-        Quiz quiz = new Quiz();
-        assertNull("Question ID should be null before a value is assigned", creatorQuizMail.getQuiz());
+    public void getAndSetQuiz() throws Exception {
+        assertNull("The creator's quiz mail ain't assigned to a quiz, and should return: null", creatorQuizMail.getQuiz());
         creatorQuizMail.setQuiz(quiz);
-        assertEquals("Question ID should be set to the assigned value", quiz, creatorQuizMail.getQuiz());
+        assertEquals("The creator's quiz mail is assigned to a quiz, and should return: quiz (Quiz)", quiz, creatorQuizMail.getQuiz());
     }
 
 }

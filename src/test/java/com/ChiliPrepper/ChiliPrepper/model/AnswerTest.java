@@ -1,13 +1,13 @@
 package com.ChiliPrepper.ChiliPrepper.model;
 
-import org.junit.Before;
 import org.junit.Test;
-
+import org.junit.Before;
 import static org.junit.Assert.*;
 
 /**
  * Created by dagki on 09/03/2017.
  */
+
 public class AnswerTest {
     private User user;
     private Quiz quiz;
@@ -24,55 +24,76 @@ public class AnswerTest {
         question = new Question();
     }
 
+    /**First confirms that the answer's ID ain't assigned,
+     * then assigns the ID
+     * and concludes by confirming that the ID is assigned to the answer.*/
     @Test
-    public void assignAnswerId() throws Exception {
-        Long answerId = 10L;
-        assertNull("The answer ID shouldn't be assigned", answer.getId());
-        answer.setId(answerId);
-        assertEquals("The answer ID should be set to the assigned value", answerId, answer.getId());
+    public void getAndSetId() throws Exception {
+        Long id = 1L;
+        assertNull("The answer's ID ain't assigned, and should return: null", answer.getId());
+        answer.setId(id);
+        assertEquals("The answer's ID is assigned, and should return: 1L (Long)", id, answer.getId());
     }
 
+    /**First confirms that the answer is false,
+     * then assigns it correct
+     * and concludes by confirming that the answer is correct.*/
     @Test
-    public void checkIfAnswerIsCorrect() throws Exception {
-        assertFalse("The answer should be wrong as default", answer.isCorrect());
+    public void isAndSetCorrect() throws Exception {
+        assertFalse("The answer ain't set to correct, and should return: false (Boolean)", answer.isCorrect());
         answer.setCorrect(true);
-        assertTrue("The answer should be set to correct", answer.isCorrect());
+        assertTrue("The answer is set to correct, and should return: true (Boolean)", answer.isCorrect());
     }
 
+    /**First confirms that the answer's text ain't assigned,
+     * then assigns the text
+     * and concludes by confirming that the text is assigned to the answer.*/
     @Test
-    public void assignAnswerText() throws Exception {
-        String answerText = "Unit testing is a waste of time";
-        assertNull("The answer text shouldn't be assigned before set", answer.getAnswer());
+    public void getAndSetTheAnswer() throws Exception {
+        String answerText = "answerText";
+        assertNull("The answer's text ain't assigned, and should return: null", answer.getAnswer());
         answer.setAnswer(answerText);
-        assertEquals("The answer text should be set to the assigned value", answerText, answer.getAnswer());
+        assertEquals("The answer's text is assigned, and should return: answerText (String)", answerText, answer.getAnswer());
     }
 
+    /**First confirms that the answer ain't assigned to a question,
+     * then assigns it to a question
+     * and concludes by confirming that the answer is assigned to the question.*/
     @Test
-    public void assignAnswerToQuestion() throws Exception {
-        assertNull("The answer shouldn't be assigned to a question before set", answer.getQuestion());
+    public void getAndSetQuestion() throws Exception {
+        assertNull("The answer ain't assigned to a question, and should return: null", answer.getQuestion());
         answer.setQuestion(question);
-        assertEquals("The answer should be assigned to the selected question", question, answer.getQuestion());
+        assertEquals("The answer is assigned to a question, and should return: question (Question)", question, answer.getQuestion());
     }
 
+    /**First confirms that the answer ain't assigned to a quiz,
+     * then assigns it to a quiz
+     * and concludes by confirming that the answer is assigned to the quiz.*/
     @Test
-    public void assignAnswerToQuiz() throws Exception {
-        assertNull("The answer shouldn't be assigned to a quiz", answer.getQuiz());
+    public void getAndSetQuiz() throws Exception {
+        assertNull("The answer ain't assigned to a quiz, and should return: null", answer.getQuiz());
         answer.setQuiz(quiz);
-        assertEquals("The answer should be assigned to the selected quiz", quiz, answer.getQuiz());
+        assertEquals("The answer is assigned to a quiz, and should return: quiz (Quiz)", quiz, answer.getQuiz());
     }
 
+    /**First confirms that the answer ain't assigned to a course,
+     * then assigns it to a course
+     * and concludes by confirming that the answer is assigned to the course.*/
     @Test
-    public void assignAnswerToCourse() throws Exception {
-        assertNull("The answer shouldn't be assigned to a course before set", answer.getCourse());
+    public void getAndSetCourse() throws Exception {
+        assertNull("The answer ain't assigned to a course, and should return: null", answer.getCourse());
         answer.setCourse(course);
-        assertEquals("The answer should be assigned to the selected course", course, answer.getCourse());
+        assertEquals("The answer is assigned to a course, and should return: course (Course)", course, answer.getCourse());
     }
 
+    /**First confirms that the answer ain't assigned to a user,
+     * then assigns it to a user
+     * and concludes by confirming that the answer is assigned to the user.*/
     @Test
-    public void assignAnswerToUser() throws Exception {
-        assertNull("The answer shouldn't be assigned to a course before set", answer.getUser());
+    public void getAndSetUser() throws Exception {
+        assertNull("The answer ain't assigned to a user, and should return: null", answer.getUser());
         answer.setUser(user);
-        assertEquals("The answer should be assigned to the selected course", user, answer.getUser());
+        assertEquals("The answer is assigned to a user, and should return: user (User)", user, answer.getUser());
     }
 
 }

@@ -1,6 +1,7 @@
 package com.ChiliPrepper.ChiliPrepper.model;
 
 import org.junit.Test;
+import org.junit.Before;
 import static org.junit.Assert.*;
 
 /**
@@ -8,52 +9,67 @@ import static org.junit.Assert.*;
  */
 
 public class QuestionTest {
+    private Quiz quiz;
+    private Question question;
 
-    private Question question = new Question();
+    @Before
+    public void setUp() throws Exception {
+        quiz = new Quiz();
+        question = new Question();
+    }
 
-    //Asserts that the question ID is null, then sets the question ID and asserts that the value is set.
+    /**First confirms that the quiz's ID ain't assigned,
+     * then assigns the ID
+     * and concludes by confirming that the ID is assigned to the quiz.*/
     @Test
-    public void questionId() throws Exception {
-        Long questionId = 1L;
-        assertNull("Question ID should be null", question.getId());
-        question.setId(questionId);
-        assertEquals("Question ID should be set to the assigned value", questionId, question.getId());
-}
+    public void getAndSetId() throws Exception {
+        Long id = 1L;
+        assertNull("The question's ID ain't assigned, and should return: null", question.getId());
+        question.setId(id);
+        assertEquals("The question's ID is assigned, and should return: 1L (Long)", id, question.getId());
+    }
 
-    //Asserts that the question topic is null, then sets the question topic value and asserts that the value is set.
+    /**First confirms that the question's topic ain't assigned,
+     * then assigns the topic
+     * and concludes by confirming that the topic is assigned to the question.*/
     @Test
     public void getAndSetQuestionTopic() throws Exception {
-        String questionTopic = "questionTopic";
-        assertNull("The question's topic should be null", question.getTopic());
-        question.setTopic(questionTopic);
-        assertEquals("The question's topic should be set to the assigned value", questionTopic, question.getTopic());
+        String topic = "topic";
+        assertNull("The question's topic ain't assigned, and should return: null", question.getTopic());
+        question.setTopic(topic);
+        assertEquals("The question's topic is assigned, and should return: topic (String)", topic, question.getTopic());
     }
 
-    //Asserts that the question topic is null, then sets the question topic value and asserts that the value is set.
+    /**First confirms that the question's text ain't assigned,
+     * then assigns the text
+     * and concludes by confirming that the text is assigned to the question.*/
     @Test
-    public void questionText() throws Exception {
+    public void getAndSetTheQuestion() throws Exception {
         String questionText = "questionText";
-        assertNull("The question's text should be null", question.getTheQuestion());
+        assertNull("The question's text ain't assigned, and should return: null", question.getTheQuestion());
         question.setTheQuestion(questionText);
-        assertEquals("The question's text should be set to the assigned value", questionText, question.getTheQuestion());
+        assertEquals("The question's text is assigned, and should return: questionText (String)", questionText, question.getTheQuestion());
     }
 
-    //Asserts that the question topic is null, then sets the question topic value and asserts that the value is set.
+    /**First confirms that the question's correct answer ain't assigned,
+     * then assigns the correct answer
+     * and concludes by confirming that the correct answer is assigned to the quiz.*/
     @Test
-    public void questionCorrectAnswer() throws Exception {
+    public void getAndSetCorrectAnswer() throws Exception {
         String correctAnswer = "correctAnswer";
-        assertNull("The question's correct answer should be null before a value is assigned", question.getCorrectAnswer());
+        assertNull("The question's correct answer ain't assigned, and should return: null", question.getCorrectAnswer());
         question.setCorrectAnswer(correctAnswer);
-        assertEquals("The question's correct answer should be set to the assigned value", correctAnswer, question.getCorrectAnswer());
+        assertEquals("The question's correct answer is assigned, and should return: correctAnswer (String)", correctAnswer, question.getCorrectAnswer());
     }
 
-    //Asserts that the question topic is null, then sets the question topic value and asserts that the value is set.
+    /**First confirms that the question's ID ain't assigned to a quiz,
+     * then sets it to a quiz
+     * and concludes by confirming that the question is assigned to the quiz.*/
     @Test
-    public void assingQuestionToQuiz() throws Exception {
-        Quiz quiz = new Quiz();
-        assertNull("The question shouldn't be assigned a quiz", question.getQuiz());
+    public void getAndSetQuiz() throws Exception {
+        assertNull("The question ain't assigned to a quiz, and should return: null", question.getQuiz());
         question.setQuiz(quiz);
-        assertEquals("The question's text should be set to the assigned value", quiz, question.getQuiz());
+        assertEquals("The question is assigned to a quiz, and should return: quiz (Quiz)", quiz, question.getQuiz());
     }
 
 }
