@@ -2,12 +2,14 @@ package com.ChiliPrepper.ChiliPrepper.web.controller;
 
 import com.ChiliPrepper.ChiliPrepper.model.*;
 import com.ChiliPrepper.ChiliPrepper.service.*;
+import com.ChiliPrepper.ChiliPrepper.web.FlashMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.*;
@@ -41,13 +43,15 @@ public class QuizController {
 
 
     @RequestMapping(path = "/addQuiz", method = RequestMethod.POST)
-    public String addQuiz(@ModelAttribute Quiz quiz, @RequestParam Long courseId) {
+    public String addQuiz(@ModelAttribute Quiz quiz, @RequestParam Long courseId, RedirectAttributes redirectAttributes) {
         Course course = courseService.findOne(courseId);
         quiz.setCourse(course);
         quiz.setPublished(false);
         quizService.save(quiz);
 
-        //Todo: Flashmessage for successfully added quiz
+
+        redirectAttributes.addFlashAttribute("flash",new FlashMessage("Quiz created ! ", FlashMessage.Status.SUCCESS));
+
         //Todo: FlashMessage for not successfully added quiz
 
         return "redirect:/courses/" + course.getId();
@@ -254,7 +258,7 @@ public class QuizController {
         }
 
         answerService.save(newAnswer);
-
+//TODO: flashmessages for correct or incorrect answers
 
         return "redirect:/courses/" + course.getId() + "/" + quiz.getId() + "/quiz";
 
@@ -265,7 +269,7 @@ public class QuizController {
 
     //publish quiz
     @RequestMapping("/publishQuiz")
-    public String publishQuiz(@RequestParam Long quizId){
+    public String publishQuiz(@RequestParam Long quizId, RedirectAttributes redirectAttributes){
 
 
         Quiz quiz = quizService.findOne(quizId);
@@ -274,6 +278,8 @@ public class QuizController {
         Course course = quiz.getCourse();
 
         //Todo: flashmessage for published quiz.
+        redirectAttributes.addFlashAttribute("flash",new FlashMessage("Quiz published! ", FlashMessage.Status.SUCCESS));
+
 
         //Todo: colorcode published vs unpublished?
 

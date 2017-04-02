@@ -7,10 +7,12 @@ import com.ChiliPrepper.ChiliPrepper.model.Quiz;
 import com.ChiliPrepper.ChiliPrepper.service.AlternativeService;
 import com.ChiliPrepper.ChiliPrepper.service.QuestionService;
 import com.ChiliPrepper.ChiliPrepper.service.QuizService;
+import com.ChiliPrepper.ChiliPrepper.web.FlashMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class QuestionController {
 
 
     @RequestMapping(path = "/addQuestion", method = RequestMethod.POST)
-    public String addQuestion(@ModelAttribute Question newQuestion, @RequestParam Long quizId, @RequestParam String alt1, @RequestParam String alt2, @RequestParam String alt3){
+    public String addQuestion(@ModelAttribute Question newQuestion, @RequestParam Long quizId, @RequestParam String alt1, @RequestParam String alt2, @RequestParam String alt3, RedirectAttributes redirectAttributes){
 
 
         Quiz quiz = quizService.findOne(quizId);
@@ -62,8 +64,9 @@ public class QuestionController {
         altThree.setQuestion(newQuestion);
         alternativeService.save(altThree);
 
-        //TODO: add flashmessage for adding question
-        //TODO: success and failure
+        redirectAttributes.addFlashAttribute("flash",new FlashMessage("Question added! ", FlashMessage.Status.SUCCESS));
+
+        //TODO: add flashMessage for failure too
 
 
         return "redirect:/courses/" + course.getId() + "/" + quizId;
@@ -110,7 +113,7 @@ public class QuestionController {
     public String saveEditQuestion(@RequestParam String alt1, @RequestParam String alt2, @RequestParam String alt3,
                                    @RequestParam Long alt1Id, @RequestParam Long alt2Id, @RequestParam Long alt3Id,
                                    @RequestParam Long questionId, @RequestParam String correctAnswer, @RequestParam String theQuestion,
-                                   @RequestParam Long quizId, @RequestParam String topic){
+                                   @RequestParam Long quizId, @RequestParam String topic, RedirectAttributes redirectAttributes){
 
         Alternative a1 = alternativeService.findOne(alt1Id);
         Alternative a2 = alternativeService.findOne(alt2Id);
@@ -131,7 +134,7 @@ public class QuestionController {
 
         Quiz quiz = quizService.findOne(quizId);
 
-        //TODO: Flashmesagge for editing question
+        redirectAttributes.addFlashAttribute("flash",new FlashMessage("Question updated ! ", FlashMessage.Status.SUCCESS));
 
         return "redirect:/courses/" + quiz.getCourse().getId() + "/" + quiz.getId() + "/" + question.getId() + "/editQuestion?questionId=" + question.getId();
     }
@@ -139,13 +142,13 @@ public class QuestionController {
 
     //method for deleting question
     @RequestMapping("/deleteQuestion")
-    public String deleteQuestion(@RequestParam Long questionId){
+    public String deleteQuestion(@RequestParam Long questionId, RedirectAttributes redirectAttributes){
         Question question = questionService.findOne(questionId);
         questionService.delete(question);
         Long courseId =question.getQuiz().getCourse().getId();
         Long quizId = question.getQuiz().getId();
 
-        //TODO: Flashmesagge for saving question
+        redirectAttributes.addFlashAttribute("flash",new FlashMessage("Question deleted! ", FlashMessage.Status.SUCCESS));
 
 
         return "redirect:/courses/" + courseId + "/" + quizId + "/editQuiz?quizId=" + quizId;

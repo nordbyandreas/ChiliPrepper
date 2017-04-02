@@ -110,14 +110,17 @@ public class CourseController {
 
 
     @RequestMapping(path = "/addCourse", method = RequestMethod.POST)
-    public String addCourse(@ModelAttribute Course course, Principal principal) {
+    public String addCourse(@ModelAttribute Course course, Principal principal, RedirectAttributes redirectAttributes) {
         String username = principal.getName();
         User user = userService.findByUsername(username);
 
         course.setCreator(user);
         courseService.save(course);
-        //Todo: flashmessage for successfully added course
-        //TODO: message for not success add course
+
+        //TODO: message for not successfully added course
+        //TODO: maybe we need to set AccessCode as unique
+        redirectAttributes.addFlashAttribute("flash",new FlashMessage("You've successfully created " + course.getCourseName() + " !", FlashMessage.Status.SUCCESS));
+
         return "redirect:/";
     }
 
@@ -173,7 +176,7 @@ public class CourseController {
         System.out.println("\n\n\n\n" + courseName + "\n\n\n\n");
 
 
-
+//TODO: fix "overlap" in HTML on reload of chart
         return "courseChart:: courseChart";
     }
 
