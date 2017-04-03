@@ -1,21 +1,19 @@
 package com.ChiliPrepper.ChiliPrepper.service;
 
-import com.ChiliPrepper.ChiliPrepper.dao.AlternativeDao;
-import com.ChiliPrepper.ChiliPrepper.model.Alternative;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.Arrays;
 import java.util.List;
+import org.mockito.Mock;
+import java.util.Arrays;
+import org.mockito.InjectMocks;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+import com.ChiliPrepper.ChiliPrepper.model.Alternative;
+import com.ChiliPrepper.ChiliPrepper.dao.AlternativeDao;
 
-import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.verify;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by dagki on 29/03/2017.
@@ -23,41 +21,44 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AlternativeServiceImplTest {
-
-    Long questionId = 1L;
-    Long alternativeId = 1L;
-    List<Alternative> alternativeList = Arrays.asList(new Alternative(), new Alternative());
+    private Alternative alternative = new Alternative();
+    private Long alternativeId, questionId = alternativeId = 1L;
+    private List<Alternative> alternativeList = Arrays.asList(alternative);
 
     @Mock
-    private AlternativeDao dao;
+    private AlternativeDao alternativeDao;
 
     @InjectMocks
-    private AlternativeService service = new AlternativeServiceImpl();
+    private AlternativeService alternativeService = new AlternativeServiceImpl();
 
-    @Test
-    public void findAllByQuestion_Id() throws Exception {
-        when(dao.findAllByQuestion_Id(questionId)).thenReturn(alternativeList);
-        assertTrue("findAllByQuestion_Id should return an Iterable object containing the two Alternative objects within alternativeList", service.findAllByQuestion_Id(questionId).equals(alternativeList));
-        verify(dao).findAllByQuestion_Id(questionId);
-    }
-
+    /**Confirms that alternativeService.findOne(alternativeId) returns alternativeDao.findOne(alternativeId)*/
     @Test
     public void findOne() throws Exception {
-        when(dao.findOne(alternativeId)).thenReturn(new Alternative());
-        assertThat("findOne with an alternativeId associated to a course should return the Course object", service.findOne(alternativeId), instanceOf(Alternative.class));
-        verify(dao).findOne(alternativeId);
+        when(alternativeDao.findOne(alternativeId)).thenReturn(alternative);
+        assertThat(alternativeService.findOne(alternativeId), is(alternative));
+        verify(alternativeDao).findOne(alternativeId);
     }
 
+    /**Confirms that alternativeService.findAllByQuestion_Id(questionId) returns alternativeDao.findAllByQuestion_Id(questionId)*/
     @Test
-    public void save_ShouldSaveOneAlternative() throws Exception {
-        service.save(new Alternative());
-        verify(dao).save(any(Alternative.class));
+    public void findAllByQuestion_Id() throws Exception {
+        when(alternativeDao.findAllByQuestion_Id(questionId)).thenReturn(alternativeList);
+        assertThat(alternativeService.findAllByQuestion_Id(questionId), is(alternativeList));
+        verify(alternativeDao).findAllByQuestion_Id(questionId);
     }
 
+    /**Confirms that alternativeService.save(alternative) calls alternativeDao.save(alternative)*/
+    @Test
+    public void save() throws Exception {
+        alternativeService.save(alternative);
+        verify(alternativeDao).save(alternative);
+    }
+
+    /**Confirms that alternativeService.deleteAllByQuestion_Id(questionId) calls alternativeDao.deleteAllByQuestion_Id(questionId)*/
     @Test
     public void deleteAllByQuestion_Id() throws Exception {
-        service.deleteAllByQuestion_Id(questionId);
-        verify(dao).deleteAllByQuestion_Id(questionId);
+        alternativeService.deleteAllByQuestion_Id(questionId);
+        verify(alternativeDao).deleteAllByQuestion_Id(questionId);
     }
-}
 
+}
