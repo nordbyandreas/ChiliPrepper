@@ -1,30 +1,22 @@
 package com.ChiliPrepper.ChiliPrepper.service;
 
-import com.ChiliPrepper.ChiliPrepper.dao.AlternativeDao;
-import com.ChiliPrepper.ChiliPrepper.dao.AnswerDao;
-import com.ChiliPrepper.ChiliPrepper.dao.QuestionDao;
-import com.ChiliPrepper.ChiliPrepper.model.Course;
-import com.ChiliPrepper.ChiliPrepper.model.Question;
-import com.ChiliPrepper.ChiliPrepper.model.Quiz;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import org.junit.Test;
+import org.mockito.Mock;
+import java.util.Arrays;
+import java.util.ArrayList;
+import org.mockito.InjectMocks;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+import com.ChiliPrepper.ChiliPrepper.dao.AnswerDao;
+import com.ChiliPrepper.ChiliPrepper.model.Question;
+import com.ChiliPrepper.ChiliPrepper.dao.QuestionDao;
+import com.ChiliPrepper.ChiliPrepper.dao.AlternativeDao;
 
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.any;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by dagki on 15/03/2017.
@@ -32,83 +24,74 @@ import static org.mockito.Mockito.any;
 
 @RunWith(MockitoJUnitRunner.class)
 public class QuestionServiceImplTest {
+    private String topic = "topic";
+    private Long questionId, quizId = questionId = 1L;
+    private List<Question> questionList = new ArrayList<>(Arrays.asList(new Question()));
 
     @Mock
-    AnswerDao answerDao;
+    private Question question;
 
     @Mock
-    QuestionDao questionDao;
+    private AnswerDao answerDao;
 
     @Mock
-    AlternativeDao alternativeDao;
+    private QuestionDao questionDao;
 
     @Mock
-    Question question;
-
-
+    private AlternativeDao alternativeDao;
 
     @InjectMocks
-    QuestionService service = new QuestionServiceImpl();
+    private QuestionService questionService = new QuestionServiceImpl();
 
-    @Test
-    public void findAllByQuiz_Id() throws Exception {
-        Quiz quizOne = new Quiz();
-        quizOne.setId(1L);
-        Quiz quizTwo = new Quiz();
-        quizTwo.setId(2L);
-        Question Q1 = new Question();
-        Q1.setQuiz(quizOne);
-        Question Q2 = new Question();
-        Q2.setQuiz(quizOne);
-        Question Q3 = new Question();
-        Q3.setQuiz(quizTwo);
-        List<Question> questions = Arrays.asList(
-                Q1,
-                Q2,
-                Q3
-        );
-        Iterable<Question> courseIterable = questions;
-        when(questionDao.findAllByQuiz_Id(1L)).thenReturn(questions);
-        assertThat(service.findAllByQuiz_Id(1L), is(courseIterable));
-        verify(questionDao).findAllByQuiz_Id(1L);
-    }
-
+    /**Confirms that questionService.findOne(questionId) returns questionDao.findOne(questionId)*/
     @Test
     public void findOne() throws Exception {
-        when(questionDao.findOne(1L)).thenReturn(new Question());
-        assertThat(service.findOne(1L), instanceOf(Question.class));
-        verify(questionDao).findOne(1L);
+        when(questionDao.findOne(questionId)).thenReturn(question);
+        assertThat(questionService.findOne(questionId), is(question));
+        verify(questionDao).findOne(questionId);
     }
 
+    /**Confirms that questionService.findAllByTopic(topic) returns questionDao.findAllByTopic(topic)*/
+    @Test
+    public void findAllByTopic() {
+        when(questionDao.findAllByTopic(topic)).thenReturn(questionList);
+        assertThat(questionService.findAllByTopic(topic), is(questionList));
+        verify(questionDao).findAllByTopic(topic);
+    }
+
+    /**Confirms that questionService.findAllByQuiz_Id(quizId) returns questionDao.findAllByQuiz_Id(quizId)*/
+    @Test
+    public void findAllByQuiz_Id() throws Exception {
+        when(questionDao.findAllByQuiz_Id(questionId)).thenReturn(questionList);
+        assertThat(questionService.findAllByQuiz_Id(questionId), is(questionList));
+        verify(questionDao).findAllByQuiz_Id(questionId);
+    }
+
+    /**Confirms that questionService.save(question) calls questionDao.save(question)*/
     @Test
     public void save() throws Exception {
-        service.save(new Question());
-        verify(questionDao).save(any(Question.class));
+        questionService.save(question);
+        verify(questionDao).save(question);
     }
 
-    @Test
-    public void deleteAllByQuiz_Id() throws Exception {
-        Long quizId = 1L;
-        service.deleteAllByQuiz_Id(quizId);
-        verify(questionDao).deleteAllByQuiz_Id(quizId);
-    }
-
+    /**Confirms that questionService.delete(question) calls
+     * answerDao.deleteAllByQuestion_Id(question.getId()),
+     * alternativeDao.deleteAllByQuestion_Id(question.getId())
+     * and questionDao.delete(question)*/
     @Test
     public void delete() throws Exception {
-        when(question.getId()).thenReturn(1L);
-        service.delete(question);
-        verify(answerDao).deleteAllByQuestion_Id(1L);
-        verify(alternativeDao).deleteAllByQuestion_Id(1L);
+        when(question.getId()).thenReturn(questionId);
+        questionService.delete(question);
+        verify(answerDao).deleteAllByQuestion_Id(questionId);
+        verify(alternativeDao).deleteAllByQuestion_Id(questionId);
         verify(questionDao).delete(question);
     }
 
+    /**Confirms that questionService.deleteAllByQuiz_Id(quizId) calls questionDao.deleteAllByQuiz_Id(quizId)*/
     @Test
-    public void findAllByTopic() {
-        String topic = "topic";
-        List<Question> questionList = new ArrayList<>(Arrays.asList(question));
-        when(questionDao.findAllByTopic(topic)).thenReturn(questionList);
-        service.findAllByTopic(topic);
-        verify(questionDao).findAllByTopic(topic);
+    public void deleteAllByQuiz_Id() throws Exception {
+        questionService.deleteAllByQuiz_Id(quizId);
+        verify(questionDao).deleteAllByQuiz_Id(quizId);
     }
 
 }

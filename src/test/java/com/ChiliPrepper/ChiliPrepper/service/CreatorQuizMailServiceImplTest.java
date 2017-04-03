@@ -1,23 +1,17 @@
 package com.ChiliPrepper.ChiliPrepper.service;
 
-import com.ChiliPrepper.ChiliPrepper.dao.CreatorQuizMailDao;
-import com.ChiliPrepper.ChiliPrepper.model.CreatorQuizMail;
-import com.ChiliPrepper.ChiliPrepper.model.Quiz;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.InjectMocks;
+import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+import com.ChiliPrepper.ChiliPrepper.model.CreatorQuizMail;
+import com.ChiliPrepper.ChiliPrepper.dao.CreatorQuizMailDao;
 
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by dagki on 28/03/2017.
@@ -25,37 +19,28 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CreatorQuizMailServiceImplTest {
-
-    //Variable List
-    Long quizId;
-    CreatorQuizMail creatorQuizMail;
+    private Long quizId = 1L;
+    private CreatorQuizMail creatorQuizMail = new CreatorQuizMail();
 
     @Mock
-    CreatorQuizMailDao creatorQuizMailDao;
+    private CreatorQuizMailDao creatorQuizMailDao;
 
     @InjectMocks
-    CreatorQuizMailService creatorQuizMailService = new CreatorQuizMailServiceImpl();
+    private CreatorQuizMailService creatorQuizMailService = new CreatorQuizMailServiceImpl();
 
-    @Before
-    public void setUp() {
-        quizId = 1L;
-        creatorQuizMail = new CreatorQuizMail();
-    }
-
+    /**Confirms that creatorQuizMailService.findOneByQuiz_Id(creatorQuizMail) returns creatorQuizMailDao.findOneByQuiz_Id(creatorQuizMail)*/
     @Test
     public void findOneByQuiz_Id() throws Exception {
-        Long quizId = 1L;
-
         when(creatorQuizMailDao.findOneByQuiz_Id(quizId)).thenReturn(creatorQuizMail);
-        assertThat("findAllByQuestion_Id should return an Iterable object containing the two Alternative objects within alternativeList", creatorQuizMailService.findOneByQuiz_Id(quizId), is(creatorQuizMail));
+        assertThat(creatorQuizMailService.findOneByQuiz_Id(quizId), is(creatorQuizMail));
         verify(creatorQuizMailDao).findOneByQuiz_Id(quizId);
-
     }
 
+    /**Confirms that creatorQuizMailService.save(creatorQuizMail) calls creatorQuizMailDao.save(creatorQuizMail)*/
     @Test
     public void save() throws Exception {
-        creatorQuizMailService.save(new CreatorQuizMail());
-        verify(creatorQuizMailDao).save(any(CreatorQuizMail.class));
+        creatorQuizMailService.save(creatorQuizMail);
+        verify(creatorQuizMailDao).save(creatorQuizMail);
     }
 
 }
