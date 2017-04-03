@@ -99,7 +99,7 @@ public class ScheduledMailSender {
     public void sendQuizResults() {
         Iterable<Course> courses  = courseService.findAll();
 
-        //TODO extract into helper method.
+        //TODO extract into helper method maybe.
 
         for (Course course : courses) {
             String[] to = {course.getCreator().getEmail()};

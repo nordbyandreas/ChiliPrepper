@@ -12,7 +12,7 @@ insert into user (username,enabled,password,role_id, email, creator_quiz_results
 
 insert into course (courseName, accessCode, user_id) values ('testCourse', 'thePassword', 1);
 insert into course (courseName, accessCode, user_id) values ('testTestCourse', 'theword', 1);
-insert into course (courseName, accessCode, user_id) values ('othertestCourse', 'otherPassword', 2);
+insert into course (courseName, accessCode, user_id) values ('brukertest', '1234', 2);
 insert into course (courseName, accessCode, user_id) values ('osetest', 'otestord', 2);
 
 
@@ -22,7 +22,7 @@ insert into quiz (quiz_name, published, course_id) values ('MMI', true, 1);
 insert into quiz (quiz_name, published, course_id) values ('PVU', false, 1);
 insert into quiz (quiz_name, published, course_id) values ('testQuiz', true, 2);
 insert into quiz (quiz_name, published, course_id) values ('film', false, 2);
-insert into quiz (quiz_name, published, course_id) values ('sport', true, 3);
+insert into quiz (quiz_name, published, course_id) values ('Brukertest Quiz', true, 3);
 insert into quiz (quiz_name, published, course_id) values ('bøker', true, 4);
 
 
@@ -33,6 +33,10 @@ insert into question (topic, theQuestion, correct_answer, quiz_id) values ('SQL'
 insert into question (topic, theQuestion, correct_answer, quiz_id) values ('SQL', 'Hva er en database?', 'Lagret informasjon, spesifikasjon og rammeverk for å manipulere data etc.', 1);
 insert into question (topic, theQuestion, correct_answer, quiz_id) values ('MMI', 'Hvem er Von Neumann?', 'En designer', 2);
 insert into question (topic, theQuestion, correct_answer, quiz_id) values ('MMI', 'Hvilke av disse er et designprinsipp?', 'Affordance', 2);
+
+insert into question (topic, theQuestion, correct_answer, quiz_id) values ('brukertest', 'Hva er 2+2 ??', '4', 6);
+insert into question (topic, theQuestion, correct_answer, quiz_id) values ('brukertest', 'Hva er 16-1?', '15', 6);
+insert into question (topic, theQuestion, correct_answer, quiz_id) values ('brukertest', 'Hva er 1-1?', '0', 6);
 
 
 
@@ -56,6 +60,18 @@ insert into alternative (alternative, question_id) values ('En mann', 4);
 insert into alternative (alternative, question_id) values ('Coolness', 5);
 insert into alternative (alternative, question_id) values ('Hotness', 5);
 insert into alternative (alternative, question_id) values ('Greenability', 5);
+
+insert into alternative (alternative, question_id) values ('2', 6);
+insert into alternative (alternative, question_id) values ('1', 6);
+insert into alternative (alternative, question_id) values ('5', 6);
+
+insert into alternative (alternative, question_id) values ('17', 7);
+insert into alternative (alternative, question_id) values ('-15', 7);
+insert into alternative (alternative, question_id) values ('16', 7);
+
+insert into alternative (alternative, question_id) values ('1', 8);
+insert into alternative (alternative, question_id) values ('ingenting', 8);
+insert into alternative (alternative, question_id) values ('2', 8);
 
 
 
@@ -88,3 +104,17 @@ insert into answer (correct, answer, question_id, quiz_id, course_id, user_id) v
 insert into answer (correct, answer, question_id, quiz_id, course_id, user_id) values (true, 'Lagret informasjon, spesifikasjon og rammeverk for å manipulere data etc.', 5, 2, 1, 2);
 insert into answer (correct, answer, question_id, quiz_id, course_id, user_id) values (true, 'Lagret informasjon, spesifikasjon og rammeverk for å manipulere data etc.', 5, 2, 1, 3);
 insert into answer (correct, answer, question_id, quiz_id, course_id, user_id) values (true, 'Lagret informasjon, spesifikasjon og rammeverk for å manipulere data etc.', 5, 2, 1, 4);
+
+
+
+insert into answer (correct, answer, question_id, quiz_id, course_id, user_id) values (true, '4', 6, 6, 3, 2);
+insert into answer (correct, answer, question_id, quiz_id, course_id, user_id) values (false, '16', 7, 6, 3, 3);
+insert into answer (correct, answer, question_id, quiz_id, course_id, user_id) values (false, '1', 8, 6, 3, 4);
+
+insert into answer (correct, answer, question_id, quiz_id, course_id, user_id) values (true, '4', 6, 6, 3, 2);
+insert into answer (correct, answer, question_id, quiz_id, course_id, user_id) values (true, '15', 7, 6, 3, 3);
+insert into answer (correct, answer, question_id, quiz_id, course_id, user_id) values (false, 'ingenting', 8, 6, 3, 4);
+
+insert into answer (correct, answer, question_id, quiz_id, course_id, user_id) values (false, '2', 6, 6, 3, 2);
+insert into answer (correct, answer, question_id, quiz_id, course_id, user_id) values (true, '15', 7, 6, 3, 3);
+insert into answer (correct, answer, question_id, quiz_id, course_id, user_id) values (true, '0', 8, 6, 3, 4);
