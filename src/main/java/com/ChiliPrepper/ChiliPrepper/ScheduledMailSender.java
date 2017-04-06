@@ -2,6 +2,24 @@ package com.ChiliPrepper.ChiliPrepper;
 
 /**
  * Created by Andreas on 22.03.2017.
+ *
+ * This is the class responsible for sending email regarding various results from Courses and Quizes on ChiliPrepper
+ *
+ * The class is marked with the @Component  annotation to let Spring boot know about it.
+ *
+ * The Application class is marked with the   @EnableScheduling   annotation which tells Spring to check for components
+ * with methods  marked with  the  @Scheduled  annotation, which many methods in this class is.
+ *
+ * The Scheduled methods execute on given intervals and checks the DB for new and old results, and sends automaticly sends
+ * email to users, (if they have enabled bot-contact).
+ *
+ *
+ * This class could be regarded as the "BOT"-part of this project.
+ *
+ *
+ *
+ *
+ *
  */
 
 import java.text.SimpleDateFormat;
