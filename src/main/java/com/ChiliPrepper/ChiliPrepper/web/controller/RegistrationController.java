@@ -16,19 +16,31 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  *
  * The @Controller annotation lets Spring know that this is a controller.
  *
+ * Controller classes handles URI requests from the browser with methods marked with the
+ * @RequestMapping annotation.
+ *
+ * These methods return a String with the name of which HTML file to render from the
+ * templates directory. Various objects or variables may be added to, or read from, the model.
+ * (adding something to the model is like adding something to that particular HTML file rendering).
+ *
+ *
  * This is the class that handles the registration of new Users of ChiliPrepper
  *
  *
  *
  */
-
-//marks class as a controller
 @Controller
 public class RegistrationController {
 
     @Autowired
     private UserService userService;
 
+
+    /**
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping(path = "/register", method = RequestMethod.GET)
     public String RegForm(Model model) {
         model.addAttribute("user", new User());

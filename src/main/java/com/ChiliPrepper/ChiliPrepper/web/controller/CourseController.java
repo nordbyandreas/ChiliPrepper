@@ -21,7 +21,12 @@ import java.util.Set;
  *
  * The @Controller annotation lets Spring know that this is a controller.
  *
+ *Controller classes handles URI requests from the browser with methods marked with the
+ * @RequestMapping annotation.
  *
+ * These methods return a String with the name of which HTML file to render from the
+ * templates directory. Various objects or variables may be added to, or read from, the model.
+ * (adding something to the model is like adding something to that particular HTML file rendering).
  *
  */
 
