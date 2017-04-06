@@ -19,7 +19,7 @@
 
 
         <div th:if="${alternatives}">
-            <h3 th:text="${quiz.quizName}"></h3>
+            <h2 th:text="${quiz.quizName}"></h2>
 
             <div>
                 <h3 th:text="${question.theQuestion}"></h3>
@@ -27,11 +27,10 @@
 
                 <form th:action="@{/submitAnswer}" method="post">
                 <div th:each="alternative : ${alternatives}">
-                    <div>
 
-                        <label class="quizquestion">
-                            <input type="radio" name="answer" th:value="${alternative}" th:text="${alternative}"/>
-                        </label>
+                    <div class="quizquestion">
+
+                        <input type="radio" name="answer" th:value="${alternative}" th:id="${alternative}"><label th:for="${alternative}" th:text="${alternative}" /></input>
 
                     </div>
 

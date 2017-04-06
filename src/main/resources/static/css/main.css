@@ -24,6 +24,13 @@ img {
     max-width: 100%;
 }
 
+h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.5em;
+    /*margin: -5px 0 0;*/
+    font-weight: normal;
+}
+
 h3 {
     font-family: 'Oswald', sans-serif;
     /*padding: 1em 0 0.5em;*/
@@ -78,7 +85,7 @@ header {
 }
 
 /*logo text*/
-h1, h2 {
+h1 {
     color: #F0B04A;
 }
 
@@ -135,13 +142,6 @@ h1 {
     font-size: 1.75em;
     font-weight: normal;
     line-height: 0.8em;
-}
-
-h2 {
-    font-family: 'Oswald', sans-serif;
-    font-size: 0.75em;
-    margin: -5px 0 0;
-    font-weight: normal;
 }
 
 /********************
@@ -312,21 +312,28 @@ QUIZ QUESTIONS
 
 ********************/
 
-/*input[type="radio"]{
-    display: none;
-}*/
-
 .quizquestion {
+    margin: 30px;
+}
+
+input[type="radio"]{
+    display: none;
+}
+
+.quizquestion label {
     background: #849852;
     color: #FFF;
     padding: 15px 10px;
+    /*margin: 15px 10px;*/
     font-family: 'Oswald', sans-serif;
     min-height: 48px;
     min-width: 48px;
+    line-height: 35px;
 }
 
-input[type="radio"]:checked~.quizquestion {
-    background: #000;
+.quizquestion input[type="radio"]:checked+label {
+    background: #637733;
+    color: #EBF4D8;
 }
 
 /********************

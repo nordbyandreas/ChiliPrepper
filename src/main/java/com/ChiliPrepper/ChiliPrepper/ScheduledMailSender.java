@@ -4,6 +4,8 @@ package com.ChiliPrepper.ChiliPrepper;
  * Created by Andreas on 22.03.2017.
  */
 
+
+
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -52,7 +54,7 @@ public class ScheduledMailSender {
     private MailController mailController = new MailController();
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-
+/*
     @Scheduled(initialDelay=20000, fixedRate = 120000)  //finn 1 mnd i millisekunder
 
     public void sendCourseAverage() {
@@ -93,6 +95,9 @@ public class ScheduledMailSender {
 
         }
     }
+    */
+
+    /*
 
     @Scheduled(initialDelay=20000, fixedRate = 120000)   //finn døgn i millisekunder
 
@@ -125,6 +130,7 @@ public class ScheduledMailSender {
     }
 */
 
+    /*
     @Scheduled(initialDelay=20000, fixedRate = 120000)   //finn døgn i millisekunder
     public void sendTopicResults() {
 
@@ -171,6 +177,7 @@ public class ScheduledMailSender {
             }
         }
     }
+    */
 
 
 

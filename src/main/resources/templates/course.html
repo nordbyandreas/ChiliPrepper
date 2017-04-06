@@ -22,9 +22,9 @@
     <div th:if="${userId} == ${creatorId}">
 
     <h1 th:text="${course.courseName}" style="color: black;"></h1>
-        <h1><a th:href="@{|/courses/${course.id}/chart|}">View course results:</a></h1>
+        <h3><a th:href="@{|/courses/${course.id}/chart|}">View course results:</a></h3>
         <div>
-            <h3>Form for creating a quiz</h3>
+            <h2>Form for creating a quiz</h2>
             <form th:action="@{/addQuiz}" th:object="${quiz}" method="post">
 
                 <label><input type="text" th:field="*{quizName}" placeholder="Quiz name"/></label>
@@ -35,11 +35,11 @@
 
 
         <div>
-            <h3>Quizes</h3>
+            <h2>Quizes</h2>
             <div th:each="quiz : ${myQuizes}">
                 <div>
 
-                    <a th:href="@{|/courses/${course.id}/${quiz.id}|}"><h2 th:text="${quiz.quizName}" style="color: black">Text text</h2></a>
+                    <a th:href="@{|/courses/${course.id}/${quiz.id}|}"><h3 th:text="${quiz.quizName}" style="color: black">Text text</h3></a>
                     <form th:action="@{/publishQuiz}" method="post">
                         <input type="hidden" name="quizId" th:value="${quiz.id}"/>
                         <button type="submit" class="button">Publish</button>
@@ -69,18 +69,18 @@
             <h1 th:text="${course.courseName}" style="color: black;"></h1>
 
             <div>
-                <h2>Current points: <span th:text="${score}"></span> of <span th:text="${maxScore}"></span> </h2>
+                <h3>Current points: <span th:text="${score}"></span> of <span th:text="${maxScore}"></span> </h3>
 
             </div>
 
 
 
             <div>
-                <h3>Quizes</h3>
+                <h2>Quizes</h2>
                 <div th:each="quiz : ${myQuizes}">
                     <div th:if="${quiz.published} == true">
 
-                        <a th:href="@{|/courses/${course.id}/${quiz.id}/quiz|}"><h2 th:text="${quiz.quizName}" style="color: black">Text text</h2></a>
+                        <a th:href="@{|/courses/${course.id}/${quiz.id}/quiz|}"><h3 th:text="${quiz.quizName}" style="color: black">Text text</h3></a>
 
                     </div>
                 </div>

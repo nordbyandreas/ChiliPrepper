@@ -83,6 +83,11 @@
 
     ********************/
 
+    h2{
+        font-size: 2em;
+        /*margin-bottom: 20px;*/
+    }
+
     input, button {
         min-height: 0;
         min-width: 0;
@@ -143,10 +148,7 @@
     h1{
         font-size: 2.5em;
     }
-    h2{
-        font-size: 0.825em;
-        margin-bottom: 20px;
-    }
+
     header{
         margin-bottom: 60px;
         position: fixed;
@@ -186,8 +188,8 @@
     }
 
     #course-created a:active, #course-registered a:active {
-        background: #6A0003;
-        color: #FFCACB;
+        background: #7D0003;
+        color: #FFD5D6;
         border: none;
     }
 
@@ -208,17 +210,21 @@
 
     ********************/
 
-    .quizquestion:hover {
+    .quizquestion {
+        display: block;
+    }
+
+    .quizquestion label:hover {
         font-weight: bold;
         outline: none;
-        border: 3px solid #849852;
+        padding: 18px 13px;
         transition-duration: 0.1s;
     }
 
-    .quizquestion:active {
-        background: #000000;
-        color: #FFF;
-        border: none;
+    .quizquestion label:active {
+        background: #637733;
+        color: #EBF4D8;
+        padding: 15px 10px;
     }
 
 }
