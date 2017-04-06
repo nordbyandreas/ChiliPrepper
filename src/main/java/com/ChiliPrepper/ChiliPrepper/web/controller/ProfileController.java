@@ -27,6 +27,10 @@ import java.security.Principal;
  * templates directory. Various objects or variables may be added to, or read from, the model.
  * (adding something to the model is like adding something to that particular HTML file rendering).
  *
+ *
+ * This class renders the profile and about pages, and also lets you save you're "BOT"-preferences
+ *
+ *
  */
 
 @Controller
@@ -37,14 +41,35 @@ public class ProfileController {
     private UserService userService;
 
 
+
+
+    /**
+     * Renders the profile page
+     *
+     * @param model  model to add attributes
+     * @param principal uses the principal from the session to get the logged in user
+     * @return String pointing to the profile.html
+     */
     @RequestMapping("/profile")
     public String profile(Model model, Principal principal){
         String username = principal.getName();
         User user = userService.findByUsername(username);
         model.addAttribute("user", user);
+        //TODO: actually make use of the added user to display his name on the profile page - (in the profile HTML page)
         return "profile";
     }
 
+
+
+
+
+
+    /**
+     * Renders the about page
+     *
+     * @param model model to add attributes to
+     * @return  String pointing to the correct HTML
+     */
     @RequestMapping("/about")
     public String about(Model model){
         return "about";
