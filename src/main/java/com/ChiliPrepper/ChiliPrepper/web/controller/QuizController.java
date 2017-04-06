@@ -16,6 +16,10 @@ import java.util.*;
 
 /**
  * Created by Christer on 20.02.2017.
+ *
+ * The @Controller annotation lets Spring know that this is a controller.
+ *
+ *
  */
 @Controller
 public class QuizController {

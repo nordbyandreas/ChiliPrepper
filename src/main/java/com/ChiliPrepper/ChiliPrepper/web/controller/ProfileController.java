@@ -16,6 +16,10 @@ import java.security.Principal;
 
 /**
  * Created by Andreas on 20.02.2017.
+ *
+ *
+ * The @Controller annotation lets Spring know that this is a controller.
+ *
  */
 
 @Controller

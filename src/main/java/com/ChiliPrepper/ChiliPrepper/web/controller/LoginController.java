@@ -2,6 +2,10 @@ package com.ChiliPrepper.ChiliPrepper.web.controller;
 
 /**
  * Created by Andreas on 15.02.2017.
+ *
+ * The @Controller annotation lets Spring know that this is a controller.
+ *
+ *
  */
 import com.ChiliPrepper.ChiliPrepper.model.User;
 import com.ChiliPrepper.ChiliPrepper.service.CourseService;

@@ -21,6 +21,12 @@ import java.util.Properties;
 
 /**
  * Created by Andreas on 15.03.2017.
+ *
+ *
+ * The @Controller annotation lets Spring know that this is a controller.
+ *
+ *
+ *
  */
 
 

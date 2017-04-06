@@ -6,7 +6,6 @@ import java.util.*;
 import com.ChiliPrepper.ChiliPrepper.model.*;
 import com.ChiliPrepper.ChiliPrepper.service.*;
 import com.ChiliPrepper.ChiliPrepper.web.controller.BotMailSender;
-import com.ChiliPrepper.ChiliPrepper.web.controller.MailController;
 import com.ChiliPrepper.ChiliPrepper.web.controller.QuizController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,10 +64,6 @@ public class ScheduledMailSender {
     @Autowired
     private UserService userService;
 
-
-    private static final Logger log = LoggerFactory.getLogger(ScheduledMailSender.class);
-    private MailController mailController = new MailController();
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
 
     /**

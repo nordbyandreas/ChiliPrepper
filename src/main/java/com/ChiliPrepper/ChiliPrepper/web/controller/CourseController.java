@@ -18,6 +18,11 @@ import java.util.Set;
 
 /**
  * Created by Andreas on 19.02.2017.
+ *
+ * The @Controller annotation lets Spring know that this is a controller.
+ *
+ *
+ *
  */
 
 //marks class as a controller

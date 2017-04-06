@@ -22,6 +22,10 @@ import java.util.List;
 
 /**
  * Created by Andreas on 24.02.2017.
+ *
+ * The @Controller annotation lets Spring know that this is a controller.
+ *
+ *
  */
 @Controller
 public class QuestionController {
