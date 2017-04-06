@@ -153,7 +153,19 @@ public class ScheduledMailSender {
         }
     }
 
-
+    /**
+     * This method sends course-participants mail regarding topics they struggle with
+     *
+     * All questions with the same topic are used to calculate a score, and if that score drops below the given threshold
+     * a mail is sent to that participant with information.
+     *
+     * The intention is that a course-creator could attach learning-resources to a topic, and this could be attached to this email.
+     * (as of know only a symbolic link to www.google.com is included)
+     *
+     * This method is intended to execute on regular intervals, and for later development we would want the course-participant to
+     * set the intervals.
+     *
+     */
     @Scheduled(initialDelay=20000, fixedRate = 120000)   //finn døgn i millisekunder
     public void sendTopicResults() {
 
@@ -202,7 +214,15 @@ public class ScheduledMailSender {
     }
 
 
-
+    /**
+     * This method takes a  (double)result and generates a "BOT"-response fitting the result.
+     *
+     * This method is a simplistic effort to give the automatic mailsender "BOT" some personality.
+     *
+     *
+     * @param result is the (double)score used to evaluate which message to choose.
+     * @return The method returns a String message.
+     */
     public String generateBotResponse(double result){
         String message = "";
 
