@@ -13,6 +13,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Created by Andreas on 17.02.2017.
+ *
+ * The @Controller annotation lets Spring know that this is a controller.
+ *
+ * This is the class that handles the registration of new Users of ChiliPrepper
+ *
+ *
+ *
  */
 
 //marks class as a controller
