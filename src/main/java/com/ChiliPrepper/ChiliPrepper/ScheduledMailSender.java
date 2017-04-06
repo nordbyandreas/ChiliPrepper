@@ -1,5 +1,20 @@
 package com.ChiliPrepper.ChiliPrepper;
 
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import com.ChiliPrepper.ChiliPrepper.model.*;
+import com.ChiliPrepper.ChiliPrepper.service.*;
+import com.ChiliPrepper.ChiliPrepper.web.controller.BotMailSender;
+import com.ChiliPrepper.ChiliPrepper.web.controller.MailController;
+import com.ChiliPrepper.ChiliPrepper.web.controller.QuizController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+
 /**
  * Created by Andreas on 22.03.2017.
  *
@@ -21,21 +36,6 @@ package com.ChiliPrepper.ChiliPrepper;
  *
  *
  */
-
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import com.ChiliPrepper.ChiliPrepper.model.*;
-import com.ChiliPrepper.ChiliPrepper.service.*;
-import com.ChiliPrepper.ChiliPrepper.web.controller.BotMailSender;
-import com.ChiliPrepper.ChiliPrepper.web.controller.MailController;
-import com.ChiliPrepper.ChiliPrepper.web.controller.QuizController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
 
 @Component
 public class ScheduledMailSender {
@@ -71,7 +71,12 @@ public class ScheduledMailSender {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
 
-
+    /**
+     * This method sends the total course average % to the course's creator on a given interval
+     * if the creator has enabled it.
+     *
+     * This method is intended to execute around 1 or 2 times per month, but for later development we'd want the course-creator to set the interval.
+     */
     @Scheduled(initialDelay=20000, fixedRate = 120000)  //finn 1 mnd i millisekunder
     public void sendCourseAverage() {
         Iterable<Course> courses  = courseService.findAll();
@@ -112,7 +117,13 @@ public class ScheduledMailSender {
         }
     }
 
-
+    /**
+     * This method sends the average results of a single Quiz to the creator of a quiz if he has enabled the contact.
+     * Also, it is registered that the creator has received a mail regarding this quiz, so he will not receive duplicate mail.
+     *
+     * This method is intended to execute ca. 1 or 2 times per week, but for later development we'd want the CourseCreator to set the interval.
+     *
+     */
     @Scheduled(initialDelay=20000, fixedRate = 120000)   //finn døgn i millisekunder
     public void sendQuizResults() {
         Iterable<Course> courses  = courseService.findAll();
