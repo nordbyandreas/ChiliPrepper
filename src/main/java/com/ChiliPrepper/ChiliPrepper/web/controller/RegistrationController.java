@@ -37,9 +37,13 @@ public class RegistrationController {
 
 
     /**
+     * Renders the registration page.
      *
-     * @param model
-     * @return
+     * Adds a new empty user to the model.
+     *
+     *
+     * @param model  the model to be added to the page
+     * @return  Returns the String "registration" which links to the respective HTML file.
      */
     @RequestMapping(path = "/register", method = RequestMethod.GET)
     public String RegForm(Model model) {
@@ -47,6 +51,14 @@ public class RegistrationController {
         return "registration";
     }
 
+
+    /**
+     * Saves the new user to the DB and redirects to the login page
+     *
+     * @param user   Gets the user object from the model
+     * @param redirectAttributes
+     * @return  Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public String RegUser(@ModelAttribute User user, RedirectAttributes redirectAttributes) {
         user.setCreatorCourseUpdate(true);
