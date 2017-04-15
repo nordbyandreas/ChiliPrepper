@@ -38,12 +38,21 @@
             <h3>Quizes</h3>
             <div th:each="quiz : ${myQuizes}">
                 <div>
-
                     <a th:href="@{|/courses/${course.id}/${quiz.id}|}"><h2 th:text="${quiz.quizName}" style="color: black">Text text</h2></a>
-                    <form th:action="@{/publishQuiz}" method="post">
-                        <input type="hidden" name="quizId" th:value="${quiz.id}"/>
-                        <button type="submit" class="button">Publish</button>
-                    </form>
+
+                    <div th:if="${quiz.published} == true">
+                        <form th:action="@{/publishQuiz}" method="post">
+                            <input type="hidden" name="quizId" th:value="${quiz.id}"/>
+                            <button type="submit" class="button">Unpublish</button>
+                        </form>
+                    </div>
+
+                    <div th:if="${quiz.published} == false">
+                        <form th:action="@{/publishQuiz}" method="post">
+                            <input type="hidden" name="quizId" th:value="${quiz.id}"/>
+                            <button type="submit" class="button" style="background-color: #7f9e40">Publish</button>
+                        </form>
+                    </div>
 
                 </div>
             </div>

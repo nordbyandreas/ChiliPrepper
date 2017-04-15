@@ -55,7 +55,6 @@ public class ProfileController {
         String username = principal.getName();
         User user = userService.findByUsername(username);
         model.addAttribute("user", user);
-        //TODO: actually make use of the added user to display his name on the profile page - (in the profile HTML page)
         return "profile";
     }
 

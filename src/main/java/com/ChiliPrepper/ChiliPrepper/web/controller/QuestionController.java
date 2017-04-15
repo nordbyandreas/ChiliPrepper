@@ -55,6 +55,12 @@ public class QuestionController {
 
         Course course = quiz.getCourse();
 
+        if(newQuestion.getTheQuestion().isEmpty() || newQuestion.getCorrectAnswer().isEmpty()){
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Could not add question. Needs at least a question and correct answer!", FlashMessage.Status.FAILURE));
+
+            return "redirect:/courses/" + course.getId() + "/" + quizId;
+        }
+
         questionService.save(newQuestion);
 
 
@@ -75,10 +81,6 @@ public class QuestionController {
         alternativeService.save(altThree);
 
         redirectAttributes.addFlashAttribute("flash",new FlashMessage("Question added! ", FlashMessage.Status.SUCCESS));
-
-        //TODO: add flashMessage for failure too
-
-
         return "redirect:/courses/" + course.getId() + "/" + quizId;
     }
 
