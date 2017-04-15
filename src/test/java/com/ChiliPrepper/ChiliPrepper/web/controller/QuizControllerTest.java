@@ -1,113 +1,119 @@
 package com.ChiliPrepper.ChiliPrepper.web.controller;
 
-import com.ChiliPrepper.ChiliPrepper.model.*;
-import com.ChiliPrepper.ChiliPrepper.service.*;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.*;
-
+import org.junit.Test;
+import org.junit.Before;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.security.Principal;
+import org.junit.runner.RunWith;
+import com.ChiliPrepper.ChiliPrepper.model.*;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import org.mockito.stubbing.VoidMethodStubbable;
+import com.ChiliPrepper.ChiliPrepper.service.*;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import org.mockito.MockitoAnnotations;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Matchers.any;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 /**
  * Created by dagki on 04/03/2017.
  */
 
+/**The tests in the controller class will confirm that:
+ * 1. All model- and flash attributes are invoked
+ * 2. All save and delete calls on service objects are invoked
+ * 3. The request status correspond to the expected outcome
+ * 4. The view name or redirected url correspond to the expected outcome*/
+
 @RunWith(MockitoJUnitRunner.class)
 public class QuizControllerTest {
     private MockMvc mockMvc;
-
-    @InjectMocks
-    private QuizController controller;
+    private InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 
     @Mock
-    private QuizController quizController;
-
-    @Mock
-    private QuizController mockController;
-
-    @Mock
-    private QuizService quizService;
-
-    @Mock
-    private QuestionService questionService;
-
-    @Mock
-    private CourseService courseService;
-
-    @Mock
-    private AnswerService answerService;
-
-    @Mock
-    private Course course;
-
-    @Mock
-    Alternative alternativeOne;
-
-    @Mock
-    Alternative alternativeTwo;
-
-    @Mock
-    User user;
+    private User user;
 
     @Mock
     private Quiz quiz;
 
     @Mock
-    Question questionOne;
+    private Course course;
 
     @Mock
-    Question questionTwo;
+    private Answer answerOne;
 
     @Mock
-    QuizMailService quizMailService;
+    private Answer answerTwo;
 
     @Mock
-    Answer answerOne;
+    private QuizMail quizMail;
 
     @Mock
-    QuizMail quizMail;
+    private Principal principal;
 
     @Mock
-    Answer answerTwo;
+    private Question questionOne;
 
     @Mock
-    AlternativeService alternativeService;
+    private Question questionTwo;
 
     @Mock
-    Principal principal;
+    private Alternative alternativeOne;
 
     @Mock
-    UserService userService;
+    private Alternative alternativeTwo;
+
+    @Mock
+    private UserService userService;
+
+    @Mock
+    private QuizService quizService;
+
+    @Mock
+    private AnswerService answerService;
+
+    @Mock
+    private CourseService courseService;
+
+    @Mock
+    private QuestionService questionService;
+
+    @Mock
+    private QuizMailService quizMailService;
+
+    @Mock
+    private AlternativeService alternativeService;
+
+    @InjectMocks
+    private QuizController controller;
 
     @Before
-
     public void setUp() throws Exception {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/WEB-INF/jsp/view/");
         viewResolver.setSuffix(".jsp");
-        MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(controller).setViewResolvers(viewResolver).build();
+    }
+
+    private void setUp_getQuizResults() throws Exception {
+        when(questionOne.getId()).thenReturn(1L);
+        when(questionTwo.getId()).thenReturn(1L);
+        when(answerOne.isCorrect()).thenReturn(true);
+        when(answerTwo.isCorrect()).thenReturn(false);
+        when(answerService.findAllByQuestion_Id(1L)).thenReturn(new ArrayList<>(Arrays.asList(answerOne, answerTwo)));
+
+    }
+
+    @Test
+    public void getQuizResults() throws Exception {
+        setUp_getQuizResults();
+        ArrayList<Double> results = controller.getQuizResults(new ArrayList<>(Arrays.asList(questionOne, questionTwo)));
+        assertThat(results, is(new ArrayList<>(Arrays.asList(50.0, 50.0))));
     }
 
     @Test
@@ -211,7 +217,6 @@ public class QuizControllerTest {
         verify(answerService).findAllByQuiz_Id(2L);
     }
 
-    //Sets the behavior for the mock objects needed in getUserScore_ShouldReturnDouble and getUserScore_ShouldReturnNull
     private void setUp_getUserScore() {
         when(user.getId()).thenReturn(1L);
         when(answerOne.isCorrect()).thenReturn(true);
@@ -243,7 +248,7 @@ public class QuizControllerTest {
         when(quizService.findOne(1L)).thenReturn(quiz);
         when(quizService.findOne(2L)).thenReturn(quiz);
         when(quizMailService.findOneByQuiz_IdAndParticipant_Id(1L,1L)).thenReturn(null);
-        when(quizMailService.findOneByQuiz_IdAndParticipant_Id(2L,1L)).thenReturn(new QuizMail());
+        when(quizMailService.findOneByQuiz_IdAndParticipant_Id(2L,1L)).thenReturn(quizMail);
 
 
 
@@ -348,46 +353,40 @@ public class QuizControllerTest {
         verify(quizService).save(any(Quiz.class));
     }
 
+    /**Uses */
     @Test
     public void quizChart() throws Exception {
-        Iterable<Question> questions = new ArrayList<>();
-        ArrayList<Double> results = new ArrayList<>();
+        Iterable<Question> questions = new ArrayList<>(Arrays.asList(questionOne, questionTwo));
 
-        when(mockController.getQuizResults(questions)).thenReturn(results);
+        setUp_getQuizResults();
         when(questionService.findAllByQuiz_Id(1L)).thenReturn(questions);
         when(quizService.findOne(1L)).thenReturn(quiz);
-        when(quiz.getQuizName()).thenReturn("Quiz name");
+        when(quiz.getQuizName()).thenReturn("quizName");
 
         mockMvc.perform(get("/quizChart/{quizId}", 1L))
-                .andExpect(status().isOk()).andExpect(view()
-                .name("graph:: quizChart"));
-    }
+                .andExpect(model().attribute("results", controller.getQuizResults(questions)))
+                .andExpect(model().attribute("quizName", "quizName"))
 
-    @Test
-    public void getQuizResults() throws Exception {
-        when(questionOne.getId()).thenReturn(1L);
-        when(questionTwo.getId()).thenReturn(1L);
-        when(answerOne.isCorrect()).thenReturn(true);
-        when(answerTwo.isCorrect()).thenReturn(false);
-        when(answerService.findAllByQuestion_Id(1L)).thenReturn(new ArrayList<Answer>(Arrays.asList(answerOne, answerTwo)));
-
-        ArrayList<Double> results = controller.getQuizResults(new ArrayList<Question>(Arrays.asList(questionOne, questionTwo)));
-        assertThat(results, is(new ArrayList<Double>(Arrays.asList(50.0, 50.0))));
+                .andExpect(status().isOk())
+                .andExpect(view().name("graph:: quizChart"));
     }
 
     @Test
     public void editQuiz() throws Exception {
-        Iterable<Question> questions = new ArrayList<>(Arrays.asList(new Question(), new Question()));
+        Iterable<Question> questions = new ArrayList<>(Arrays.asList(questionOne, questionTwo));
+
         when(quizService.findOne(1L)).thenReturn(quiz);
         when(questionService.findAllByQuiz_Id(1L)).thenReturn(questions);
         when(quiz.getCourse()).thenReturn(course);
 
         mockMvc.perform(get("/courses/{courseId}/{quizId}/editQuiz", 1L, 1L)
                 .param("quizId", "1"))
+
+                .andExpect(model().attribute("quiz", quiz))
+                .andExpect(model().attribute("questions", questions))
+                .andExpect(model().attribute("course", course))
+
                 .andExpect(status().isOk())
-                .andExpect(model().attributeExists("quiz"))
-                .andExpect(model().attributeExists("questions"))
-                .andExpect(model().attributeExists("course"))
                 .andExpect(view().name("editQuiz"));
     }
 
@@ -395,11 +394,12 @@ public class QuizControllerTest {
     public void saveEditQuiz() throws Exception {
         when(quiz.getCourse()).thenReturn(course);
         when(course.getId()).thenReturn(1L);
-        when(quiz.getId()).thenReturn(1L);
         when(courseService.findOne(1L)).thenReturn(course);
+        when(quiz.getId()).thenReturn(1L);
 
-        mockMvc.perform(post("/saveEditQuiz").param("quiz", "quiz")
+        mockMvc.perform(post("/saveEditQuiz")
                 .flashAttr("quiz", quiz))
+
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/courses/1/1"));
 
@@ -413,8 +413,8 @@ public class QuizControllerTest {
         when(course.getId()).thenReturn(1L);
 
         mockMvc.perform(get("/deleteQuiz")
-                .requestAttr("quiz", quiz)
                 .param("quizId", "1"))
+
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/courses/1"));
 

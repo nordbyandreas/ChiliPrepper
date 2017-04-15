@@ -1,141 +1,110 @@
 package com.ChiliPrepper.ChiliPrepper.web.controller;
 
-import com.ChiliPrepper.ChiliPrepper.model.*;
-import com.ChiliPrepper.ChiliPrepper.service.*;
-import com.sun.security.auth.UserPrincipal;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.*;
-
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.web.WebAppConfiguration;
-
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-
-import java.security.Principal;
 import java.util.*;
 
-import org.springframework.test.web.servlet.MockMvc;
-
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import sun.security.acl.PrincipalImpl;
-
-import javax.annotation.Resource;
-
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
+import org.hibernate.mapping.*;
+import org.mockito.*;
+import org.junit.Test;
+import org.junit.Before;
 import java.util.Arrays;
-import java.util.List;
+import java.security.Principal;
+import java.util.Set;
 
-
-
-import static org.junit.Assert.*;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import org.junit.runner.RunWith;
+import com.ChiliPrepper.ChiliPrepper.model.*;
+import com.ChiliPrepper.ChiliPrepper.service.*;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 /**
- * Created by dagki on 04/03/2017.
+ * Created by Dag Kirstihagen 04/03/2017.
+ *
+ * The mapping methods in the controller class will confirm that:
+ * 1. All model- and flash attributes are invoked
+ * 2. All save and delete calls on service objects are invoked
+ * 3. The request status correspond to the expected outcome
+ * 4. The view name or redirected url correspond to the expected outcome
+ *
+ * For the other methods:
+ * The tests confirms that the appropriate values are returned
+ * when given input that will trigger any if/else statement within the methods.
  */
 
 @RunWith(MockitoJUnitRunner.class)
 public class CourseControllerTest {
     private MockMvc mockMvc;
 
-    @InjectMocks
-    private CourseController controller;
+    @Mock
+    private User user;
 
     @Mock
-    CourseController mockController;
+    private User creator;
+
+    @Mock
+    private Quiz quizOne;
+
+    @Mock
+    private Quiz quizTwo;
+
+    @Mock
+    private Course course;
+
+    @Mock
+    private Answer answerOne;
+
+    @Mock
+    private Answer answerTwo;
+
+    @Mock
+    private Answer answerThree;
+
+    @Mock
+    private Answer answerFour;
+
+    @Mock
+    private Question questionOne;
+
+    @Mock
+    private Question questionTwo;
+
+    @Mock
+    private Principal principal;
 
     @Mock
     private UserService userService;
 
     @Mock
+    private QuizService quizService;
+
+    @Mock
     private CourseService courseService;
 
     @Mock
-    Iterable<Course> myCourses;
+    private AnswerService answerService;
 
     @Mock
-    Set<Course> regCourses;
+    private QuestionService questionService;
 
-    @Mock
-    Course course;
-
-    @Mock
-    User user;
-
-    @Mock
-    User creator;
-
-    @Mock
-    Principal principal;
-
-    @Mock
-    QuizService quizService;
-
-    @Mock
-    AnswerService answerService;
-
-    @Mock
-    QuestionService questionService;
-
-    @Mock
-    Question questionOne;
-
-    @Mock
-    Question questionTwo;
-
-    @Mock
-    Quiz quizOne;
-
-    @Mock
-    Quiz quizTwo;
-
-    @Mock
-    Answer answerOne;
-
-    @Mock
-    Answer answerTwo;
-
-    @Mock
-    Answer answerThree;
-
-    @Mock
-    Answer answerFour;
+    @InjectMocks
+    private CourseController controller;
 
     @Before
     public void setUp() throws Exception {
-
-
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-
-        when(principal.getName()).thenReturn("Test user");
-        when(userService.findByUsername("Test user")).thenReturn(user);
     }
 
     @Test
     public void index_shouldRenderIndexView() throws Exception {
-        when(user.getRegCourses()).thenReturn(regCourses);
-        when(courseService.findAll()).thenReturn(myCourses);
-        when(courseService.findAllForCreator()).thenReturn(new ArrayList<>(Arrays.asList(course)));
+        when(principal.getName()).thenReturn("user");
+        when(userService.findByUsername("user")).thenReturn(user);
+        when(user.getRegCourses()).thenReturn(new HashSet<>(Collections.singletonList(course)));
+        when(courseService.findAll()).thenReturn(new ArrayList<>(Collections.singletonList(course)));
+        when(courseService.findAllForCreator()).thenReturn(new ArrayList<>(Collections.singletonList(course)));
 
         mockMvc.perform(get("/")
                 .principal(principal))
@@ -143,23 +112,21 @@ public class CourseControllerTest {
                 .andExpect(view().name("index"))
                 .andExpect(model().attributeExists("course", "myCourses", "regCourses"));
 
-        verify(user).getRegCourses();
         verify(courseService).findAllForCreator();
     }
 
-    //uses unchecked or unsafe operations.
     @Test
     public void course() throws Exception {
+        when(principal.getName()).thenReturn("user");
+        when(userService.findByUsername("user")).thenReturn(user);
 
         Iterable<Quiz> quizzes= new ArrayList<>(Arrays.asList(quizOne, quizTwo));
-        Iterable<Question> questionsone = new ArrayList<>(Arrays.asList(questionOne));
-        Iterable<Question> questionstwo = new ArrayList<>(Arrays.asList(questionTwo));
         Iterable<Answer> answers= new ArrayList<>(Arrays.asList(answerOne, answerTwo));
         Iterable<Answer> totalAnswers = new ArrayList<>(Arrays.asList(answerOne, answerTwo, answerThree, answerFour));
 
 
-        when(questionService.findAllByQuiz_Id(1L)).thenReturn(questionsone);
-        when(questionService.findAllByQuiz_Id(2L)).thenReturn(questionstwo);
+        when(questionService.findAllByQuiz_Id(1L)).thenReturn(new ArrayList<>(Collections.singletonList(questionOne)));
+        when(questionService.findAllByQuiz_Id(2L)).thenReturn(new ArrayList<>(Collections.singletonList(questionTwo)));
         when(quizOne.getId()).thenReturn(1L);
         when(quizTwo.getId()).thenReturn(2L);
         when(answerOne.isCorrect()).thenReturn(true);
@@ -180,77 +147,70 @@ public class CourseControllerTest {
 
     @Test
     public void addCourse() throws Exception {
+        when(principal.getName()).thenReturn("user");
+        when(userService.findByUsername("user")).thenReturn(user);
 
         mockMvc.perform(post("/addCourse")
                 .principal(principal))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"));
-
-
     }
 
     @Test
     public void regCourse() throws Exception {
-        Set<User> users = new HashSet<User>();
+        when(principal.getName()).thenReturn("user");
+        when(userService.findByUsername("user")).thenReturn(user);
         when(courseService.findByAccessCode("accessCode")).thenReturn(course);
-        when(course.getRegUsers()).thenReturn(users);
-        when(user.getRegCourses()).thenReturn(regCourses);
-        mockMvc.perform(post("/regCourse").principal(principal).param("accessCode", "accessCode")).andExpect(redirectedUrl("/"));
+        when(course.getRegUsers()).thenReturn(Collections.singleton(user));
+        when(user.getRegCourses()).thenReturn(new HashSet<>());
+
+        mockMvc.perform(post("/regCourse")
+                .principal(principal)
+                .param("accessCode", "accessCode"))
+
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/"));
     }
 
     @Test
-    public void courseChart() throws Exception {
+    public void courseChart_ShouldRenderCourseChartDisplay() throws Exception {
         mockMvc.perform(get("/courses/{courseId}/chart", 1L))
+                .andExpect(model().attribute("courseId", 1L))
+
                 .andExpect(status().isOk())
                 .andExpect(view().name("courseChartDisplay"));
     }
-/*
+
+    /**
+     * This test tests the three methods getCourseChart, getCourseResults and getAvgScoreForCourseChart:
+     * The method getCourseChart calls getCourseResults, which gets an Iterable<Quiz> containing two quizzes.
+     * For each quiz, getAvgScoreForCourseChart gets called, in order to check the average score for each quiz if there are any answers.
+     * The first quiz contains no answers.
+     * Therefore getAvgScoreForCourseChart returns null after catching ArithmeticException when dividing by the number of answers, which is zero.
+     * This triggers the else statement in getCourseResults and the result 0.0 is added for the first quiz.
+     * The second quiz has two answers, one correct and one incorrect.
+     * Therefore getAvgScoreForCourseChart returns 50.0, and the result 50.0 is added for the second quiz.
+     * "results" should thus consist of an ArrayList<Double> containing 0.0 and 50.0
+     */
     @Test
-    public void getCourseChart() throws Exception {
-        setUp_getCourseResults();
-
-
-
-
-
-        mockMvc.perform(get("/courseChart/{courseId}", 1L))
-                .andExpect(status().isOk())
-                .andExpect(view().name("courseChart:: courseChart"));
-    }
-*/
-
-    public void getCourseResults_null() throws Exception {
-        /*when(answerService.findAllByQuiz_Id(1L)).thenReturn(new ArrayList<>(Arrays.asList()));
-        Long courseId = 1L;
-        Iterable<Quiz> quizIterable = new ArrayList<>(Arrays.asList());
-        when(courseService.findOne(courseId)).thenReturn(course);
-        when(course.getCourseName()).thenReturn("courseName");
+    public void getCourseChart_ShouldRenderCourseChart() throws Exception {
+        when(quizService.findAllByCourse_id(1L)).thenReturn(new ArrayList<>(Arrays.asList(quizOne, quizTwo)));
         when(quizOne.getId()).thenReturn(1L);
-        when(quizService.findAllByCourse_id(courseId)).thenReturn(quizIterable);
-        ArrayList<Double> results = new ArrayList<>();
-
-
-        assertThat(this.mockController.getCourseResults(quizIterable), is("dsdd"));
-        verify(controller).getCourseResults(quizIterable);*/
-    }
-
-
-    @Test
-    public void getAvgScore_shouldReturnNull() throws Exception {
-        when(answerService.findAllByQuiz_Id(1L)).thenReturn(new ArrayList<>(Arrays.asList()));
-        assertNull(this.controller.getAvgScoreForCourseChart(1L));
-        verify(answerService).findAllByQuiz_Id(1L);
-    }
-
-    @Test
-    public void getAvgScore_shouldReturnDouble() throws Exception {
-        Iterable<Answer> answerIterable = new ArrayList<>(Arrays.asList(answerOne, answerTwo));
+        when(answerService.findAllByQuiz_Id(1L)).thenReturn(new ArrayList<>());
+        when(quizTwo.getId()).thenReturn(2L);
+        when(answerService.findAllByQuiz_Id(2L)).thenReturn(Arrays.asList(answerOne, answerTwo));
         when(answerOne.isCorrect()).thenReturn(true);
         when(answerTwo.isCorrect()).thenReturn(false);
-        when(answerService.findAllByQuiz_Id(2L)).thenReturn(answerIterable);
-        double result = this.controller.getAvgScoreForCourseChart(2L);
-        assertThat(result, is(50.0));
-        verify(answerService).findAllByQuiz_Id(2L);
+
+        when(courseService.findOne(1L)).thenReturn(course);
+        when(course.getCourseName()).thenReturn("courseName");
+
+        mockMvc.perform(get("/courseChart/{courseId}", 1L))
+                .andExpect(model().attribute("courseName", "courseName"))
+                .andExpect(model().attribute("results", new ArrayList<>(Arrays.asList(0.0, 50.0))))
+
+                .andExpect(status().isOk())
+                .andExpect(view().name("courseChart:: courseChart"));
     }
 
 }

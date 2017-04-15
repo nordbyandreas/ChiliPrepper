@@ -14,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.*;
 import static org.mockito.Matchers.any;
 
@@ -28,11 +29,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 public class RegistrationControllerTest {
     private MockMvc mockMvc;
 
-    @InjectMocks
-    private RegistrationController controller = new RegistrationController();
-
     @Mock
     private UserService service;
+
+    @InjectMocks
+    private RegistrationController controller;
 
     @Before
     public void setUp() throws Exception {

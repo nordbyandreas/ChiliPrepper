@@ -42,7 +42,6 @@ public class ProfileControllerTest {
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
