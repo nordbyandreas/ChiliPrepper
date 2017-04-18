@@ -16,7 +16,7 @@
 <div id="wrapper">
     <section id="course">
         <div th:replace="layout :: flash"></div>
-        <div id="course-registered">
+        <div class="button-alist">
             <h3>Registered courses</h3>
             <div th:each="course : ${regCourses}">
                 <div>
@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        <div id="course-created">
+        <div class="button-alist">
             <h3>Created courses</h3>
             <ul id="gallery" th:each="course : ${myCourses}">
                 <li>
