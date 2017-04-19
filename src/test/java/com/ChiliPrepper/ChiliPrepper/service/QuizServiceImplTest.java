@@ -1,26 +1,24 @@
 package com.ChiliPrepper.ChiliPrepper.service;
 
-import com.ChiliPrepper.ChiliPrepper.dao.AlternativeDao;
-import com.ChiliPrepper.ChiliPrepper.dao.AnswerDao;
-import com.ChiliPrepper.ChiliPrepper.dao.QuestionDao;
-import com.ChiliPrepper.ChiliPrepper.dao.QuizDao;
-import com.ChiliPrepper.ChiliPrepper.model.Question;
-import com.ChiliPrepper.ChiliPrepper.model.Quiz;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Arrays;
+import org.mockito.Mock;
+import java.util.ArrayList;
+import org.mockito.InjectMocks;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+import com.ChiliPrepper.ChiliPrepper.model.Quiz;
+import com.ChiliPrepper.ChiliPrepper.dao.QuizDao;
+import com.ChiliPrepper.ChiliPrepper.dao.AnswerDao;
+import com.ChiliPrepper.ChiliPrepper.model.Question;
+import com.ChiliPrepper.ChiliPrepper.dao.QuestionDao;
+import com.ChiliPrepper.ChiliPrepper.dao.AlternativeDao;
 
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by dagki on 15/03/2017.
@@ -28,59 +26,67 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class QuizServiceImplTest {
+    private Long courseId, quizId = courseId = 1L;
+    private List<Quiz> quizList = new ArrayList<>(Arrays.asList(new Quiz()));
+    private List<Question> questionList = new ArrayList<>(Arrays.asList(new Question()));
 
     @Mock
-    Quiz quiz;
+    private Quiz quiz;
 
     @Mock
-    Question question;
-    @Mock
-    QuizDao quizDao;
+    private QuizDao quizDao;
 
     @Mock
-    AlternativeDao alternativeDao;
-    @Mock
-    AnswerDao answerDao;
+    private Question question;
 
     @Mock
-    QuestionDao questionDao;
+    private AnswerDao answerDao;
+
+    @Mock
+    private QuestionDao questionDao;
+
+    @Mock
+    private AlternativeDao alternativeDao;
 
     @InjectMocks
-    QuizService service = new QuizServiceImpl();
+    private QuizService service = new QuizServiceImpl();
 
+    /**Confirms that quizService.findOne(quizId) returns quizDao.findOne(quizId)*/
+    @Test
+    public void findOne() throws Exception {
+        when(quizDao.findOne(quizId)).thenReturn(quiz);
+        assertThat(service.findOne(quizId), is(quiz));
+        verify(quizDao).findOne(quizId);
+    }
+
+    /**Confirms that quizService.findAllByCourse_Id(courseId) returns quizDao.findAllByCourse_Id(courseId)*/
     @Test
     public void findAllByCourse_id() throws Exception {
-        Long courseId = 1L;
-        List<Quiz> quizList = new ArrayList<>(Arrays.asList(new Quiz(), new Quiz()));
-
         when(quizDao.findAllByCourse_id(courseId)).thenReturn(quizList);
         assertThat(service.findAllByCourse_id(courseId), is(quizList));
         verify(quizDao).findAllByCourse_id(courseId);
     }
 
-    @Test
-    public void findOne() throws Exception {
-        when(quizDao.findOne(1L)).thenReturn(new Quiz());
-        assertThat(service.findOne(1L), instanceOf(Quiz.class));
-        verify(quizDao).findOne(1L);
-    }
-
+    /**Confirms that quizService.save(quiz) calls quizDao.save(quiz)*/
     @Test
     public void save() throws Exception {
-        final Quiz quiz = new Quiz();
         service.save(quiz);
         verify(quizDao).save(quiz);
     }
 
+    /**Confirms that quizService.delete(quiz) calls
+     * answerDao.deleteAllByQuiz_Id(quizId),
+     * questionDao.deleteAllByQuiz_Id(quizId)
+     * and quizDao.delete(quiz)*/
     @Test
     public void delete() throws Exception {
-        List<Question> questionList = new ArrayList<>(Arrays.asList(question));
-        when(quiz.getId()).thenReturn(1L);
-        when(questionDao.findAllByQuiz_Id(1L)).thenReturn(questionList);
-        when(question.getId()).thenReturn(1L);
+        when(quiz.getId()).thenReturn(quizId);
+        when(questionDao.findAllByQuiz_Id(quizId)).thenReturn(questionList);
+        when(question.getId()).thenReturn(quizId);
         service.delete(quiz);
-
-
+        verify(answerDao).deleteAllByQuiz_Id(quizId);
+        verify(questionDao).deleteAllByQuiz_Id(quizId);
+        verify(quizDao).delete(quiz);
     }
 
 }

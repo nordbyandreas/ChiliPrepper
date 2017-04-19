@@ -18,16 +18,17 @@
 
         /*<![CDATA[*/
 
-        var courseId = [[${courseId}]];
+        var quizId = [[${quiz.id}]];
+
 
         $(document).ready(function(){
-            var url = '/courseChart/' + courseId;
-            $("#courseChart").load(url);
+            var url = '/quizChart/' + quizId;
+            $("#quizChart").load(url);
 
             setInterval(function () {
-                var url = '/courseChart/' + courseId;
+                var url = '/quizChart/' + quizId;
 
-                $("#courseChart").load(url)
+                $("#quizChart").load(url)
 
 
             }, 2000);
@@ -54,12 +55,20 @@
 
 <div id="wrapper">
     <section>
+        <div th:replace="layout :: flash"></div>
 
 
-        <h1>Course results:</h1>
+<h1>Quiz results</h1>
 
-        <div id="courseChart">
+
+        <div id="quizChart">
+
+
+
         </div>
+
+
+
 
 
     </section>

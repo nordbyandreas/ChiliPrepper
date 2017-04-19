@@ -15,7 +15,9 @@
 
 <div id="wrapper">
     <section>
-        <h1>Bot preferences</h1>
+        <div th:replace="layout :: flash"></div>
+        <h1 th:text="'Welcome ' + ${user.username} + '!'" style="color: black;"></h1>
+        <h1>Bot preferences:</h1>
         <form th:action="@{/saveBotDetails}" th:object="${user}" method="post">
             <input type="checkbox" th:field="*{creatorCourseUpdate}" th:checked="*{creatorCourseUpdate}"/> Enable Course Updates(for courses you've created)<br/>
             <input type="checkbox"  th:field="*{creatorQuizResults}" th:checked="*{creatorQuizResults}"/> Enable Quiz Results (for courses you've created)<br/><br/>
@@ -30,10 +32,6 @@
             <label><input type="hidden" th:field="*{id}"/></label>
             <button type="submit" class="button">Save changes</button>
         </form>
-
-
-
-
 
 
     </section>

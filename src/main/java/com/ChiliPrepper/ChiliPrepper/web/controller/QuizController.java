@@ -2,18 +2,30 @@ package com.ChiliPrepper.ChiliPrepper.web.controller;
 
 import com.ChiliPrepper.ChiliPrepper.model.*;
 import com.ChiliPrepper.ChiliPrepper.service.*;
+import com.ChiliPrepper.ChiliPrepper.web.FlashMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.*;
 
 /**
  * Created by Christer on 20.02.2017.
+ *
+ * The @Controller annotation lets Spring know that this is a controller.
+ *
+ * Controller classes handles URI requests from the browser with methods marked with the
+ * @RequestMapping annotation.
+ *
+ * These methods return a String with the name of which HTML file to render from the
+ * templates directory. Various objects or variables may be added to, or read from, the model.
+ * (adding something to the model is like adding something to that particular HTML file rendering).
+ *
  */
 @Controller
 public class QuizController {
@@ -41,15 +53,18 @@ public class QuizController {
 
 
     @RequestMapping(path = "/addQuiz", method = RequestMethod.POST)
-    public String addQuiz(@ModelAttribute Quiz quiz, @RequestParam Long courseId) {
+    public String addQuiz(@ModelAttribute Quiz quiz, @RequestParam Long courseId, RedirectAttributes redirectAttributes) {
+
         Course course = courseService.findOne(courseId);
+
+        if(quiz.getQuizName().isEmpty()){
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Could not create quiz. Quiz name cannot be empty! ", FlashMessage.Status.FAILURE));
+            return "redirect:/courses/" + course.getId();
+        }
         quiz.setCourse(course);
         quiz.setPublished(false);
         quizService.save(quiz);
-
-        //Todo: Flashmessage for successfully added quiz
-        //Todo: FlashMessage for not successfully added quiz
-
+        redirectAttributes.addFlashAttribute("flash",new FlashMessage("Quiz created ! ", FlashMessage.Status.SUCCESS));
         return "redirect:/courses/" + course.getId();
     }
 
@@ -75,6 +90,20 @@ public class QuizController {
         model.addAttribute("course", course);
 
         return "quiz";
+    }
+
+    //single quiz results page
+    @RequestMapping("/courses/{courseId}/{quizId}/chart")
+    public String quizChart(Model model, @PathVariable Long quizId, @PathVariable Long courseId){
+
+        Course course = courseService.findOne(courseId);
+
+        Quiz quiz = quizService.findOne(quizId);
+        model.addAttribute("quiz", quiz);
+
+        model.addAttribute("course", course);
+
+        return "quizChart";
     }
 
 
@@ -229,7 +258,7 @@ public class QuizController {
 
 
     @RequestMapping(path = "/submitAnswer", method = RequestMethod.POST)
-    public String submitAnswer(@RequestParam Long questionId, @RequestParam Long courseId, @RequestParam Long quizId, Principal principal, @RequestParam String answer) {
+    public String submitAnswer(RedirectAttributes redirectAttributes, @RequestParam Long questionId, @RequestParam Long courseId, @RequestParam Long quizId, Principal principal, @RequestParam String answer) {
 
         String username = principal.getName();
         User user = userService.findByUsername(username);
@@ -248,16 +277,16 @@ public class QuizController {
 
         if(answer.equals(question.getCorrectAnswer())){
             newAnswer.setCorrect(true);
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Correct! Good job!", FlashMessage.Status.SUCCESS));
+
         }
         else{
             newAnswer.setCorrect(false);
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Wrong answer, too bad! ", FlashMessage.Status.FAILURE));
+
         }
-
         answerService.save(newAnswer);
-
-
         return "redirect:/courses/" + course.getId() + "/" + quiz.getId() + "/quiz";
-
     }
 
 
@@ -265,17 +294,21 @@ public class QuizController {
 
     //publish quiz
     @RequestMapping("/publishQuiz")
-    public String publishQuiz(@RequestParam Long quizId){
+    public String publishQuiz(@RequestParam Long quizId, RedirectAttributes redirectAttributes){
 
 
         Quiz quiz = quizService.findOne(quizId);
-        quiz.setPublished(true);
-
         Course course = quiz.getCourse();
 
-        //Todo: flashmessage for published quiz.
+        if(quiz.isPublished()){
+            quiz.setPublished(false);
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Quiz Unpublished! ", FlashMessage.Status.SUCCESS));
+        }
+        else{
+            quiz.setPublished(true);
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Quiz published! ", FlashMessage.Status.SUCCESS));
 
-        //Todo: colorcode published vs unpublished?
+        }
 
         quizService.save(quiz);
         return "redirect:/courses/" + course.getId();

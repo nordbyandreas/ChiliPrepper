@@ -1,12 +1,6 @@
 package com.ChiliPrepper.ChiliPrepper.web.controller;
 
-/**
- * Created by Andreas on 15.02.2017.
- */
 import com.ChiliPrepper.ChiliPrepper.model.User;
-import com.ChiliPrepper.ChiliPrepper.service.CourseService;
-import com.ChiliPrepper.ChiliPrepper.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -17,10 +11,40 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Created by Andreas on 15.02.2017.
+ *
+ * The @Controller annotation lets Spring know that this is a controller.
+ *
+ * Controller classes handles URI requests from the browser with methods marked with the
+ * @RequestMapping annotation.
+ *
+ * These methods return a String with the name of which HTML file to render from the
+ * templates directory. Various objects or variables may be added to, or read from, the model.
+ * (adding something to the model is like adding something to that particular HTML file rendering).
+ *
+ *
+ * This is the class that handles the login and logout of ChiliPrepper
+ *
+ *
+ */
 
 @Controller                   //marks class as a controller
 public class LoginController {
 
+
+    /**
+     * Renders the login page
+     *
+     * When not logged in, all requests will be redirected here.
+     *
+     * If the user is successfully logs in, the user will be redirected to the index page
+     *
+     *
+     * @param model   model, to which attributes may be added
+     * @param request
+     * @return returns the String which points to the correct HTML file
+     */
     @RequestMapping(path = "/login", method = RequestMethod.GET)
     public String loginForm(Model model, HttpServletRequest request) {
         model.addAttribute("user", new User());
@@ -34,13 +58,30 @@ public class LoginController {
         return "login";
     }
 
-    //not in use
+
+
+
+    /**
+     * Returns the access_denied page
+     * (currently not in use)
+     *
+     * @return a String pointing to correct HTML file
+     */
     @RequestMapping("/access_denied")
     public String accessDenied() {
         return "access_denied";
     }
 
-    //logout
+
+
+
+    /**
+     * Logs a user out
+     *
+     * @param request
+     * @param response
+     * @return returns a redirect to the login page HTML
+     */
     @RequestMapping(path = "/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request, HttpServletResponse response){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

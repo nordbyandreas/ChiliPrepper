@@ -1,68 +1,81 @@
 package com.ChiliPrepper.ChiliPrepper.model;
 
-
-import org.junit.Before;
+import java.util.Set;
 import org.junit.Test;
-
+import org.junit.Before;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Set;
-
 import static org.junit.Assert.*;
 
 /**
  * Created by dagki on 02/03/2017.
  */
+
 public class CourseTest {
-    private User userOne;
-    private User userTwo;
+    private User user;
     private Course course;
 
     @Before
     public void setUp() throws Exception {
-        userOne = new User();
-        userTwo = new User();
+        user = new User();
         course = new Course();
     }
 
+    /**First confirms that the course's participants ain't assigned,
+     * then assigns the participants
+     * and concludes by confirming that the participants is assigned to the course.*/
     @Test
-    public void courseId() throws Exception {
-        Long courseId = 10L;
-        assertNull("Course ID should be null before a value is assigned", course.getId());
-        course.setId(courseId);
-        assertEquals("Course ID should be set to the assigned value", courseId, course.getId());
-    }
-
-    @Test
-    public void courseName() throws Exception {
-        String courseName = "TDT4140";
-        assertNull("Course name should be null before a value is assigned", course.getCourseName());
-        course.setCourseName(courseName);
-        assertEquals("Course name should be set to the assigned value", courseName, course.getCourseName());
-    }
-
-    @Test
-    public void courseAccessCode() throws Exception {
-        String accessCode = "AccessCode";
-        assertNull("Access code should be null before a value is assigned", course.getAccessCode());
-        course.setAccessCode(accessCode);
-        assertEquals("Access code should be set to the assigned value", accessCode, course.getAccessCode());
-    }
-
-    @Test
-    public void courseCreator() throws Exception {
-        assertNull("Course creator should be null before a value is assigned", course.getCreator());
-        course.setCreator(userOne);
-        assertEquals("Course creator should be set to the assigned value", userOne, course.getCreator());
-    }
-
-    @Test
-    public void courseRegisteredUsers() throws Exception {
-        Set<User> regUsers = new HashSet<>(Arrays.asList(userOne, userTwo));
-        assertNull("Registered course users should be null before a value is assigned", course.getRegUsers());
+    public void getAndSetRegUsers() throws Exception {
+        Set<User> regUsers = new HashSet<>(Arrays.asList(user));
+        assertNull("The course's registered users ain't assigned, and should return: null", course.getRegUsers());
         course.setRegUsers(regUsers);
-        assertEquals("Registered course users should be set to the assigned value", regUsers, course.getRegUsers());
+        assertEquals("The course's registered users is assigned, and should return: [user] (Set<User>)", regUsers, course.getRegUsers());
     }
+
+    /**First confirms that the course's ID ain't assigned,
+     * then assigns the ID
+     * and concludes by confirming that the ID is assigned to the course.*/
+    @Test
+    public void getAndSetId() throws Exception {
+        Long id = 1L;
+        assertNull("The course's ID ain't assigned, and should return: null", course.getId());
+        course.setId(id);
+        assertEquals("The course's ID is assigned, and should return: 1L (Long)", id, course.getId());
+    }
+
+    /**First confirms that the course's name ain't assigned,
+     * then assigns the name
+     * and concludes by confirming that the name is assigned to the course.*/
+    @Test
+    public void getAndSetCourseName() throws Exception {
+        String courseName = "courseName";
+        assertNull("The course's name ain't assigned, and should return: null", course.getCourseName());
+        course.setCourseName(courseName);
+        assertEquals("The course's name is assigned, and should return: 'courseName' (String)", courseName, course.getCourseName());
+    }
+
+    /**First confirms that the course's access code ain't assigned,
+     * then assigns the access code
+     * and concludes by confirming that the access code is assigned to the course.*/
+    @Test
+    public void getAndSetAccessCode() throws Exception {
+        String accessCode = "accessCode";
+        assertNull("The course's access code ain't assigned, and should return: null", course.getAccessCode());
+        course.setAccessCode(accessCode);
+        assertEquals("The course's access code is assigned, and should return: 'accessCode' (String)", accessCode, course.getAccessCode());
+    }
+
+    /**First confirms that the course's creator ain't assigned,
+     * then assigns the creator
+     * and concludes by confirming that the creator is assigned to the course.*/
+    @Test
+    public void getAndSetCreator() throws Exception {
+        assertNull("The course ain't assigned to a creator, and should return: null", course.getCreator());
+        course.setCreator(user);
+        assertEquals("The course is assigned to a creator, and should return: user (User)", user, course.getCreator());
+    }
+
+
 
 
 }

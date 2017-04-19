@@ -1,8 +1,7 @@
 package com.ChiliPrepper.ChiliPrepper.model;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.security.core.Authentication;
+import org.junit.Before;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -13,110 +12,158 @@ import static org.junit.Assert.*;
 /**
  * Created by dagki on 28/02/2017.
  */
+
 public class UserTest {
     private Role role;
     private User user;
-    private Course courseOne;
-    private Course courseTwo;
+    private Course course;
 
     @Before
     public void setUp() throws Exception {
         role = new Role();
         user = new User();
-        courseOne = new Course();
-        courseTwo = new Course();
+        course = new Course();
     }
 
+    /**First confirms that the user's email ain't assigned,
+     * then assigns the email
+     * and concludes by confirming that the email is assigned to the user.*/
     @Test
-    public void assignUserUsername() throws Exception {
+    public void getAndSetEmail() throws Exception {
+        String email = "username@domain.com";
+        assertNull("The user's email ain't assigned, and should return: null", user.getEmail());
+        user.setEmail(email);
+        assertEquals("The user's email is assigned, and should return: email (String)", email, user.getEmail());
+    }
+
+    /**First confirms that the user's username ain't assigned,
+     * then assigns the username
+     * and concludes by confirming that the username is assigned to the user.*/
+    @Test
+    public void getAndSetUsername() throws Exception {
         String username = "username";
-        assertNull("The user's username should be null before a value is assigned", user.getUsername());
+        assertNull("The user's username ain't assigned, and should return: null", user.getUsername());
         user.setUsername(username);
-        assertEquals("The user's username should be set to the assigned value", username, user.getUsername());
+        assertEquals("The user's username is assigned, and should return: username (String)", username, user.getUsername());
     }
 
+    /**First confirms that the user's password ain't assigned,
+     * then assigns the password
+     * and concludes by confirming that the password is assigned to the user.*/
     @Test
-    public void assignUserPassword() throws Exception {
-        String password = "Password";
-        assertNull("The user's password should be null before a value is assigned", user.getPassword());
+    public void getAndSetPassword() throws Exception {
+        String password = "password";
+        assertNull("The user's password ain't assigned, and should return: null", user.getPassword());
         user.setPassword(password);
-        assertEquals("The user's password should be set to the assigned value", password, user.getPassword());
+        assertEquals("The user's password is assigned, and should return: password (String)", password, user.getPassword());
     }
 
+    /**First confirms that the user's ID ain't assigned,
+     * then assigns the user's ID
+     * and concludes by confirming that the ID is assigned to the user.*/
     @Test
-    public void assignUserId() throws Exception {
-        Long userId = 10L;
-        assertNull("The user's ID should be null before a value is assigned", user.getId());
-        user.setId(userId);
+    public void getAndSetId() throws Exception {
+        Long id = 1L;
+        assertNull("The user's id ain't assigned, and should return: null", user.getId());
+        user.setId(id);
+        assertEquals("The user's id is assigned, and should return: 1L (Long)", id, user.getId());
     }
 
+    /**First confirms that the user's registered courses ain't assigned,
+     * then assigns the registered courses
+     * and concludes by confirming that the registered courses is assigned to the user.*/
     @Test
-    public void assignUserToCourses() throws Exception {
-        Set<Course> regCourses = new HashSet<>(Arrays.asList(courseOne, courseTwo));
-        assertNull("The user's registered courses should be null before a value is assigned", user.getRegCourses());
+    public void getAndSetRegCourses() throws Exception {
+        Set<Course> regCourses = new HashSet<>(Arrays.asList(course));
+        assertNull("The user's password ain't assigned, and should return: null", user.getRegCourses());
         user.setRegCourses(regCourses);
-        assertEquals("The user's registered courses should be set to the assigned value", regCourses, user.getRegCourses());
+        assertEquals("The user's registered courses is assigned, and should return: [course] (Set<Course>)", regCourses, user.getRegCourses());
     }
 
+    /**First confirms that the user ain't assigned to a role,
+     * then assigns it to a role
+     * and concludes by confirming that the user is assigned to the role.*/
     @Test
-    public void assignUserRole() throws Exception {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        role.setName("creator");
+    public void getAndSetRoleAndGetAuthorities() throws Exception {
+        role.setName("role");
         assertNull("The user's role should be null before a value is assigned", user.getRole());
         user.setRole(role);
         assertEquals("The user's role should be set to the assigned value", role, user.getRole());
+        List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
         assertEquals(authorities, user.getAuthorities());
-
     }
 
-
+    /**First confirms that the user ain't enabled,
+     * then sets the user to enabled
+     * and concludes by confirming that the user is enabled.*/
     @Test
-    public void userEnabled() throws Exception {
-        assertFalse("The user's account shouldn't be enabled as default", user.isEnabled());
+    public void isAndSetEnabled() throws Exception {
+        assertFalse("The user's account ain't enabled, and should return: false (Boolean)", user.isEnabled());
         user.setEnabled(true);
-        assertTrue("The user's account should be enabled", user.isEnabled());
+        assertTrue("The user's account is assigned, and should return: true (Boolean)", user.isEnabled());
     }
 
+    /**Confirms that the user's account ain't expired as default
+     * */
     @Test
-    public void userAccountNonExpired() throws Exception {
-        assertTrue("The user's account shouldn't be expired as default", user.isAccountNonExpired());
+    public void isAccountNonExpired() throws Exception {
+        assertTrue("The user's account ain't expired, and should return: true (Boolean)", user.isAccountNonExpired());
     }
 
+    /**Confirms that the user's account ain't locked as default
+     * */
     @Test
-    public void userAccountNonLocked() throws Exception {
-        assertTrue("The user's account shouldn't be locked as default", user.isAccountNonLocked());
+    public void isAccountNonLocked() throws Exception {
+        assertTrue("The user's account ain't locked, and should return: true (Boolean)", user.isAccountNonLocked());
     }
 
+    /**Confirms that the user's credentials ain't expired as default
+     * */
     @Test
-    public void userCredentialsNonExpired() throws Exception {
-        assertTrue("The user's credentials shouldn't be expired as default", user.isCredentialsNonExpired());
+    public void isCredentialsNonExpired() throws Exception {
+        assertTrue("The user's credentials ain't expired, and should return: null", user.isCredentialsNonExpired());
     }
+
+    /**First confirms that the creator's mail preference regarding quiz results is set off,
+     * then sets it to true
+     * and concludes by confirming that the creator's mail preference regarding topic results is on.*/
     @Test
-    public void userCredentialsNonExre3434ired() throws Exception {
-        assertFalse(user.isCreatorQuizResults());
+    public void isAndSetCreatorQuizResults() throws Exception {
+        assertFalse("The creator's preferences regarding mail update for quiz results ain't set, and should return: false (Boolean)", user.isCreatorQuizResults());
         user.setCreatorQuizResults(true);
-        assertTrue(user.isCreatorQuizResults());
+        assertTrue("The creator's preferences regarding mail update for quiz results is set to true, and should return: true (Boolean)", user.isCreatorQuizResults());
     }
+
+    /**First confirms that the creator's mail preference regarding course results is set off,
+     * then sets it to true
+     * and concludes by confirming that the creator's mail preference regarding course results is on.*/
     @Test
-    public void userCredentialsNonE343wxpired() throws Exception {
-        assertFalse(user.isCreatorCourseUpdate());
+    public void isAndSetCreatorCourseUpdate() throws Exception {
+        assertFalse("The participant's preferences regarding mail update for courses ain't set, and should return: false (Boolean)", user.isCreatorCourseUpdate());
         user.setCreatorCourseUpdate(true);
-        assertTrue(user.isCreatorCourseUpdate());
+        assertTrue("The participant's preferences regarding mail update for courses is set to true, and should return: true (Boolean)", user.isCreatorCourseUpdate());
     }
+
+    /**First confirms that the participant's mail preference regarding quiz results is set off,
+     * then sets it to true
+     * and concludes by confirming that the participant's mail preference regarding quiz results is on.*/
     @Test
-    public void wr() throws Exception {
-        assertFalse(user.isParticipantQuizResults());
+    public void isAndSetParticipantQuizResults() throws Exception {
+        assertFalse("The participant's preferences regarding mail update for quiz results ain't set, and should return: false (Boolean)", user.isParticipantQuizResults());
         user.setParticipantQuizResults(true);
-        assertTrue(user.isParticipantQuizResults());
+        assertTrue("The participant's preferences regarding mail update for quiz results is set to true, and should return: true (Boolean)", user.isParticipantQuizResults());
 
     }
+
+    /**First confirms that the participant's mail preference regarding topic results is set off,
+     * then sets it to true
+     * and concludes by confirming that the participant's mail preference regarding topic results is on.*/
     @Test
-    public void rwr34() throws Exception {
-        assertFalse(user.isParticipantTopicUpdate());
+    public void isAndSetParticipantTopicUpdate() throws Exception {
+        assertFalse("The participant's preferences regarding mail update for topics ain't set, and should return: false (Boolean)", user.isParticipantTopicUpdate());
         user.setParticipantTopicUpdate(true);
-        assertTrue(user.isParticipantTopicUpdate());
+        assertTrue("The participant's preferences regarding mail update for topics is set to true, and should return: true (Boolean)", user.isParticipantTopicUpdate());
     }
-
 
 }

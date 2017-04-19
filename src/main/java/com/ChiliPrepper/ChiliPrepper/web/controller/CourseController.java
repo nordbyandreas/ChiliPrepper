@@ -18,6 +18,16 @@ import java.util.Set;
 
 /**
  * Created by Andreas on 19.02.2017.
+ *
+ * The @Controller annotation lets Spring know that this is a controller.
+ *
+ *Controller classes handles URI requests from the browser with methods marked with the
+ * @RequestMapping annotation.
+ *
+ * These methods return a String with the name of which HTML file to render from the
+ * templates directory. Various objects or variables may be added to, or read from, the model.
+ * (adding something to the model is like adding something to that particular HTML file rendering).
+ *
  */
 
 //marks class as a controller
@@ -110,14 +120,17 @@ public class CourseController {
 
 
     @RequestMapping(path = "/addCourse", method = RequestMethod.POST)
-    public String addCourse(@ModelAttribute Course course, Principal principal) {
+    public String addCourse(@ModelAttribute Course course, Principal principal, RedirectAttributes redirectAttributes) {
         String username = principal.getName();
         User user = userService.findByUsername(username);
 
+        if((course.getCourseName().isEmpty() || course.getAccessCode().isEmpty())){
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Could not create the course. Name and accessCode cannot be empty! ", FlashMessage.Status.FAILURE));
+            return "redirect:/";
+        }
         course.setCreator(user);
         courseService.save(course);
-        //Todo: flashmessage for successfully added course
-        //TODO: message for not success add course
+        redirectAttributes.addFlashAttribute("flash",new FlashMessage("You've successfully created " + course.getCourseName() + " !", FlashMessage.Status.SUCCESS));
         return "redirect:/";
     }
 
@@ -130,22 +143,28 @@ public class CourseController {
         String username = principal.getName();
         User user = userService.findByUsername(username);
 
-        Course course = courseService.findByAccessCode(accessCode);
+        if(courseService.findByAccessCode(accessCode) != null){
 
-        Set<User> regUsers = course.getRegUsers();
-        regUsers.add(user);
+            Course course = courseService.findByAccessCode(accessCode);
 
-        Set<Course> regCourses = user.getRegCourses();
-        regCourses.add(course);
+            Set<User> regUsers = course.getRegUsers();
+            regUsers.add(user);
 
-        course.setRegUsers(regUsers);
-        user.setRegCourses(regCourses);
+            Set<Course> regCourses = user.getRegCourses();
+            regCourses.add(course);
 
-        userService.save(user);
-        courseService.save(course);
-        //TODO: flashmessage for unsuccessfull registration
-        redirectAttributes.addFlashAttribute("flash",new FlashMessage("You've registered in " + course.getCourseName(), FlashMessage.Status.SUCCESS));
-        return "redirect:/";
+            course.setRegUsers(regUsers);
+            user.setRegCourses(regCourses);
+
+            userService.save(user);
+            courseService.save(course);
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("You've registered in " + course.getCourseName(), FlashMessage.Status.SUCCESS));
+            return "redirect:/";
+        }
+        else{
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Registration failed! No course with that accessCode found.", FlashMessage.Status.FAILURE));
+            return "redirect:/";
+        }
     }
 
 
@@ -173,7 +192,7 @@ public class CourseController {
         System.out.println("\n\n\n\n" + courseName + "\n\n\n\n");
 
 
-
+//TODO: fix "overlap" in HTML on reload of chart
         return "courseChart:: courseChart";
     }
 

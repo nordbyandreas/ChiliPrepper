@@ -14,13 +14,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title th:text="'Chiliprepper | ' + ${page_title}">ChiliPrepper | Prototype</title>
 
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="http://code.jquery.com/jquery-1.10.2.js"
             type="text/javascript"></script>
-
-
-
-
 
 </head>
 
@@ -36,14 +31,7 @@
     <section>
 
 
-
-
-
-        <!-- GRAPH experimentation -->
-
-
-
-        <div th:fragment="quizChart" style="width: 900px; height: 500px;" >
+        <div th:fragment="quizChart" id="quizChart" style="width: 900px; height: 500px;" >
 
             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
             <script type="text/javascript" th:inline="javascript">
@@ -53,11 +41,8 @@
                 var quizName = [[${quizName}]];
                 var results = [[${results}]];
 
-
-
                 google.charts.load('current', {'packages':['bar']});
                 google.charts.setOnLoadCallback(drawChart);
-
 
 
                 function drawChart() {
@@ -90,20 +75,10 @@
                 /*]]>*/
             </script>
 
-
-
-
         </div>
 
 
-
-
-
-
-
     </section>
-
-
 
 
     <footer>

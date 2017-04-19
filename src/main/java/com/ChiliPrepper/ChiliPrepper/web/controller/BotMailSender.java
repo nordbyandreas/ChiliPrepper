@@ -21,9 +21,13 @@ import java.util.Properties;
 
 /**
  * Created by Andreas on 15.03.2017.
+ *
+ *
+ * This is the class for generating and sending mail.
+ *
+ * This is not a controller class, even though it is located in the controller directory.
+ *
  */
-
-
 public class BotMailSender {
 
     private static String USER_NAME = "chiliprepper.bot";  // GMail user name (just the part before "@gmail.com")

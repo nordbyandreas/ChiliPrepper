@@ -16,6 +16,7 @@
 <div id="wrapper">
     <section>
 
+        <div th:replace="layout :: flash"></div>
 
 
         <div th:if="${alternatives}">
@@ -58,10 +59,6 @@
             <a th:href="@{|/courses/${courseId}|}">Back to course</a>
 
         </div>
-
-
-
-
 
 
 

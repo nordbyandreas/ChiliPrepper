@@ -1,26 +1,20 @@
 package com.ChiliPrepper.ChiliPrepper.service;
 
-import com.ChiliPrepper.ChiliPrepper.dao.QuizMailDao;
-import com.ChiliPrepper.ChiliPrepper.model.QuizMail;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import org.junit.Test;
+import java.util.Arrays;
+import org.mockito.Mock;
+import java.util.ArrayList;
+import org.mockito.InjectMocks;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+import com.ChiliPrepper.ChiliPrepper.model.QuizMail;
+import com.ChiliPrepper.ChiliPrepper.dao.QuizMailDao;
 
 import static org.junit.Assert.*;
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.any;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by dagki on 29/03/2017.
@@ -28,78 +22,75 @@ import static org.mockito.Mockito.any;
 
 @RunWith(MockitoJUnitRunner.class)
 public class QuizMailServiceImplTest {
+    private QuizMail quizMail = new QuizMail();
+    private Long participantId, courseId, quizId = courseId = participantId = 1L;
+    private List<QuizMail> quizMailList = new ArrayList<>(Arrays.asList(quizMail));
 
     @Mock
-    QuizMail quizMail;
-
-    @Mock
-    QuizMailDao dao;
+    QuizMailDao quizMailDao;
 
     @InjectMocks
-    QuizMailService service = new QuizMailServiceImpl();
+    QuizMailService quizMailService = new QuizMailServiceImpl();
 
-    List<QuizMail> quizMailList = new ArrayList<>(Arrays.asList(quizMail));
-
-    @Test
-    public void findAllByQuiz_Id() throws Exception {
-        Long quizId = 1L;
-        when(dao.findAllByQuiz_Id(quizId)).thenReturn(quizMailList);
-        assertThat(service.findAllByQuiz_Id(quizId), is(quizMailList));
-        verify(dao).findAllByQuiz_Id(quizId);
-    }
-
-    @Test
-    public void findAllByParticipant_Id() throws Exception {
-        Long participantId = 1L;
-        when(dao.findAllByParticipant_Id(participantId)).thenReturn(quizMailList);
-        assertThat(service.findAllByParticipant_Id(participantId), is(quizMailList));
-        verify(dao).findAllByParticipant_Id(participantId);
-    }
-
-    @Test
-    public void findAllByQuiz_IdAndCourse_Id() throws Exception {
-        Long quizId = 1L;
-        Long courseId = 1L;
-        when(dao.findAllByQuiz_IdAndCourse_Id(quizId, courseId)).thenReturn(quizMailList);
-        assertThat(service.findAllByQuiz_IdAndCourse_Id(quizId, courseId), is(quizMailList));
-        verify(dao).findAllByQuiz_IdAndCourse_Id(quizId, courseId);
-    }
-
+    /**Confirms that quizMailService.findOneByQuiz_Id(quizId) returns quizMailDao.findOneByQuiz_Id(quizId)*/
     @Test
     public void findOneByQuiz_Id() throws Exception {
-        Long quizId = 1L;
-        when(dao.findOneByQuiz_Id(quizId)).thenReturn(quizMail);
-        assertThat(service.findOneByQuiz_Id(quizId), is(quizMail));
-        verify(dao).findOneByQuiz_Id(quizId);
+        when(quizMailDao.findOneByQuiz_Id(quizId)).thenReturn(quizMail);
+        assertThat(quizMailService.findOneByQuiz_Id(quizId), is(quizMail));
+        verify(quizMailDao).findOneByQuiz_Id(quizId);
     }
 
+    /**Confirms that quizMailService.findOneByQuiz_IdAndParticipant_Id(quizId, participantId) returns quizMailDao.findOneByQuiz_IdAndParticipant_Id(quizId, participantId)*/
     @Test
     public void findOneByQuiz_IdAndParticipant_Id() throws Exception {
-        Long quizId = 1L;
-        Long participantId = 1L;
-        when(dao.findOneByQuiz_IdAndParticipant_Id(quizId, participantId)).thenReturn(quizMail);
-        assertThat(service.findOneByQuiz_IdAndParticipant_Id(quizId, participantId), is(quizMail));
-        verify(dao).findOneByQuiz_IdAndParticipant_Id(quizId, participantId);
+        when(quizMailDao.findOneByQuiz_IdAndParticipant_Id(quizId, participantId)).thenReturn(quizMail);
+        assertThat(quizMailService.findOneByQuiz_IdAndParticipant_Id(quizId, participantId), is(quizMail));
+        verify(quizMailDao).findOneByQuiz_IdAndParticipant_Id(quizId, participantId);
     }
 
+    /**Confirms that quizMailService.findAllByQuiz_Id(quizId) returns quizMailDao.findAllByQuiz_Id(quizId)*/
     @Test
-    public void deleteAllByQuiz_Id() throws Exception {
-        Long quizId = 1L;
-        service.deleteAllByQuiz_Id(quizId);
-        verify(dao).deleteAllByQuiz_Id(quizId);
+    public void findAllByQuiz_Id() throws Exception {
+        when(quizMailDao.findAllByQuiz_Id(quizId)).thenReturn(quizMailList);
+        assertThat(quizMailService.findAllByQuiz_Id(quizId), is(quizMailList));
+        verify(quizMailDao).findAllByQuiz_Id(quizId);
     }
 
+    /**Confirms that quizMailService.findAllByParticipant_Id(participantId) returns quizMailDao.findAllByParticipant_Id(participantId)*/
     @Test
-    public void deleteAllByParticipant_Id() throws Exception {
-        Long participantId = 1L;
-        service.deleteAllByParticipant_Id(participantId);
-        verify(dao).deleteAllByParticipant_Id(participantId);
+    public void findAllByParticipant_Id() throws Exception {
+        when(quizMailDao.findAllByParticipant_Id(participantId)).thenReturn(quizMailList);
+        assertThat(quizMailService.findAllByParticipant_Id(participantId), is(quizMailList));
+        verify(quizMailDao).findAllByParticipant_Id(participantId);
     }
 
+    /**Confirms that quizMailService.findAllByQuiz_IdAndCourse_Id(quizId, courseId) returns quizMailDao.findAllByQuiz_IdAndCourse_Id(quizId, courseId)*/
+    @Test
+    public void findAllByQuiz_IdAndCourse_Id() throws Exception {
+        when(quizMailDao.findAllByQuiz_IdAndCourse_Id(quizId, courseId)).thenReturn(quizMailList);
+        assertThat(quizMailService.findAllByQuiz_IdAndCourse_Id(quizId, courseId), is(quizMailList));
+        verify(quizMailDao).findAllByQuiz_IdAndCourse_Id(quizId, courseId);
+    }
+
+    /**Confirms that quizMailService.save(quizMail) calls quizMailDao.save(quizMail)*/
     @Test
     public void save() throws Exception {
-        service.save(new QuizMail());
-        verify(dao).save(any(QuizMail.class));
+        quizMailService.save(quizMail);
+        verify(quizMailDao).save(quizMail);
+    }
+
+    /**Confirms that quizMailService.deleteAllByQuiz_Id(quizId) calls quizMailDao.deleteAllByQuiz_Id(quizId)*/
+    @Test
+    public void deleteAllByQuiz_Id() throws Exception {
+        quizMailService.deleteAllByQuiz_Id(quizId);
+        verify(quizMailDao).deleteAllByQuiz_Id(quizId);
+    }
+
+    /**Confirms that questionService.deleteAllByParticipant_Id(participantId) calls quizMailDao.deleteAllByParticipant_Id(participantId)*/
+    @Test
+    public void deleteAllByParticipant_Id() throws Exception {
+        quizMailService.deleteAllByParticipant_Id(participantId);
+        verify(quizMailDao).deleteAllByParticipant_Id(participantId);
     }
 
 }
