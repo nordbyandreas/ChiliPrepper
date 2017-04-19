@@ -31,17 +31,39 @@
     */
 
     /********************
+    PAGE: LOGIN
+
+    ********************/
+
+    #logincontainer {
+        background: #F5F3EB;
+    }
+
+    #logincard {
+        width: 400px;
+        height: 500px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        background: #FFF;
+        border: 5px solid #849852;
+    }
+
+    /********************
     PAGE: COURSES
 
     ********************/
 
     /*Courses*/
 
-    #course-created li, #course-registered li {
+    .button-alist li {
         margin: 30px 0;
     }
 
-    #course-created a, #course-registered a {
+    .button-alist a {
         font-size: 1.5em;
     }
 
@@ -82,6 +104,11 @@
     GENERAL
 
     ********************/
+
+    h2{
+        font-size: 2em;
+        /*margin-bottom: 20px;*/
+    }
 
     input, button {
         min-height: 0;
@@ -143,10 +170,7 @@
     h1{
         font-size: 2.5em;
     }
-    h2{
-        font-size: 0.825em;
-        margin-bottom: 20px;
-    }
+
     header{
         margin-bottom: 60px;
         position: fixed;
@@ -170,6 +194,7 @@
         float: left;
     }
 
+    /*
     #course-created li, #course-registered li {
         margin: 50px 0;
     }
@@ -177,18 +202,19 @@
     #course-created a, #course-registered a {
         font-size: 2em;
     }
+    */
 
-    #course-created a:hover, #course-registered a:hover {
+    .button-alist a:hover {
         font-weight: bold;
         outline: none;
-        border: 3px solid #A00005;
+        padding: 18px 13px;
         transition-duration: 0.1s;
     }
 
-    #course-created a:active, #course-registered a:active {
-        background: #6A0003;
-        color: #FFCACB;
-        border: none;
+    .button-alist a:active {
+        background: #E09514;
+        color: #FFE6C0;
+        padding: 15px 10px;
     }
 
     /*Menu*/
@@ -201,6 +227,28 @@
         position: fixed;
         top: 200px;
         right: 5%;
+    }
+
+    /********************
+    QUIZ QUESTIONS
+
+    ********************/
+
+    .quizquestion {
+        display: block;
+    }
+
+    .quizquestion label:hover {
+        font-weight: bold;
+        outline: none;
+        padding: 18px 13px;
+        transition-duration: 0.1s;
+    }
+
+    .quizquestion label:active {
+        background: #637733;
+        color: #EBF4D8;
+        padding: 15px 10px;
     }
 
 }

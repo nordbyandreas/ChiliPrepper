@@ -24,6 +24,13 @@ img {
     max-width: 100%;
 }
 
+h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.5em;
+    /*margin: -5px 0 0;*/
+    font-weight: normal;
+}
+
 h3 {
     font-family: 'Oswald', sans-serif;
     /*padding: 1em 0 0.5em;*/
@@ -78,7 +85,7 @@ header {
 }
 
 /*logo text*/
-h1, h2 {
+h1 {
     color: #F0B04A;
 }
 
@@ -137,13 +144,6 @@ h1 {
     line-height: 0.8em;
 }
 
-h2 {
-    font-family: 'Oswald', sans-serif;
-    font-size: 0.75em;
-    margin: -5px 0 0;
-    font-weight: normal;
-}
-
 /********************
 NAVIGATION
 
@@ -199,12 +199,48 @@ PAGE: LOGIN
 
 ********************/
 
-.container {
-    width: 100%
+#logincontainer {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 
-.row {
+#logincard {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+#logintitle {
+    margin: auto auto 0;
+}
+
+#logintitle h1 {
+    font-size: 2.5em;
+}
+
+#loginlogo {
+    margin: 0 auto;
+}
+
+#loginlogo .logo-image {
+    clear: both;
+    display: block;
     margin: auto;
+    max-width: 150px;
+}
+
+#loginform {
+    clear: both;
+    margin: 0 auto auto;
 }
 
 /********************
@@ -214,19 +250,19 @@ PAGE: COURSES
 
 /*Courses*/
 
-#course-created ul, #course-registered ul{
+.button-alist ul{
     padding: 0 0 0 5px;
 }
 
-#course-created li, #course-registered li{
+.button-alist li{
     list-style: none;
     display: block;
     min-height: 48px;
     min-width: 48px;
 }
 
-#course-created a, #course-registered a {
-    background: #A00005;
+.button-alist a {
+    background: #F0B04A;
     color: #FFF;
     padding: 15px 10px;
     font-family: 'Oswald', sans-serif;
@@ -312,7 +348,29 @@ QUIZ QUESTIONS
 
 ********************/
 
+.quizquestion {
+    margin: 30px;
+}
 
+input[type="radio"]{
+    display: none;
+}
+
+.quizquestion label {
+    background: #849852;
+    color: #FFF;
+    padding: 15px 10px;
+    /*margin: 15px 10px;*/
+    font-family: 'Oswald', sans-serif;
+    min-height: 48px;
+    min-width: 48px;
+    line-height: 35px;
+}
+
+.quizquestion input[type="radio"]:checked+label {
+    background: #637733;
+    color: #EBF4D8;
+}
 
 /********************
 CHART
