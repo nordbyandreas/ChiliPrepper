@@ -61,8 +61,8 @@ public class RegistrationController {
      */
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public String RegUser(@ModelAttribute User user, RedirectAttributes redirectAttributes) {
-        if(user.getEmail().isEmpty()){
-            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Registration failed! You must include a correct email!", FlashMessage.Status.FAILURE));
+        if(user.getEmail().isEmpty() || user.getUsername().isEmpty()  || user.getPassword().isEmpty()){
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Registration failed! All fields must be filled out!", FlashMessage.Status.FAILURE));
             return "redirect:/register";
         }
         else if(userService.findByUsername(user.getUsername()) != null){

@@ -19,25 +19,33 @@
         <div th:replace="layout :: flash"></div>
         <h3 th:text="${question.theQuestion}">Question</h3>
 
-        <form th:action="@{|/courses/${courseId}/${quizId}/${question.id}/editQuestion/saveEditQuestion|}"  method="post">
+        <div class="form-style-5">
+            <form th:action="@{|/courses/${courseId}/${quizId}/${question.id}/editQuestion/saveEditQuestion|}"  method="post">
+                <fieldset>
+                    <label><input type="hidden" name="questionId" th:value="${question.id}"/></label>
+                    <label><input type="hidden" name="quizId" th:value="${quizId}"/></label>
 
-            <label><input type="text" name="theQuestion" th:value="${question.theQuestion}" th:placeholder="${question.theQuestion}"/></label>
-            <label><input type="hidden" name="questionId" th:value="${question.id}"/></label>
-            <label><input type="hidden" name="quizId" th:value="${quizId}"/></label>
-            <label><input type="text" name="topic" th:value="${question.topic}" th:placeholder="${question.topic}"/></label>
-            <label><input type="text" name="correctAnswer" th:value="${question.correctAnswer}" th:placeholder="${question.correctAnswer}"/></label>
+                    <legend><span class="number">?</span> Make changes </legend>
 
-
-            <label><input type="text" name="alt1" th:value="${alt1.alternative}" th:placeholder="${alt1.alternative}"/></label>
-            <label><input type="hidden" name="alt1Id" th:value="${alt1.id}"/></label>
-            <label><input type="text" name="alt2" th:value="${alt2.alternative}" th:placeholder="${alt2.alternative}"/></label>
-            <label><input type="hidden" name="alt2Id" th:value="${alt2.id}"/></label>
-            <label><input type="text" name="alt3" th:value="${alt3.alternative}" th:placeholder="${alt3.alternative}"/></label>
-            <label><input type="hidden" name="alt3Id" th:value="${alt3.id}"/></label>
+                    <label>Question <input type="text" name="theQuestion" th:value="${question.theQuestion}"/></label>
+                    <label>Answer <input type="text" name="correctAnswer" th:value="${question.correctAnswer}"/></label>
+                    <label>Topic <input type="text" name="topic" th:value="${question.topic}"/></label>
 
 
-            <button type="submit" class="button">Save changes</button>
-        </form>
+                    <label>Alternatives <input type="text" name="alt1" th:value="${alt1.alternative}"/></label>
+                    <label><input type="hidden" name="alt1Id" th:value="${alt1.id}"/></label>
+                    <label><input type="text" name="alt2" th:value="${alt2.alternative}"/></label>
+                    <label><input type="hidden" name="alt2Id" th:value="${alt2.id}"/></label>
+                    <label><input type="text" name="alt3" th:value="${alt3.alternative}"/></label>
+                    <label><input type="hidden" name="alt3Id" th:value="${alt3.id}"/></label>
+
+                </fieldset>
+
+                <input type="submit" value="Save changes" />
+            </form>
+        </div>
+
+
 
     </section>
 

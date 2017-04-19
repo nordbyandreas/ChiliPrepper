@@ -16,6 +16,8 @@ body {
 
 }
 
+
+
 a {
     text-decoration: none;
 }
@@ -66,6 +68,15 @@ button {
     text-decoration: none;
 }
 
+.courseContainer{
+    border-color: #888888;
+    border-style: solid;
+    border-width: 1px;
+    width: 100%;
+
+}
+
+
 /********************
 COLORS
 
@@ -80,8 +91,8 @@ body{
 
 /*green header*/
 header {
-    background: #F5F3EB;
-    border-color: #849852;
+    background: #6ab47b;
+    border-color: #599a68;
 }
 
 /*logo text*/
@@ -91,25 +102,24 @@ h1 {
 
 /*links*/
 a{
-    color: #A00005;
+    color: #6ab47b;
 }
 
 /*nav background mobile devices*/
-/* nav {
+nav {
     background-color: #599a68;
 
-} */
+}
 
 /*nav link*/
-nav a, nav a:visited {
-    color: #A00005;
+nav a {
+    color: #fff;
 }
 
 /*selected nav link*/
 nav a.selected, nav a:hover {
-    background: #A00005;
-    color: #fff;
-    border-radius: 25% 25% 0 0;
+    color: #32673f;
+
 }
 
 /********************
@@ -122,19 +132,30 @@ header {
     margin: 0 0 30px 0;
     padding: 5px 0 0 0;
     width: 100%;
-    border-bottom: 5px solid #849852;
 }
+
 
 .logo-image {
     float: left;
     display: block;
-    max-width: 31.25%;
+    max-width: 150px;
 }
 
-#logo{
-    display: block;
+#navbarLogo{
     max-height: 150px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
+
+
+
+#logo{
+    text-align: center;
+    margin: 0;
+}
+
+
 
 h1 {
     font-family: 'Oswald', sans-serif;
@@ -149,6 +170,30 @@ NAVIGATION
 
 ********************/
 
+
+nav {
+    text-align: center;
+    padding: 10px 0;
+    margin: 20px 0 0;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0 10px;
+    padding: 0;
+}
+
+nav li {
+    display: inline-block;
+}
+
+nav a {
+    font-family: 'Oswald', sans-serif;
+    padding: 15px 10px;
+    font-weight: 800;
+}
+
+/*
 nav {
     clear: both;
     padding: 10px 0;
@@ -171,7 +216,7 @@ nav a {
     min-height: 48px;
     min-width: 48px;
 }
-
+*/
 
 /********************
 FOOTER
@@ -250,31 +295,77 @@ PAGE: COURSES
 
 /*Courses*/
 
-.button-alist ul{
-    padding: 0 0 0 5px;
+.button-alist{
+    width: 100%;
 }
 
-.button-alist li{
+.gallery{
+    width: 100%;
+    margin: 0;
+    padding: 0;
     list-style: none;
-    display: block;
-    min-height: 48px;
-    min-width: 48px;
 }
 
-.button-alist a {
+.gallery li{
+    float: left;
+    width: 45%;
+    margin: 2.5%;
+    background-color: #f5f5f5;
+    color: #bdc3c7;
+}
+
+.gallery li a p{
+    margin: 0;
+    padding: 5%;
+    font-size: 0.75em;
+    color: #bdc3c7;
+}
+
+
+.chartLink {
+    background-color: #f5f5f5;
+    float: right;
+    max-height: 70px;
+
+}
+
+.chartLink img{
+    background-color: #f4f7f8;
+    max-height: 60px;
+
+}
+.chartLink p{
+    background-color: #f4f7f8;
+    margin: 0;
+    padding: 5%;
+    font-size: 0.75em;
+    color: #E09514;
+}
+
+
+.courseBox{
+    float: left;
+    display: block;
+    height: 60px;
+    width: 28.3%;
+    margin: 2.5%;
+}
+
+
+
+
+
+.courseBox a {
     background: #F0B04A;
     color: #FFF;
     padding: 15px 10px;
     font-family: 'Oswald', sans-serif;
-    min-height: 48px;
-    min-width: 48px;
+    width: 100%;
+    height: 100%;
 }
 
 /*Menu*/
 
-#menu {
-    display: none;
-}
 
 
 /*
@@ -348,29 +439,7 @@ QUIZ QUESTIONS
 
 ********************/
 
-.quizquestion {
-    margin: 30px;
-}
 
-input[type="radio"]{
-    display: none;
-}
-
-.quizquestion label {
-    background: #849852;
-    color: #FFF;
-    padding: 15px 10px;
-    /*margin: 15px 10px;*/
-    font-family: 'Oswald', sans-serif;
-    min-height: 48px;
-    min-width: 48px;
-    line-height: 35px;
-}
-
-.quizquestion input[type="radio"]:checked+label {
-    background: #637733;
-    color: #EBF4D8;
-}
 
 /********************
 CHART
@@ -389,6 +458,9 @@ CHART
     padding: 1rem 2rem;
     border-radius: 4px;
     font-size: 1.1rem;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .flash.success {
@@ -399,4 +471,124 @@ CHART
 .flash.failure {
     background-color: #ac4343;
     color: #f2e2e2;
+}
+
+/********************
+FORMS
+
+********************/
+
+.group{
+
+    clear: both;
+}
+
+.form{
+    clear: both;
+    background: #f4f7f8;
+    border-radius: 8px;
+}
+
+.form-style-5{
+    clear: both;
+    max-width: 500px;
+    padding: 10px 20px;
+    background: #f4f7f8;
+    margin: 10px auto;
+    padding: 20px;
+    background: #f4f7f8;
+    border-radius: 8px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+.form-style-5 fieldset{
+    border: none;
+}
+.form-style-5 legend {
+    font-size: 1.4em;
+    margin-bottom: 10px;
+}
+.form-style-5 label {
+    display: block;
+    margin-bottom: 8px;
+}
+.form-style-5 input[type="text"],
+.form-style-5 input[type="date"],
+.form-style-5 input[type="datetime"],
+.form-style-5 input[type="email"],
+.form-style-5 input[type="number"],
+.form-style-5 input[type="search"],
+.form-style-5 input[type="time"],
+.form-style-5 input[type="url"],
+.form-style-5 textarea,
+.form-style-5 select {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    background: rgba(255,255,255,.1);
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    margin: 0;
+    outline: 0;
+    padding: 7px;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background-color: #e8eeef;
+    color:#8a97a0;
+    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+    margin-bottom: 30px;
+
+}
+.form-style-5 input[type="text"]:focus,
+.form-style-5 input[type="date"]:focus,
+.form-style-5 input[type="datetime"]:focus,
+.form-style-5 input[type="email"]:focus,
+.form-style-5 input[type="number"]:focus,
+.form-style-5 input[type="search"]:focus,
+.form-style-5 input[type="time"]:focus,
+.form-style-5 input[type="url"]:focus,
+.form-style-5 textarea:focus,
+.form-style-5 select:focus{
+    background: #d2d9dd;
+}
+.form-style-5 select{
+    -webkit-appearance: menulist-button;
+    height:35px;
+}
+.form-style-5 .number {
+    background: #1abc9c;
+    color: #fff;
+    height: 30px;
+    width: 30px;
+    display: inline-block;
+    font-size: 0.8em;
+    margin-right: 4px;
+    line-height: 30px;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+    border-radius: 15px 15px 15px 0px;
+}
+
+.form-style-5 input[type="submit"],
+.form-style-5 input[type="button"]
+{
+    position: relative;
+    display: block;
+    padding: 19px 39px 18px 39px;
+    color: #FFF;
+    margin: 0 auto;
+    background: #1abc9c;
+    font-size: 18px;
+    text-align: center;
+    font-style: normal;
+    width: 100%;
+    border: 1px solid #16a085;
+    border-width: 1px 1px 3px;
+    margin-bottom: 10px;
+}
+.form-style-5 input[type="submit"]:hover,
+.form-style-5 input[type="button"]:hover
+{
+    background: #109177;
 }

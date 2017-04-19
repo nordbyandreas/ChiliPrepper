@@ -90,6 +90,14 @@ public class QuestionController {
 
         Question question = questionService.findOne(questionId);
         model.addAttribute("question", question);
+        model.addAttribute("quizId", question.getQuiz().getId());
+        model.addAttribute("courseId", question.getQuiz().getCourse().getId());
+        Iterable<Alternative> alts = alternativeService.findAllByQuestion_Id(questionId);
+        List<Alternative> alternatives = new ArrayList<>();
+        alts.forEach(alternatives :: add);
+        for(int i = 0; i < alternatives.size(); i++){
+            model.addAttribute("alt" + Integer.toString(i + 1), alternatives.get(i));
+        }
 
         return "question";
     }

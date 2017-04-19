@@ -23,25 +23,26 @@
             <h2 th:text="${quiz.quizName}"></h2>
 
             <div>
-                <h3 th:text="${question.theQuestion}"></h3>
 
+                <div class="form-style-5">
+                    <form th:action="@{/submitAnswer}" method="post">
+                        <input type="hidden" name="quizId" th:value="${quizId}"/>
+                        <input type="hidden" name="questionId" th:value="${questionId}"/>
+                        <input type="hidden" name="courseId" th:value="${courseId}"/>
+                        <fieldset>
+                            <legend th:text="${question.theQuestion}"><span class="number">+</span></legend>
+                        </fieldset>
 
-                <form th:action="@{/submitAnswer}" method="post">
-                <div th:each="alternative : ${alternatives}">
+                            <div th:each="alternative : ${alternatives}">
+                                <input type="submit" name="answer" class="button" th:value="${alternative}"/>
 
-                    <div class="quizquestion">
+                            </div>
 
-                        <input type="radio" name="answer" th:value="${alternative}" th:id="${alternative}"><label th:for="${alternative}" th:text="${alternative}" /></input>
-
-                    </div>
-
-
+                    </form>
                 </div>
-                    <input type="hidden" name="quizId" th:value="${quizId}"/>
-                    <input type="hidden" name="questionId" th:value="${questionId}"/>
-                    <input type="hidden" name="courseId" th:value="${courseId}"/>
-                    <button type="submit" class="button">Submit answer</button>
-                </form>
+
+
+
 
             </div>
 

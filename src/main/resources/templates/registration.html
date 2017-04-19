@@ -5,15 +5,16 @@
 <div class="spacer"></div>
 
 <body>
-<div class="container">
+<div class="container" id="logincontainer">
     <div class="row">
         <div class="col s12 m6 offset-m3">
-            <div class="card">
+            <div th:replace="layout :: flash"></div>
+
+            <div class="card" id="logincard">
                 <div>
                     <img th:src="@{/img/LogoLiten.png}" alt="ChiliPrepper logo" class="logo-image"/>
                 </div>
-                <div class="card-content">
-                    <div th:replace="layout :: flash"></div>
+                    <div id="loginform">
 
 
                     <form th:action="@{/register}" th:object="${user}" method="post">

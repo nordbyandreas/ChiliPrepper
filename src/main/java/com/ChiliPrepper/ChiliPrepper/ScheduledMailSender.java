@@ -82,7 +82,6 @@ public class ScheduledMailSender {
      * This method is intended to execute around 1 or 2 times per month, but for later development we'd want the course-creator to set the interval.
      */
     @Scheduled(initialDelay=20000, fixedRate = 120000)  //finn 1 mnd i millisekunder
-
     public void sendCourseAverage() {
         Iterable<Course> courses  = courseService.findAll();
 
@@ -121,7 +120,7 @@ public class ScheduledMailSender {
 
         }
     }
-    */
+
 
     /**
      * This method sends the average results of a single Quiz to the creator of a quiz if he has enabled the contact.
@@ -131,7 +130,6 @@ public class ScheduledMailSender {
      *
      */
     @Scheduled(initialDelay=20000, fixedRate = 120000)   //finn døgn i millisekunder
-
     public void sendQuizResults() {
         Iterable<Course> courses  = courseService.findAll();
 
@@ -159,7 +157,7 @@ public class ScheduledMailSender {
             }
         }
     }
-*/
+
 
 
     /**
@@ -221,7 +219,7 @@ public class ScheduledMailSender {
             }
         }
     }
-    */
+
 
 
     /**
