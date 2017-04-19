@@ -92,6 +92,20 @@ public class QuizController {
         return "quiz";
     }
 
+    //single quiz results page
+    @RequestMapping("/courses/{courseId}/{quizId}/chart")
+    public String quizChart(Model model, @PathVariable Long quizId, @PathVariable Long courseId){
+
+        Course course = courseService.findOne(courseId);
+
+        Quiz quiz = quizService.findOne(quizId);
+        model.addAttribute("quiz", quiz);
+
+        model.addAttribute("course", course);
+
+        return "quizChart";
+    }
+
 
 
 
