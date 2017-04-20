@@ -50,6 +50,7 @@ public class QuizController {
     private QuizMailService quizMailService;
 
 
+
     //single quiz page
     @RequestMapping("/courses/{courseId}/{quizId}")
     public String renderQuizView(Model model, @PathVariable Long quizId, @PathVariable Long courseId){
@@ -64,6 +65,7 @@ public class QuizController {
         model.addAttribute("course", course);
 
         return "quiz";
+
     }
 
 
@@ -291,7 +293,7 @@ public class QuizController {
             redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.FAILURE));
         }
         answerService.save(newAnswer);
-
+      
         return "redirect:/courses/" + course.getId() + "/" + quiz.getId() + "/quiz";
     }
 
@@ -318,6 +320,7 @@ public class QuizController {
 
         if(quiz.isPublished()){
             quiz.setPublished(false);
+
             String message = "Quiz Unpublished!";
             redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.SUCCESS));
         }
