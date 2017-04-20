@@ -4,8 +4,6 @@ import com.ChiliPrepper.ChiliPrepper.model.*;
 import com.ChiliPrepper.ChiliPrepper.service.*;
 import com.ChiliPrepper.ChiliPrepper.web.FlashMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.*;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -52,44 +50,60 @@ public class QuizController {
     private QuizMailService quizMailService;
 
 
+
+    //single quiz page
+    @RequestMapping("/courses/{courseId}/{quizId}")
+    public String renderQuizView(Model model, @PathVariable Long quizId, @PathVariable Long courseId){
+
+        Course course = courseService.findOne(courseId);
+        Quiz quiz = quizService.findOne(quizId);
+        Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
+
+        model.addAttribute("quiz", quiz);
+        model.addAttribute("newQuestion", new Question());
+        model.addAttribute("questions", questions);
+        model.addAttribute("course", course);
+
+        return "quiz";
+
+    }
+
+
+
     @RequestMapping(path = "/addQuiz", method = RequestMethod.POST)
     public String addQuiz(@ModelAttribute Quiz quiz, @RequestParam Long courseId, RedirectAttributes redirectAttributes) {
 
         Course course = courseService.findOne(courseId);
 
         if(quiz.getQuizName().isEmpty()){
-            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Could not create quiz. Quiz name cannot be empty! ", FlashMessage.Status.FAILURE));
+            String message = "Could not create quiz. Quiz name cannot be empty!";
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.FAILURE));
             return "redirect:/courses/" + course.getId();
         }
+
         quiz.setCourse(course);
         quiz.setPublished(false);
         quizService.save(quiz);
-        redirectAttributes.addFlashAttribute("flash",new FlashMessage("Quiz created ! ", FlashMessage.Status.SUCCESS));
-        return "redirect:/courses/" + course.getId();
+
+        String message = "Quiz created!";
+        redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.SUCCESS));
+
+        return "redirect:/courses/" + courseId;
     }
 
 
 
-    //single quiz page
-    @RequestMapping("/courses/{courseId}/{quizId}")
-    public String quiz(Model model, @PathVariable Long quizId, @PathVariable Long courseId){
+    //single quiz results page
+    @RequestMapping("/courses/{courseId}/{quizId}/chart")
+    public String renederQuizChartView(Model model, @PathVariable Long quizId, @PathVariable Long courseId){
 
         Course course = courseService.findOne(courseId);
-
-
         Quiz quiz = quizService.findOne(quizId);
+
         model.addAttribute("quiz", quiz);
-
-
-        model.addAttribute("newQuestion", new Question());
-
-
-        Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
-        model.addAttribute("questions", questions);
-
         model.addAttribute("course", course);
 
-        return "quiz";
+        return "quizChart";
     }
 
 
@@ -97,21 +111,25 @@ public class QuizController {
 
     //method for serving questions to a quiz-taker
     @RequestMapping("/courses/{courseId}/{quizId}/quiz")
-    public String quizzer(Principal principal, Model model, @PathVariable Long quizId, @PathVariable Long courseId) {
+    public String quizEventHandler(Principal principal, Model model, @PathVariable Long quizId, @PathVariable Long courseId) {
 
         String username = principal.getName();
         User user = userService.findByUsername(username);
         Course course = courseService.findOne(courseId);
         Quiz quiz = quizService.findOne(quizId);
-
         Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
+
+
+        //serves remaining questions to the user:
 
         for (Question question : questions) {
 
-            if (answerService.findOneByQuestion_IdAndUser_Id(question.getId(), user.getId()) == null) {
+            boolean questionNotAnswered = (answerService.findOneByQuestion_IdAndUser_Id(question.getId(), user.getId()) == null);
+            if (questionNotAnswered) {
 
                 List<Alternative> alts = (List<Alternative>) alternativeService.findAllByQuestion_Id(question.getId());
                 List<String> alternatives = new ArrayList<String>();
+
                 for (Alternative alt : alts) {
                     alternatives.add(alt.getAlternative());
                 }
@@ -132,39 +150,36 @@ public class QuizController {
             }
         }
 
+        //when quiz is completed by user:
+
+        double userScore = getUserScoreInQuiz(quizId, user);
+        double avgScore = getAvgScoreForQuiz(quizId);
 
         String message = "Congratz, you've completed this quiz!";
         model.addAttribute("message", message);
         model.addAttribute("quizId", quizId);
         model.addAttribute("courseId", courseId);
-
-
-        double userScore = getUserScore(quizId, user);
-
-
-        double avgScore = getAvgScore(quizId);
-
         model.addAttribute("userScore", userScore);
         model.addAttribute("avgScore", avgScore);
-
 
         sendQuizResultsByMail(user, quizId);
 
         return "quizEvent";
     }
 
-    public Double getAvgScore(Long quizId)  {
-        Iterable<Answer> totalAnswers = answerService.findAllByQuiz_Id(quizId);
+
+
+    public Double getAvgScoreForQuiz(Long quizId)  {
+
         List<Answer> numAnswers = new ArrayList<>();
-        List<Answer> numCorrectAnswers = new ArrayList<>();
+
+        Iterable<Answer> totalAnswers = answerService.findAllByQuiz_Id(quizId);
         totalAnswers.forEach(numAnswers::add);
-        for (Answer answer : totalAnswers) {
-            if (answer.isCorrect()) {
-                numCorrectAnswers.add(answer);
-            }
-        }
+
+        ArrayList<Answer> numCorrectAnswers = getCorrectAnswers(totalAnswers);
         try{
-            return (double) (numCorrectAnswers.size() * 100 / numAnswers.size());
+            double percentageScore = (numCorrectAnswers.size() * 100 / numAnswers.size());
+            return percentageScore;
         }
         catch(ArithmeticException ae){
             System.out.println(ae.getMessage());
@@ -172,30 +187,41 @@ public class QuizController {
         }
     }
 
-    public Double getUserScore(Long quizId, User user) {
-        Iterable<Answer> userAnswers = answerService.findAllByQuiz_IdAndUser_Id(quizId, user.getId());
+
+
+    public Double getUserScoreInQuiz(Long quizId, User user) {
+
         List<Answer> userNumAnswers = new ArrayList<>();
-        List<Answer> userNumCorrectAnswers = new ArrayList<>();
+        Iterable<Answer> userAnswers = answerService.findAllByQuiz_IdAndUser_Id(quizId, user.getId());
+
         userAnswers.forEach(userNumAnswers::add);
-        for (Answer answer : userAnswers) {
-            if (answer.isCorrect()) {
-                userNumCorrectAnswers.add(answer);
-            }
-        }
+        ArrayList<Answer> userNumCorrectAnswers = getCorrectAnswers(userAnswers);
         try{
-            return (double) (userNumCorrectAnswers.size() * 100 / userNumAnswers.size());
+            double userPercentageScore = (userNumCorrectAnswers.size() * 100 / userNumAnswers.size());
+            return userPercentageScore;
         }
         catch(ArithmeticException ae){
             System.out.println(ae.getMessage());
             return null;
         }
+    }
 
-
+    private ArrayList<Answer> getCorrectAnswers(Iterable<Answer> userAnswers) {
+        ArrayList<Answer> correctAnswers = new ArrayList<>();
+        for (Answer answer : userAnswers) {
+            if (answer.isCorrect()) {
+                correctAnswers.add(answer);
+            }
+        }
+        return correctAnswers;
     }
 
     private void sendQuizResultsByMail(User user, Long quizId) {
-        boolean enableMail = user.isParticipantQuizResults();
-        if((quizMailService.findOneByQuiz_IdAndParticipant_Id(quizId, user.getId()) == null) && enableMail){
+
+        boolean mailEnabled = user.isParticipantQuizResults();
+        boolean mailNotReceived = (quizMailService.findOneByQuiz_IdAndParticipant_Id(quizId, user.getId()) == null);
+
+        if(mailNotReceived && mailEnabled){
             String[] to = {user.getEmail()};
             BotMailSender.sendFromGMail(to, generateMailSubject(quizId), generateMailBody(quizId, user.getId()));
             QuizMail quizMail = new QuizMail();
@@ -203,25 +229,33 @@ public class QuizController {
             quizMail.setParticipant(user);
             quizMailService.save(quizMail);
         }
-
-
     }
 
     public String generateMailSubject(Long quizId){
-        Quiz q = quizService.findOne(quizId);
 
+        Quiz q = quizService.findOne(quizId);
         return q.getQuizName() + " - results";
     }
+
 
     public String generateMailBody(Long quizId, Long userId){
         User user = userService.findOne(userId);
         Quiz quiz = quizService.findOne(quizId);
 
         String username = user.getUsername();
-        double userScore = getUserScore(quizId, user);
+        double userScore = getUserScoreInQuiz(quizId, user);
 
+        String message = generateBotFeedback(userScore);
+
+        String body = "Hi " + username + "!\n\n" +
+                "You got " + userScore + "% correct on the " + quiz.getQuizName() + " quiz.\n\n" +
+                message + "\n\n" + "ChiliPrepper";
+
+        return body;
+    }
+
+    private String generateBotFeedback(double userScore) {
         String message = "";
-
         if(userScore < 30){
             message = "Oh.. Not great =p  I'm guessing you didn't prepare for this quiz =/ \n  You should put in some more work.";
         }
@@ -231,108 +265,97 @@ public class QuizController {
         else if(userScore < 101 ){
             message = "Excellent work!  You're doing great.  Keep it up!!";
         }
-
-
-        String body = "Hi " + username + "!\n\n" +
-                "You got " + userScore + "% correct on the " + quiz.getQuizName() + " quiz.\n\n" +
-                message + "\n\n" + "ChiliPrepper";
-
-
-
-        return body;
+        return message;
     }
 
 
     @RequestMapping(path = "/submitAnswer", method = RequestMethod.POST)
-    public String submitAnswer(RedirectAttributes redirectAttributes, @RequestParam Long questionId, @RequestParam Long courseId, @RequestParam Long quizId, Principal principal, @RequestParam String answer) {
+    public String submitAnswer(RedirectAttributes redirectAttributes, @RequestParam Long questionId, @RequestParam Long courseId,
+                               @RequestParam Long quizId, Principal principal, @RequestParam String answer) {
 
         String username = principal.getName();
         User user = userService.findByUsername(username);
-
         Course course = courseService.findOne(courseId);
         Quiz quiz = quizService.findOne(quizId);
         Question question = questionService.findOne(questionId);
 
-        Answer newAnswer = new Answer();
-        newAnswer.setQuestion(question);
-        newAnswer.setQuiz(quiz);
-        newAnswer.setCourse(course);
-        newAnswer.setUser(user);
+        Answer newAnswer = createNewAnswer(answer, user, course, quiz, question);
 
-        newAnswer.setAnswer(answer);
-
-        if(answer.equals(question.getCorrectAnswer())){
+        boolean isCorrectAnswer = newAnswer.getAnswer().equals(question.getCorrectAnswer());
+        if(isCorrectAnswer){
             newAnswer.setCorrect(true);
-            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Correct! Good job!", FlashMessage.Status.SUCCESS));
-
+            String message = "Correct! Good job!";
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.SUCCESS));
         }
         else{
             newAnswer.setCorrect(false);
-            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Wrong answer, too bad! ", FlashMessage.Status.FAILURE));
-
+            String message = "Wrong answer, too bad!";
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.FAILURE));
         }
         answerService.save(newAnswer);
+      
         return "redirect:/courses/" + course.getId() + "/" + quiz.getId() + "/quiz";
     }
 
 
 
 
+    private Answer createNewAnswer(@RequestParam String answer, User user, Course course, Quiz quiz, Question question) {
+        Answer newAnswer = new Answer();
+        newAnswer.setQuestion(question);
+        newAnswer.setQuiz(quiz);
+        newAnswer.setCourse(course);
+        newAnswer.setUser(user);
+        newAnswer.setAnswer(answer);
+        return newAnswer;
+    }
+
+
     //publish quiz
     @RequestMapping("/publishQuiz")
     public String publishQuiz(@RequestParam Long quizId, RedirectAttributes redirectAttributes){
-
 
         Quiz quiz = quizService.findOne(quizId);
         Course course = quiz.getCourse();
 
         if(quiz.isPublished()){
             quiz.setPublished(false);
-            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Quiz Unpublished! ", FlashMessage.Status.SUCCESS));
+
+            String message = "Quiz Unpublished!";
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.SUCCESS));
         }
         else{
             quiz.setPublished(true);
-            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Quiz published! ", FlashMessage.Status.SUCCESS));
-
+            String message = "Quiz Unpublished!";
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.SUCCESS));
         }
-
         quizService.save(quiz);
+
         return "redirect:/courses/" + course.getId();
     }
 
 
     @RequestMapping(value = "/quizChart/{quizId}", method = RequestMethod.GET)
-    public String quizChart(Model model, @PathVariable Long quizId) {
+    public String feedQuizChartData(Model model, @PathVariable Long quizId) {
 
         Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
-
         ArrayList<Double> results = getQuizResults(questions);
-
-
         String quizName = quizService.findOne(quizId).getQuizName();
+
         model.addAttribute("quizName", quizName);
-
         model.addAttribute("results", results);
-
-
-
 
         return "graph:: quizChart";
     }
 
     public ArrayList<Double> getQuizResults(Iterable<Question> questions) {
+
         ArrayList<Double> results = new ArrayList<>();
         for (Question question : questions){
             Iterable<Answer> ans = answerService.findAllByQuestion_Id(question.getId());
             List<Answer> numAnswers = new ArrayList<>();
-            List<Answer> numCorrectAnswers = new ArrayList<>();
             ans.forEach(numAnswers :: add);
-            for (Answer answer : ans){
-                if(answer.isCorrect()){
-                    numCorrectAnswers.add(answer);
-                }
-            }
-
+            ArrayList<Answer> numCorrectAnswers = getCorrectAnswers(ans);
             results.add((double)numCorrectAnswers.size() * 100 / numAnswers.size());
         }
         return results;
@@ -341,21 +364,23 @@ public class QuizController {
     //for returning the editQuiz page
     @RequestMapping("/courses/{courseId}/{quizId}/editQuiz")
     public String editQuiz(Model model, @RequestParam Long quizId){
+
         Quiz quiz = quizService.findOne(quizId);
         Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
+
         model.addAttribute("quiz", quiz);
         model.addAttribute("questions", questions);
         model.addAttribute("course", quiz.getCourse());
+
         return "editQuiz";
     }
 
 
     @RequestMapping(path = "/saveEditQuiz", method = RequestMethod.POST)
     public String saveEditQuiz(@ModelAttribute Quiz quiz) {
+
         Course course = courseService.findOne(quiz.getCourse().getId());
-        System.out.println("\n\n\n\n Fant course \n\n\n\n");
         quizService.save(quiz);
-        System.out.println("\n\n\n\n saved quiz? \n\n\n\n");
 
         return "redirect:/courses/" + course.getId() + "/" + quiz.getId();
     }
@@ -365,9 +390,8 @@ public class QuizController {
     //method for deleting quiz
     @RequestMapping("/deleteQuiz")
     public String deleteQuiz(@RequestParam Long quizId){
+
         Quiz quiz = quizService.findOne(quizId);
-
-
         quizService.delete(quiz);
         return "redirect:/courses/" + quiz.getCourse().getId();
     }

@@ -2,39 +2,44 @@
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout :: head('Login')"></head>
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col s12 m6 offset-m3">
-            <div class="card">
-                <div>
-                    <img th:src="@{/img/LogoLiten.png}" alt="ChiliPrepper logo" class="logo-image"/>
-                </div>
-                <div>
-                    <div th:replace="layout :: flash"></div>
-                    <form th:action="@{/login}" th:object="${user}" method="post" class="login">
-                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                        <div class="row">
-                            <div class="col s12">
-                                <input th:field="*{username}" placeholder="username"/>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s12">
-                                <input type="password" th:field="*{password}" placeholder="password"/>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s12">
-                                <button type="submit" class="btn">Log in</button>
-                            </div>
-                        </div>
-                    </form>
-                    <h4><a href="/register">Create an account</a></h4>
-                </div>
+
+
+<div id="wrapper">
+    <section>
+        <div th:replace="layout :: flash"></div>
+
+
+        <div class="form-style-5">
+            <div id="logintitle">
+                <h1>ChiliPrepper</h1>
             </div>
+            <div id="loginlogo">
+                <img th:src="@{/img/LogoLiten.png}" alt="ChiliPrepper logo" class="logo-image"/>
+            </div>
+
+            <form th:action="@{/login}" th:object="${user}" method="post" class="login">
+                <fieldset>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <input type="text" th:field="*{username}" placeholder="Username *"/>
+                    <input type="password" th:field="*{password}" placeholder="Password *"/>
+                </fieldset>
+                <input type="submit" value="Log in" />
+            </form>
+            <h4><a href="/register">Create an account</a></h4>
+
+
         </div>
-    </div>
+
+
+
+
+    </section>
+
+
 </div>
+
+
+
 <div th:replace="layout :: scripts"></div>
 </body>
 </html>

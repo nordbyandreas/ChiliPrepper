@@ -61,18 +61,21 @@ public class RegistrationController {
      */
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public String RegUser(@ModelAttribute User user, RedirectAttributes redirectAttributes) {
-        if(user.getEmail().isEmpty()){
-            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Registration failed! You must include a correct email!", FlashMessage.Status.FAILURE));
+
+        if(user.getEmail().isEmpty() || user.getUsername().isEmpty()  || user.getPassword().isEmpty()){
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Registration failed! All fields must be filled out!", FlashMessage.Status.FAILURE));
+
             return "redirect:/register";
         }
         else if(userService.findByUsername(user.getUsername()) != null){
             redirectAttributes.addFlashAttribute("flash",new FlashMessage("Registration failed! That username is taken!", FlashMessage.Status.FAILURE));
             return "redirect:/register";
         }
-        user.setCreatorCourseUpdate(true);
-        user.setCreatorQuizResults(true);
-        user.setParticipantTopicUpdate(true);
-        user.setParticipantQuizResults(true);
+
+        user.setCreatorCourseUpdate(false);
+        user.setCreatorQuizResults(false);
+        user.setParticipantTopicUpdate(false);
+        user.setParticipantQuizResults(false);
         userService.save(user);
         redirectAttributes.addFlashAttribute("flash",new FlashMessage("Registration success! Return to login page to get started !", FlashMessage.Status.SUCCESS));
         return "redirect:/register";

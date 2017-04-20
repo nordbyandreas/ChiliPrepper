@@ -18,7 +18,7 @@ public class Course {
     @Column
     private String courseName;
 
-    @Column
+    @Column(unique = true)
     private String accessCode;
 
     @ManyToOne
