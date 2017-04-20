@@ -171,7 +171,7 @@ public class QuestionController {
         redirectAttributes.addFlashAttribute("flash",new FlashMessage("Question deleted! ", FlashMessage.Status.SUCCESS));
 
 
-        return "redirect:/courses/" + courseId + "/" + quizId + "/editQuiz?quizId=" + quizId;
+        return "redirect:/courses/" + courseId + "/" + quizId;
     }
 
 

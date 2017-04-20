@@ -40,33 +40,7 @@ h3 {
     font-weight: normal;
 }
 
-input, button {
-    margin: 5px;
-    min-height: 48px;
-    min-width: 48px;
-}
 
-input {
-    padding: 10px 5px;
-    border: 2px solid #849852;
-    /*margin: 3px;*/
-}
-
-input:focus {
-    outline: none;
-    border-width: 5px;
-    /*margin: 0;*/
-}
-
-button {
-    background-color: #A00005;
-    border: none;
-    color: #FFF;
-    font-family: 'Oswald', sans-serif;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-}
 
 .courseContainer{
     border-color: #888888;
@@ -262,10 +236,13 @@ PAGE: LOGIN
     flex-direction: column;
     justify-content: center;
     text-align: center;
+    background: #f4f7f8;
 }
 
 #logintitle {
     margin: auto auto 0;
+    clear: both;
+    text-align: center;
 }
 
 #logintitle h1 {
@@ -274,13 +251,19 @@ PAGE: LOGIN
 
 #loginlogo {
     margin: 0 auto;
+    clear: both;
+    max-width: 200px;
 }
+
+
+
+
 
 #loginlogo .logo-image {
     clear: both;
     display: block;
     margin: auto;
-    max-width: 150px;
+    max-width: 200px;
 }
 
 #loginform {
@@ -308,30 +291,39 @@ PAGE: COURSES
 
 .gallery li{
     float: left;
-    width: 45%;
+    width: 44%;
     margin: 2.5%;
     background-color: #f5f5f5;
     color: #bdc3c7;
+    border: #f2e2e2 1px solid;
+    border-radius: 4px;
 }
 
 .gallery li a p{
     margin: 0;
     padding: 5%;
     font-size: 0.75em;
-    color: #bdc3c7;
+    color: #666666;
 }
 
 
 .chartLink {
     background-color: #f5f5f5;
     float: right;
-    max-height: 70px;
+    max-height: 100px;
+    border-radius: 30px;
+    margin-bottom: 10px;
 
 }
 
 .chartLink img{
     background-color: #f4f7f8;
-    max-height: 60px;
+    max-height: 70px;
+    display:block;
+    margin:auto;
+    border-radius: 30px;
+    border-color: #E09514;
+    border: solid 1px;
 
 }
 .chartLink p{
@@ -501,6 +493,7 @@ FORMS
     font-family: Georgia, "Times New Roman", Times, serif;
 }
 .form-style-5 fieldset{
+    clear: both;
     border: none;
 }
 .form-style-5 legend {
@@ -519,6 +512,7 @@ FORMS
 .form-style-5 input[type="search"],
 .form-style-5 input[type="time"],
 .form-style-5 input[type="url"],
+.form-style-5 input[type="password"],
 .form-style-5 textarea,
 .form-style-5 select {
     font-family: Georgia, "Times New Roman", Times, serif;
@@ -578,12 +572,12 @@ FORMS
     padding: 19px 39px 18px 39px;
     color: #FFF;
     margin: 0 auto;
-    background: #1abc9c;
+    background: #6ab47b;
     font-size: 18px;
     text-align: center;
     font-style: normal;
     width: 100%;
-    border: 1px solid #16a085;
+    border: 1px solid #599a68;
     border-width: 1px 1px 3px;
     margin-bottom: 10px;
 }

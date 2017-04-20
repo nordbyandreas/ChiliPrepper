@@ -17,6 +17,8 @@
     <section>
 
         <div th:replace="layout :: flash"></div>
+
+
         <!-- FOR COURSE CREATORS -->
 
     <div th:if="${userId} == ${creatorId}">
@@ -25,36 +27,46 @@
 
             <a class="chartLink" th:href="@{|/courses/${course.id}/chart|}">
                 <img th:src="@{/img/chart-icon-color.png}"/>
-                <p>View live course results:</p>
+
             </a>
         </div>
 
-        <div class="group">
-            <h3>Quizes in this course</h3>
-            <ul class="gallery"  th:each="quiz : ${myQuizes}">
 
-                <li>
-                    <a th:href="@{|/courses/${course.id}/${quiz.id}|}">
-                        <img th:src="@{/img/placeholder.png}"/>
-                        <p th:text="${quiz.quizName}"></p>
-                        <div th:if="${quiz.published} == true">
-                            <form th:action="@{/publishQuiz}" method="post">
-                                <input type="hidden" name="quizId" th:value="${quiz.id}"/>
-                                <button type="submit" class="button">Unpublish</button>
+
+        <div th:if="${!myQuizes.empty}" class="form-style-5">
+
+            <fieldset>
+                <legend><span class="number">!</span> Quizes in this course</legend>
+                <ul class="gallery"  th:each="quiz : ${myQuizes}">
+                    <li>
+                        <a th:href="@{|/courses/${course.id}/${quiz.id}|}">
+                            <img th:src="@{/img/placeholder.png}"/>
+                            <p th:text="${quiz.quizName}"></p>
+                            <div th:if="${quiz.published} == true">
+                                <form th:action="@{/publishQuiz}" method="post">
+                                    <input type="hidden" name="quizId" th:value="${quiz.id}"/>
+                                    <button type="submit" class="button">Unpublish</button>
+                                </form>
+
+
+                            </div>
+
+                            <div th:if="${quiz.published} == false">
+                                <form th:action="@{/publishQuiz}" method="post">
+                                    <input type="hidden" name="quizId" th:value="${quiz.id}"/>
+                                    <button type="submit" class="button" style="background-color: #7f9e40">Publish</button>
+                                </form>
+                            </div>
+                            <form th:action="@{/deleteQuiz}" method="post">
+                                <label><input type="hidden" name="quizId" th:value="${quiz.id}"/></label>
+                                <button type="submit" class="button">Delete</button>
                             </form>
-                        </div>
-
-                        <div th:if="${quiz.published} == false">
-                            <form th:action="@{/publishQuiz}" method="post">
-                                <input type="hidden" name="quizId" th:value="${quiz.id}"/>
-                                <button type="submit" class="button" style="background-color: #7f9e40">Publish</button>
-                            </form>
-                        </div>
-                    </a>
-                </li>
+                        </a>
+                    </li>
+                </ul>
+            </fieldset>
 
 
-            </ul>
         </div>
 
 
@@ -89,25 +101,24 @@
 
 
 
+            <div class="form-style-5">
+                <fieldset>
+                    <legend><span class="number">!</span> Available quizes in this course</legend>
+                    <ul class="gallery"  th:each="quiz : ${myQuizes}">
+
+                        <li>
+                            <a th:href="@{|/courses/${course.id}/${quiz.id}/quiz|}">
+                                <div th:if="${quiz.published} == true">
+                                    <img th:src="@{/img/placeholder.png}"/>
+                                    <p th:text="${quiz.quizName}"></p>
+                                </div>
+                            </a>
+                        </li>
 
 
-            <div>
-                <h3>Available quizes in this course</h3>
-                <ul class="gallery"  th:each="quiz : ${myQuizes}">
-
-                    <li>
-                        <a th:href="@{|/courses/${course.id}/${quiz.id}/quiz|}">
-                            <div th:if="${quiz.published} == true">
-                            <img th:src="@{/img/placeholder.png}"/>
-                            <p th:text="${quiz.quizName}"></p>
-                            </div>
-                        </a>
-                    </li>
-
-
-                </ul>
+                    </ul>
+                </fieldset>
             </div>
-
         </div>
 
         <!-- FOR COURSE PARTICIPANTS -->

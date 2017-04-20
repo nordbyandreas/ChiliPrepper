@@ -45,7 +45,7 @@
                 <h1 th:text="${quiz.quizName}" style="color: black; float: left;"></h1>
                 <a class="chartLink" th:href="@{|/courses/${course.id}/${quiz.id}/chart|}">
                     <img th:src="@{/img/chart-icon-color.png}"/>
-                    <p>View live quiz results:</p>
+
                 </a>
             </div>
 
@@ -57,24 +57,29 @@
 
 
 
+            <div th:if="${!questions.empty}" class="form-style-5">
+                <fieldset>
+                    <legend><span class="number">!</span> Questions in this quiz</legend>
+                    <ul class="gallery"  th:each="question : ${questions}">
+
+                        <li>
+                            <a th:href="@{|/courses/${course.id}/${quiz.id}/${question.id}|}">
+                                <img th:src="@{/img/placeholder.png}"/>
+                                <p th:text="${question.theQuestion}"></p>
+
+                            </a>
+                            <form th:action="@{/deleteQuestion}" method="post">
+                                <input type="hidden" name="questionId" th:value="${question.id}"/>
+                                <button type="submit" class="button">Delete</button>
+                            </form>
+                        </li>
 
 
-
-            <div>
-                <h3>Questions in this quiz</h3>
-                <ul class="gallery"  th:each="question : ${questions}">
-
-                    <li>
-                        <a th:href="@{|/courses/${course.id}/${quiz.id}/${question.id}|}">
-                            <img th:src="@{/img/placeholder.png}"/>
-                            <p th:text="${question.theQuestion}"></p>
-
-                        </a>
-                    </li>
-
-
-                </ul>
+                    </ul>
+                </fieldset>
             </div>
+
+
 
 
             <div class="form-style-5">

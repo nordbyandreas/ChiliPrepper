@@ -15,18 +15,26 @@
     <section>
         <div th:replace="layout :: flash"></div>
 
-        <div class="group">
-            <h3>Your Created Courses</h3>
-            <ul class="gallery" th:each="course : ${myCourses}">
 
-                <li>
-                    <a th:href="@{|/courses/${course.id}|}">
-                        <img th:src="@{/img/placeholder.png}"/>
-                        <p th:text="${course.courseName}"></p>
-                    </a>
-                </li>
-            </ul>
+        <div th:if="${!myCourses.empty}" class="form-style-5">
+
+                <fieldset>
+                    <legend><span class="number">+</span> Your Created Courses</legend>
+                    <ul class="gallery" th:each="course : ${myCourses}">
+
+                        <li>
+                            <a th:href="@{|/courses/${course.id}|}">
+                                <img th:src="@{/img/placeholder.png}"/>
+                                <p th:text="${course.courseName}"></p>
+                            </a>
+                        </li>
+                    </ul>
+                </fieldset>
+
+
         </div>
+
+
 
         <div class="form-style-5">
             <form th:action="@{addCourse}" th:object="${course}" method="post">
@@ -41,23 +49,27 @@
 
 
 
-        <div class="group">
-            <h3>Courses you've joined</h3>
-            <ul class="gallery"  th:each="course : ${regCourses}">
+        <div th:if="${!regCourses.empty}" class="form-style-5">
 
-                <li>
-                    <a th:href="@{|/courses/${course.id}|}">
-                        <img th:src="@{/img/placeholder.png}"/>
-                        <p th:text="${course.courseName}"></p>
-                    </a>
-                </li>
+            <fieldset>
+                <legend><span class="number">!</span> Courses you've joined</legend>
+                <ul class="gallery"  th:each="course : ${regCourses}">
+
+                    <li>
+                        <a th:href="@{|/courses/${course.id}|}">
+                            <img th:src="@{/img/placeholder.png}"/>
+                            <p th:text="${course.courseName}"></p>
+                        </a>
+                    </li>
 
 
-            </ul>
-
+                </ul>
+            </fieldset>
 
 
         </div>
+
+
 
 
         <div class="form-style-5">
