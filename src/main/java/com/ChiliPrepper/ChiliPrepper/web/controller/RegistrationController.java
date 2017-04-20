@@ -61,13 +61,21 @@ public class RegistrationController {
      */
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public String RegUser(@ModelAttribute User user, RedirectAttributes redirectAttributes) {
+        if(user.getEmail().isEmpty()){
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Registration failed! You must include a correct email!", FlashMessage.Status.FAILURE));
+            return "redirect:/register";
+        }
+        else if(userService.findByUsername(user.getUsername()) != null){
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Registration failed! That username is taken!", FlashMessage.Status.FAILURE));
+            return "redirect:/register";
+        }
         user.setCreatorCourseUpdate(true);
         user.setCreatorQuizResults(true);
         user.setParticipantTopicUpdate(true);
         user.setParticipantQuizResults(true);
         userService.save(user);
-        //TODO: add flashmessage for success or failure of registration
-        return "redirect:/login";
+        redirectAttributes.addFlashAttribute("flash",new FlashMessage("Registration success! Return to login page to get started !", FlashMessage.Status.SUCCESS));
+        return "redirect:/register";
     }
 
 }

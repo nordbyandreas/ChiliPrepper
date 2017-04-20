@@ -82,8 +82,8 @@ public class CourseController {
 
         model.addAttribute("quiz", new Quiz());
         model.addAttribute("courseId", courseId);
-        Iterable<Quiz> myQuizes = quizService.findAllByCourse_id(courseId);
-        model.addAttribute("myQuizes", myQuizes);
+        Iterable<Quiz> myQuizzes = quizService.findAllByCourse_id(courseId);
+        model.addAttribute("myQuizzes", myQuizzes);
         model.addAttribute("course", course);
 
         Iterable<Answer> answers = answerService.findAllByCourse_IdAndUser_Id(courseId, user.getId());
@@ -124,13 +124,13 @@ public class CourseController {
         String username = principal.getName();
         User user = userService.findByUsername(username);
 
+        if((course.getCourseName().isEmpty() || course.getAccessCode().isEmpty())){
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Could not create the course. Name and accessCode cannot be empty! ", FlashMessage.Status.FAILURE));
+            return "redirect:/";
+        }
         course.setCreator(user);
         courseService.save(course);
-
-        //TODO: message for not successfully added course
-        //TODO: maybe we need to set AccessCode as unique
         redirectAttributes.addFlashAttribute("flash",new FlashMessage("You've successfully created " + course.getCourseName() + " !", FlashMessage.Status.SUCCESS));
-
         return "redirect:/";
     }
 
@@ -143,22 +143,28 @@ public class CourseController {
         String username = principal.getName();
         User user = userService.findByUsername(username);
 
-        Course course = courseService.findByAccessCode(accessCode);
+        if(courseService.findByAccessCode(accessCode) != null){
 
-        Set<User> regUsers = course.getRegUsers();
-        regUsers.add(user);
+            Course course = courseService.findByAccessCode(accessCode);
 
-        Set<Course> regCourses = user.getRegCourses();
-        regCourses.add(course);
+            Set<User> regUsers = course.getRegUsers();
+            regUsers.add(user);
 
-        course.setRegUsers(regUsers);
-        user.setRegCourses(regCourses);
+            Set<Course> regCourses = user.getRegCourses();
+            regCourses.add(course);
 
-        userService.save(user);
-        courseService.save(course);
-        //TODO: flashmessage for unsuccessfull registration
-        redirectAttributes.addFlashAttribute("flash",new FlashMessage("You've registered in " + course.getCourseName(), FlashMessage.Status.SUCCESS));
-        return "redirect:/";
+            course.setRegUsers(regUsers);
+            user.setRegCourses(regCourses);
+
+            userService.save(user);
+            courseService.save(course);
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("You've registered in " + course.getCourseName(), FlashMessage.Status.SUCCESS));
+            return "redirect:/";
+        }
+        else{
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Registration failed! No course with that accessCode found.", FlashMessage.Status.FAILURE));
+            return "redirect:/";
+        }
     }
 
 

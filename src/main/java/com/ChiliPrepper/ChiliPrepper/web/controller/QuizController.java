@@ -54,16 +54,17 @@ public class QuizController {
 
     @RequestMapping(path = "/addQuiz", method = RequestMethod.POST)
     public String addQuiz(@ModelAttribute Quiz quiz, @RequestParam Long courseId, RedirectAttributes redirectAttributes) {
+
         Course course = courseService.findOne(courseId);
+
+        if(quiz.getQuizName().isEmpty()){
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Could not create quiz. Quiz name cannot be empty! ", FlashMessage.Status.FAILURE));
+            return "redirect:/courses/" + course.getId();
+        }
         quiz.setCourse(course);
         quiz.setPublished(false);
         quizService.save(quiz);
-
-
         redirectAttributes.addFlashAttribute("flash",new FlashMessage("Quiz created ! ", FlashMessage.Status.SUCCESS));
-
-        //Todo: FlashMessage for not successfully added quiz
-
         return "redirect:/courses/" + course.getId();
     }
 
@@ -138,7 +139,7 @@ public class QuizController {
         model.addAttribute("courseId", courseId);
 
 
-       double userScore = getUserScore(quizId, user);
+        double userScore = getUserScore(quizId, user);
 
 
         double avgScore = getAvgScore(quizId);
@@ -243,7 +244,7 @@ public class QuizController {
 
 
     @RequestMapping(path = "/submitAnswer", method = RequestMethod.POST)
-    public String submitAnswer(@RequestParam Long questionId, @RequestParam Long courseId, @RequestParam Long quizId, Principal principal, @RequestParam String answer) {
+    public String submitAnswer(RedirectAttributes redirectAttributes, @RequestParam Long questionId, @RequestParam Long courseId, @RequestParam Long quizId, Principal principal, @RequestParam String answer) {
 
         String username = principal.getName();
         User user = userService.findByUsername(username);
@@ -262,16 +263,16 @@ public class QuizController {
 
         if(answer.equals(question.getCorrectAnswer())){
             newAnswer.setCorrect(true);
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Correct! Good job!", FlashMessage.Status.SUCCESS));
+
         }
         else{
             newAnswer.setCorrect(false);
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Wrong answer, too bad! ", FlashMessage.Status.FAILURE));
+
         }
-
         answerService.save(newAnswer);
-//TODO: flashmessages for correct or incorrect answers
-
         return "redirect:/courses/" + course.getId() + "/" + quiz.getId() + "/quiz";
-
     }
 
 
@@ -283,15 +284,17 @@ public class QuizController {
 
 
         Quiz quiz = quizService.findOne(quizId);
-        quiz.setPublished(true);
-
         Course course = quiz.getCourse();
 
-        //Todo: flashmessage for published quiz.
-        redirectAttributes.addFlashAttribute("flash",new FlashMessage("Quiz published! ", FlashMessage.Status.SUCCESS));
+        if(quiz.isPublished()){
+            quiz.setPublished(false);
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Quiz Unpublished! ", FlashMessage.Status.SUCCESS));
+        }
+        else{
+            quiz.setPublished(true);
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage("Quiz published! ", FlashMessage.Status.SUCCESS));
 
-
-        //Todo: colorcode published vs unpublished?
+        }
 
         quizService.save(quiz);
         return "redirect:/courses/" + course.getId();

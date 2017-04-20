@@ -25,10 +25,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 /**
- * Created by dagki on 04/03/2017.
- */
-
-/**
+ * Created by Dag Kirstihagen 04/03/2017.
+ *
  * The mapping methods in the controller class will confirm that:
  * 1. All model- and flash attributes are invoked
  * 2. All save and delete calls on service objects are invoked
@@ -78,17 +76,27 @@ public class QuestionControllerTest {
     }
 
     @Test
-    public void addQuestion() throws Exception {
+    public void addQuestion_SuccessfullyAddsQuestion_RedirectsToTheQuiz() throws Exception {
+        //Finds the quiz that is selected within the course
         when(course.getId()).thenReturn(1L);
         when(quiz.getCourse()).thenReturn(course);
         when(quizService.findOne(1L)).thenReturn(quiz);
 
-        mockMvc.perform(post
-                ("/addQuestion")
+        //The question and the correct answer to the question is entered
+        when(question.getTheQuestion()).thenReturn("theQuestion");
+        when(question.getCorrectAnswer()).thenReturn("correctAnswer");
+
+        mockMvc.perform(post("/addQuestion")
+                .flashAttr("question", question)
                 .param("quizId", "1")
                 .param("alt1", "alt1")
                 .param("alt2", "alt2")
                 .param("alt3", "alt3"))
+
+                .andExpect(flash().attributeExists("flash"))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Question added! "))))
+                .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.SUCCESS))))
+
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/courses/1/1"));
 
@@ -98,7 +106,61 @@ public class QuestionControllerTest {
     }
 
     @Test
-    public void question() throws Exception {
+    public void addQuestion_QuestionNotEntered_FailsToAddQuestion_RedirectsToTheQuiz() throws Exception {
+        //Finds the quiz that is selected within the course
+        when(course.getId()).thenReturn(1L);
+        when(quiz.getCourse()).thenReturn(course);
+        when(quizService.findOne(1L)).thenReturn(quiz);
+
+        //Question not entered while trying to add question
+        when(question.getTheQuestion()).thenReturn("");
+
+        mockMvc.perform(post("/addQuestion")
+                .flashAttr("question", question)
+                .param("quizId", "1")
+                .param("alt1", "alt1")
+                .param("alt2", "alt2")
+                .param("alt3", "alt3"))
+
+                .andExpect(flash().attributeExists("flash"))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Could not add question. Needs at least a question and correct answer!"))))
+                .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.FAILURE))))
+
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/courses/1/1"));
+    }
+
+    @Test
+    public void addQuestion_CorrectAnswerNotEntered_FailsToAddQuestion_RedirectsToTheQuiz() throws Exception {
+        //Finds the quiz that is selected within the course
+        when(course.getId()).thenReturn(1L);
+        when(quiz.getCourse()).thenReturn(course);
+        when(quizService.findOne(1L)).thenReturn(quiz);
+
+        //The question's correct answer ain't entered
+        when(question.getTheQuestion()).thenReturn("theQuestion");
+        when(question.getCorrectAnswer()).thenReturn("");
+
+        mockMvc.perform(post("/addQuestion")
+                .flashAttr("question", question)
+                .param("quizId", "1")
+                .param("alt1", "alt1")
+                .param("alt2", "alt2")
+                .param("alt3", "alt3"))
+
+                .andExpect(flash().attributeExists("flash"))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Could not add question. Needs at least a question and correct answer!"))))
+                .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.FAILURE))))
+
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/courses/1/1"));
+    }
+
+
+
+    @Test
+    public void question_RendersQuestionView() throws Exception {
+        //Finds the selected question
         when(questionService.findOne(1L)).thenReturn(question);
 
         mockMvc.perform(get
@@ -107,46 +169,60 @@ public class QuestionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("question"));
 
-
         verify(questionService).findOne(1L);
     }
 
+
+
     @Test
-    public void editQuestion() throws Exception {
+    public void editQuestion_RendersEditQuestionView() throws Exception {
+        //Finds the selected question
+        when(questionService.findOne(1L)).thenReturn(question);
+
+        //Finds the question's alternatives
+        when(alternativeService.findAllByQuestion_Id(1L)).thenReturn(new ArrayList<>(Arrays.asList(alt1, alt2, alt3)));
+
+        //Finds the quiz and course in order to add them to the model
         when(quiz.getId()).thenReturn(1L);
         when(course.getId()).thenReturn(1L);
         when(quiz.getCourse()).thenReturn(course);
         when(question.getQuiz()).thenReturn(quiz);
-        when(questionService.findOne(1L)).thenReturn(question);
-        when(alternativeService.findAllByQuestion_Id(1L)).thenReturn(new ArrayList<>(Arrays.asList(alt1, alt2, alt3)));
 
-        mockMvc.perform(get
-                ("/courses/{courseId}/{quizId}/{questionId}/editQuestion", 1L, 1L, 1L)
+        mockMvc.perform(get("/courses/{courseId}/{quizId}/{questionId}/editQuestion", 1L, 1L, 1L)
                 .param("questionId", "1"))
-                .andExpect(status().isOk())
+
                 .andExpect(model().attributeExists("alt1"))
                 .andExpect(model().attributeExists("alt2"))
                 .andExpect(model().attributeExists("alt3"))
                 .andExpect(model().attributeExists("quizId"))
                 .andExpect(model().attributeExists("courseId"))
                 .andExpect(model().attributeExists("question"))
+
+                .andExpect(status().isOk())
                 .andExpect(view().name("editQuestion"));
 
         verify(questionService).findOne(1L);
         verify(alternativeService).findAllByQuestion_Id(1L);
     }
 
+
+
     @Test
-    public void saveEditQuestion() throws Exception {
-        when(quiz.getId()).thenReturn(1L);
-        when(course.getId()).thenReturn(1L);
-        when(question.getId()).thenReturn(1L);
-        when(quiz.getCourse()).thenReturn(course);
-        when(quizService.findOne(1L)).thenReturn(quiz);
+    public void saveEditQuestion_RedirectsToTheQuestion() throws Exception {
+        //Finds the question's alternatives
         when(alternativeService.findOne(1L)).thenReturn(alt1);
         when(alternativeService.findOne(2L)).thenReturn(alt2);
         when(alternativeService.findOne(3L)).thenReturn(alt3);
+
+        //Finds the selected question and the question's quiz
         when(questionService.findOne(1L)).thenReturn(question);
+        when(quizService.findOne(1L)).thenReturn(quiz);
+
+        //Finds the the course's, quiz's and question's ID fir the redirected URL
+        when(quiz.getCourse()).thenReturn(course);
+        when(course.getId()).thenReturn(1L);
+        when(quiz.getId()).thenReturn(1L);
+        when(question.getId()).thenReturn(1L);
 
         mockMvc.perform(get("/courses/{courseId}/{quizId}/{questionId}/editQuestion/saveEditQuestion", 1L, 1L, 1L)
                 .param("alt1", "alt1")
@@ -170,16 +246,21 @@ public class QuestionControllerTest {
 
         verify(alternativeService, times(3)).save(any(Alternative.class));
         verify(questionService).save(any(Question.class));
+        }
 
-    }
 
-    @Test
-    public void deleteQuestion() throws Exception{
+
+        @Test
+        public void deleteQuestion_RedirectsToTheQuiz() throws Exception{
+        //Finds the selected question
+        when(questionService.findOne(1L)).thenReturn(question);
+
+        //Finds the quiz and course in order to add them to the model
         when(quiz.getId()).thenReturn(1L);
         when(course.getId()).thenReturn(1L);
         when(quiz.getCourse()).thenReturn(course);
         when(question.getQuiz()).thenReturn(quiz);
-        when(questionService.findOne(1L)).thenReturn(question);
+
 
         mockMvc.perform(get("/deleteQuestion")
                 .param("questionId", "1"))
