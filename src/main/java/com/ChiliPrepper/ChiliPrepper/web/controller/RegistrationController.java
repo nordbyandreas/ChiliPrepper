@@ -69,10 +69,10 @@ public class RegistrationController {
             redirectAttributes.addFlashAttribute("flash",new FlashMessage("Registration failed! That username is taken!", FlashMessage.Status.FAILURE));
             return "redirect:/register";
         }
-        user.setCreatorCourseUpdate(true);
-        user.setCreatorQuizResults(true);
-        user.setParticipantTopicUpdate(true);
-        user.setParticipantQuizResults(true);
+        user.setCreatorCourseUpdate(false);
+        user.setCreatorQuizResults(false);
+        user.setParticipantTopicUpdate(false);
+        user.setParticipantQuizResults(false);
         userService.save(user);
         redirectAttributes.addFlashAttribute("flash",new FlashMessage("Registration success! Return to login page to get started !", FlashMessage.Status.SUCCESS));
         return "redirect:/register";

@@ -217,9 +217,12 @@ public class CourseController {
 
 
     public Double getAvgScoreForCourseChart(Long quizId)  {
+
         Iterable<Answer> tAnswers = answerService.findAllByQuiz_Id(quizId);
+
         List<Answer> nAnswers = new ArrayList<>();
         List<Answer> nCorrectAnswers = new ArrayList<>();
+
         tAnswers.forEach(nAnswers::add);
         for (Answer answer : tAnswers) {
             if (answer.isCorrect()) {
@@ -227,7 +230,8 @@ public class CourseController {
             }
         }
         try{
-            return (double) (nCorrectAnswers.size() * 100 / nAnswers.size());
+            double coursePercentageScore = (nCorrectAnswers.size() * 100 / nAnswers.size());
+            return coursePercentageScore;
         }
         catch(ArithmeticException ae){
             System.out.println(ae.getMessage());

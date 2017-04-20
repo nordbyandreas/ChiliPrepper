@@ -9,15 +9,12 @@ package com.ChiliPrepper.ChiliPrepper;
 
 
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.ChiliPrepper.ChiliPrepper.model.*;
 import com.ChiliPrepper.ChiliPrepper.service.*;
 import com.ChiliPrepper.ChiliPrepper.web.controller.BotMailSender;
 import com.ChiliPrepper.ChiliPrepper.web.controller.QuizController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -93,8 +90,8 @@ public class ScheduledMailSender {
             int counter = 0;
             boolean enableMail = course.getCreator().isCreatorCourseUpdate();
             for (Quiz quiz : quizes) {
-                if(quizController.getAvgScore(quiz.getId()) != null) {
-                    courseAvg += quizController.getAvgScore(quiz.getId());
+                if(quizController.getAvgScoreForQuiz(quiz.getId()) != null) {
+                    courseAvg += quizController.getAvgScoreForQuiz(quiz.getId());
                     System.out.println("\n\n\n\n" + courseAvg + "\n\n\n\n");
                     counter += 1;
                     System.out.println("\n\n\n\n" + counter + "\n\n\n\n");
@@ -143,8 +140,8 @@ public class ScheduledMailSender {
             for (Quiz quiz : quizes) {
 
                 //check if creator has received mail of quizresults previously
-                if((creatorQuizMailService.findOneByQuiz_Id(quiz.getId()) == null) && (quizController.getAvgScore(quiz.getId()) != null) && enableMail){
-                    double quizAverage = quizController.getAvgScore(quiz.getId());
+                if((creatorQuizMailService.findOneByQuiz_Id(quiz.getId()) == null) && (quizController.getAvgScoreForQuiz(quiz.getId()) != null) && enableMail){
+                    double quizAverage = quizController.getAvgScoreForQuiz(quiz.getId());
                     String bot = generateBotResponse(quizAverage);
                     String message = "Yo, the quiz average for " + quiz.getQuizName() + " was at:  " + quizAverage + "%  ! \n\n " + bot;
                     BotMailSender.sendFromGMail(to, "Quiz average results", message);

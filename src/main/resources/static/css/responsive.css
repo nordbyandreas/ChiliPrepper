@@ -150,8 +150,31 @@
     }
 
 
+    #courseForm1{
+        float: left;
+        max-width: 45%;
+        clear: none;
+    }
+
+    #courseContainer1{
+        float: left;
+        max-width: 45%;
+        clear: right;
+    }
 
 
+    #courseForm2{
+        float: right;
+        max-width: 45%;
+        clear: none;
+    }
+
+
+    #courseContainer2{
+        float: right;
+        max-width: 45%;
+        clear: none;
+    }
 
 
     /********************

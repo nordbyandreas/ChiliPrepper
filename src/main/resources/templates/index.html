@@ -16,7 +16,22 @@
         <div th:replace="layout :: flash"></div>
 
 
-        <div th:if="${!myCourses.empty}" class="form-style-5">
+
+        <div id="courseForm1" class="form-style-5">
+            <form th:action="@{addCourse}" th:object="${course}" method="post">
+                <fieldset>
+                    <legend><span class="number">+</span> Create a new course</legend>
+                    <input type="text" th:field="*{courseName}" placeholder="Course name *"/>
+                    <input type="text" th:field="*{accessCode}" placeholder="Access code *"/>
+                </fieldset>
+                <input type="submit" value="Create course" />
+            </form>
+        </div>
+
+
+
+
+        <div th:if="${!myCourses.empty}"  id="courseContainer1" class="form-style-5">
 
                 <fieldset>
                     <legend><span class="number">+</span> Your Created Courses</legend>
@@ -36,20 +51,21 @@
 
 
 
-        <div class="form-style-5">
-            <form th:action="@{addCourse}" th:object="${course}" method="post">
+
+
+        <div id="courseForm2" class="form-style-5">
+            <form th:action="@{regCourse}" method="post">
                 <fieldset>
-                    <legend><span class="number">+</span> Create a new course</legend>
-                    <input type="text" th:field="*{courseName}" placeholder="Course name *"/>
-                    <input type="text" th:field="*{accessCode}" placeholder="Access code *"/>
+                    <legend><span class="number">!</span> Join a new course</legend>
+                    <input type="text" name="accessCode" placeholder="Access code *"/>
                 </fieldset>
-                <input type="submit" value="Create course" />
+                <input type="submit" value="Join" />
             </form>
         </div>
 
 
 
-        <div th:if="${!regCourses.empty}" class="form-style-5">
+        <div th:if="${!regCourses.empty}" id="courseContainer2" class="form-style-5">
 
             <fieldset>
                 <legend><span class="number">!</span> Courses you've joined</legend>
@@ -69,18 +85,6 @@
 
         </div>
 
-
-
-
-        <div class="form-style-5">
-            <form th:action="@{regCourse}" method="post">
-                <fieldset>
-                    <legend><span class="number">!</span> Join a new course</legend>
-                    <input type="text" name="accessCode" placeholder="Access code *"/>
-                </fieldset>
-                <input type="submit" value="Join" />
-            </form>
-        </div>
 
 
 

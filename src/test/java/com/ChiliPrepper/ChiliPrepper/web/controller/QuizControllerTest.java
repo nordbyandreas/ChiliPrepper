@@ -9,7 +9,6 @@ import org.mockito.*;
 
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.mockito.stubbing.VoidMethodStubbable;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -199,14 +198,14 @@ public class QuizControllerTest {
     @Test
     public void getAvgScore_shouldReturnNull() throws Exception {
         setUp_getAvgScore();
-        assertNull(this.controller.getAvgScore(1L));
+        assertNull(this.controller.getAvgScoreForQuiz(1L));
         verify(answerService).findAllByQuiz_Id(1L);
     }
 
     @Test
     public void getAvgScore_shouldReturnDouble() throws Exception {
         setUp_getAvgScore();
-        double result = this.controller.getAvgScore(2L);
+        double result = this.controller.getAvgScoreForQuiz(2L);
         assertThat(result, is(50.0));
         verify(answerService).findAllByQuiz_Id(2L);
     }
@@ -223,14 +222,14 @@ public class QuizControllerTest {
     @Test
     public void getUserScore_ShouldReturnNull() throws Exception {
         setUp_getUserScore();
-        assertNull(this.controller.getUserScore(1L, user));
+        assertNull(this.controller.getUserScoreInQuiz(1L, user));
         verify(answerService).findAllByQuiz_IdAndUser_Id(1L, 1L);
     }
 
     @Test
     public void getUserScore_ShouldReturnDouble() throws Exception {
         setUp_getUserScore();
-        double result = this.controller.getUserScore(2L, user);
+        double result = this.controller.getUserScoreInQuiz(2L, user);
         assertThat(result, is(50.0));
         verify(answerService).findAllByQuiz_IdAndUser_Id(2L, 1L);
     }
@@ -279,7 +278,7 @@ public class QuizControllerTest {
         when(quizService.findOne(2L)).thenReturn(quiz);
 
         when(user.getUsername()).thenReturn("username");
-        //when(mockController.getUserScore(1L, user)).thenReturn(95.0);
+        //when(mockController.getUserScoreInQuiz(1L, user)).thenReturn(95.0);
 
         when(quiz.getQuizName()).thenReturn("quizName");
 
