@@ -149,6 +149,11 @@
         transition-duration: 0.1s;
     }
 
+
+
+
+
+
     /********************
     HEADER
 
@@ -157,6 +162,7 @@
 
         background: none;
         float: right;
+        vertical-align: bottom;
         font-size: 1.125em;
         text-align: right;
         width: 45%;
@@ -178,7 +184,6 @@
     header{
         margin-bottom: 60px;
         border-bottom: 5px solid #599a68;
-        top: 0;
     }
 
 
