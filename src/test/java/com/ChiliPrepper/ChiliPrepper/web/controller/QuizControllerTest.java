@@ -9,7 +9,9 @@ import java.security.Principal;
 import org.junit.runner.RunWith;
 import com.ChiliPrepper.ChiliPrepper.model.*;
 import org.mockito.runners.MockitoJUnitRunner;
+
 import com.ChiliPrepper.ChiliPrepper.service.*;
+
 import org.springframework.test.web.servlet.MockMvc;
 import com.ChiliPrepper.ChiliPrepper.web.FlashMessage;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -350,7 +352,7 @@ public class QuizControllerTest {
         when(quizService.findOne(2L)).thenReturn(quiz);
 
         when(user.getUsername()).thenReturn("username");
-        //when(mockController.getUserScore(1L, user)).thenReturn(95.0);
+        //when(mockController.getUserScoreInQuiz(1L, user)).thenReturn(95.0);
 
         when(quiz.getQuizName()).thenReturn("quizName");
 

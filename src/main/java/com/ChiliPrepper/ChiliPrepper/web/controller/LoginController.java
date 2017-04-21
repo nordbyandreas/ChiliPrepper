@@ -25,7 +25,6 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
  *
  * This is the class that handles the login and logout of ChiliPrepper
  */
-
 @Controller
 public class LoginController {
 

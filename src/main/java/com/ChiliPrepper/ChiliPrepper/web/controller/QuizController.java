@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * (adding something to the model is like adding something to that particular HTML file rendering).
  *
  * This controller handles Quiz objects and Views
+ *
  */
 @Controller
 public class QuizController {
@@ -74,6 +75,38 @@ public class QuizController {
         return "quiz";
 
     }
+
+
+
+
+
+    /**
+     *
+     *Renders the page for a single quiz
+     *
+     *
+     * @param model
+     * @param quizId
+     * @param courseId
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
+    @RequestMapping("/courses/{courseId}/{quizId}")
+    public String renderQuizView(Model model, @PathVariable Long quizId, @PathVariable Long courseId){
+
+        Course course = courseService.findOne(courseId);
+        Quiz quiz = quizService.findOne(quizId);
+        Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
+
+        model.addAttribute("quiz", quiz);
+        model.addAttribute("newQuestion", new Question());
+        model.addAttribute("questions", questions);
+        model.addAttribute("course", course);
+
+        return "quiz";
+
+    }
+
+
 
 
     /**
@@ -200,6 +233,7 @@ public class QuizController {
 
         return "quizEvent";
     }
+
 
 
     /**
@@ -336,8 +370,8 @@ public class QuizController {
         String body = "Hi " + username + "!\n\n" +
                 "You got " + userScore + "% correct on the " + quiz.getQuizName() + " quiz.\n\n" +
                 message + "\n\n" + "ChiliPrepper";
-
-        return body;
+        
+      return body;
     }
 
 
@@ -409,6 +443,8 @@ public class QuizController {
     }
 
 
+  
+  
     /**
      *Creates a new answer with the given parameters
      *
@@ -465,6 +501,7 @@ public class QuizController {
     }
 
 
+
     /**
      *
      *Feeds the html file containg the Javascript for creating a chart with data
@@ -488,7 +525,9 @@ public class QuizController {
         return "graph:: quizChart";
     }
 
-
+  
+  
+  
     /**
      *
      *Calculates the average percentage score per question in a quiz and returns it
@@ -505,13 +544,13 @@ public class QuizController {
             List<Answer> numAnswers = new ArrayList<>();
             ans.forEach(numAnswers :: add);
             ArrayList<Answer> numCorrectAnswers = getCorrectAnswers(ans);
-
             double percentCorrectAnswers = numCorrectAnswers.size() * 100 / numAnswers.size();
             results.add(percentCorrectAnswers);
-        }
 
+        }
         return results;
     }
+
 
 
     /**
@@ -534,6 +573,8 @@ public class QuizController {
     }
 
 
+
+  
     /**
      * Deletes the quiz with the given quizID
      *

@@ -1,8 +1,6 @@
 package com.ChiliPrepper.ChiliPrepper.model;
 
-/**
- * Created by Andreas on 15.02.2017.
- */
+
 import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,7 +13,28 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-@Entity                                //Mark the class as an entity, so a schema will be created in the database
+
+/**
+ * Created by Andreas on 15.02.2017.
+ *
+ *
+ * Model for the User object, containing fields, getters and setters
+ *
+ * The User model contains some extra methods used for logging in
+ *
+ *
+ * User-objects are used for authorization and specific content
+ *
+ *
+ * Hibernate takes care of the object relational mapping, so we can save and search for "objects" in the DB.
+ *
+ * the @Entity annotation informs hibernate that a schema should be created in the database
+ *
+ * Uses @Annotations to specify fields
+ *
+ *
+ */
+@Entity
 public class User implements UserDetails {
 
 

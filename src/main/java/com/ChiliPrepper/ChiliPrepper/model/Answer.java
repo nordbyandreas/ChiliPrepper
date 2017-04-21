@@ -4,8 +4,24 @@ import javax.persistence.*;
 
 /**
  * Created by Andreas on 02.03.2017.
+ *
+ *
+ * Model for the Answer object, containing fields, getters and setters
+ *
+ * Answer-Objects relates to users, questions, quizes and courses
+ * (used for feedback)
+ *
+ *
+ * Hibernate takes care of the object relational mapping, so we can save and search for "objects" in the DB.
+ *
+ * the @Entity annotation informs hibernate that a schema should be created in the database
+ *
+ * Uses @Annotations to specify fields
+ *
+ *
+ *
+ *
  */
-
 @Entity
 public class Answer {
 

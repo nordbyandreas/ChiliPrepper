@@ -11,71 +11,86 @@
 
 </header>
 
-<div class="spacer"></div>
-
 <div id="wrapper">
-    <section id="course">
+    <section>
         <div th:replace="layout :: flash"></div>
-        <div id="course-registered">
-            <h3>Registered courses</h3>
-            <div th:each="course : ${regCourses}">
-                <div>
 
-                    <a th:href="@{|/courses/${course.id}|}" th:text="${course.courseName}">Text text</a>
-                    <!--    <h2 th:text="${course.courseName}" style="color: black">Text text</h2>
-                    </a>-->
-                </div>
+
+        <div id="createdCourses">
+            <div id="courseForm1" class="form-style-5">
+                <form th:action="@{addCourse}" th:object="${course}" method="post">
+                    <fieldset>
+                        <legend><span class="number">+</span> Create a new course</legend>
+                        <input type="text" th:field="*{courseName}" placeholder="Course name *"/>
+                        <input type="text" th:field="*{accessCode}" placeholder="Access code *"/>
+                    </fieldset>
+                    <input type="submit" value="Create course" />
+                </form>
             </div>
+
+
+
+
+            <div th:if="${!myCourses.empty}"  id="courseContainer1" class="form-style-5">
+
+                    <fieldset>
+                        <legend>Your Created Courses</legend>
+                        <ul class="gallery" th:each="course : ${myCourses}">
+
+                            <li>
+                                <a th:href="@{|/courses/${course.id}|}">
+                                    <img th:src="@{/img/placeholder2.png}"/>
+                                    <p th:text="${course.courseName}"></p>
+                                </a>
+                            </li>
+                        </ul>
+                    </fieldset>
+
+
+            </div>
+
         </div>
 
-        <div id="course-created">
-            <h3>Created courses</h3>
-            <ul id="gallery" th:each="course : ${myCourses}">
-                <li>
-                    <a th:href="@{|/courses/${course.id}|}" th:text="${course.courseName}">Course name</a>
-                    <!--<img th:src="@{http://placehold.it/350x350}" alt=""/>
-                    <p th:text="${course.courseName}">Course name</p>
-                </a> -->
-                </li>
-            </ul>
+
+        <div id="joinedCourses">
+            <div id="courseForm2" class="form-style-5">
+                <form th:action="@{regCourse}" method="post">
+                    <fieldset>
+                        <legend><span class="number">!</span> Join a new course</legend>
+                        <input type="text" name="accessCode" placeholder="Access code *"/>
+                    </fieldset>
+                    <input type="submit" value="Join" />
+                </form>
+            </div>
+
+
+
+            <div th:if="${!regCourses.empty}" id="courseContainer2" class="form-style-5">
+
+                <fieldset>
+                    <legend>Courses you've joined</legend>
+                    <ul class="gallery"  th:each="course : ${regCourses}">
+
+                        <li>
+                            <a th:href="@{|/courses/${course.id}|}">
+                                <img th:src="@{/img/placeholder.png}"/>
+                                <p th:text="${course.courseName}"></p>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </fieldset>
+
+
+            </div>
+
         </div>
 
-        <div id="course-register">
-            <h3>Register in a course</h3>
-            <form th:action="@{regCourse}" method="post">
-                <label><input type="text" name="accessCode" placeholder="Enter access code"/></label>
-                <button type="submit" class="button">Register</button>
-            </form>
-        </div>
-
-        <div id="course-create">
-            <h3>Create a course</h3>
-            <form th:action="@{addCourse}" th:object="${course}" method="post">
-                <label><input type="text" th:field="*{courseName}" placeholder="Course name"/></label>
-                <label><input type="text" th:field="*{accessCode}" placeholder="Access code"/></label>
-                <button type="submit" class="button">Add</button>
-            </form>
-        </div>
-
-        <div>
-            <p><a href="#">&#8593; Go to top</a></p>
-        </div>
 
     </section>
 
-    <section id="menu">
 
-        <div id="course-menu">
-            <h3>Menu</h3>
-            <ul>
-                <li><a href="#course-registered">Registered courses</a></li>
-                <li><a href="#course-created">Created courses</a></li>
-                <li><a href="#course-register">Register in a course</a></li>
-                <li><a href="#course-create">Create a course</a></li>
-            </ul>
-        </div>
-
-    </section>
 
     <footer th:replace="layout :: footer">
 

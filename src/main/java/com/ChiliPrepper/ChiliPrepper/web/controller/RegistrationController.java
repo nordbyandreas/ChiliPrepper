@@ -64,20 +64,19 @@ public class RegistrationController {
         if(emailNotEntered){
             String message = "Registration failed! You must include a correct email!";
             redirectAttributes.addFlashAttribute("flash", new FlashMessage(message, FlashMessage.Status.FAILURE));
-
             return "redirect:/register";
         }
-
         else if(usernameAlreadyTaken){
             String message = "Registration failed! The username is already taken!";
             redirectAttributes.addFlashAttribute("flash", new FlashMessage(message, FlashMessage.Status.FAILURE));
-
             return "redirect:/register";
         }
+
 
         //Setting for whether the bot should contact the user
         user.setCreatorQuizResults(false);
         user.setCreatorCourseUpdate(false);
+
         user.setParticipantTopicUpdate(false);
         user.setParticipantQuizResults(false);
         userService.save(user);

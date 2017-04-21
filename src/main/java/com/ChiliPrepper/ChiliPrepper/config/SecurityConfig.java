@@ -1,8 +1,6 @@
 package com.ChiliPrepper.ChiliPrepper.config;
 
-/**
- * Created by Andreas on 15.02.2017.
- */
+
 
 
 import com.ChiliPrepper.ChiliPrepper.service.UserService;
@@ -26,6 +24,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+
+
+/**
+ * Created by Andreas on 15.02.2017.
+ *
+ *
+ * Configuration class for security
+ *
+ *
+ *
+ */
 @Configuration
 @EnableWebSecurity
 @ComponentScan(basePackages = "com.ChiliPrepper.ChiliPrepper")
@@ -42,19 +51,43 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
+
+
+    /**
+     *
+     * Creates a PasswordEncoder Bean
+     *
+     * @return
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
     }   //set password enctyption
 
 
+
+    /**
+     *
+     * Configuration class for websecurity
+     *
+     * @param web
+     * @throws Exception
+     */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/static/**");    //allow user access to templates before log in
+        web.ignoring().antMatchers("/static/**");    //allow user access to static resources (CSS) before log in
 
     }
 
-
+    /**
+     *
+     * Configuration class for websecurity, authentication and authorization
+     *
+     *
+     *
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -75,10 +108,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf();
     }
 
+
+    /**
+     *
+     * Redirects to index page after successful login
+     *
+     * @return request, response, authentication
+     */
     public AuthenticationSuccessHandler loginSuccessHandler() {  //redirect to index when successfull login
         return (request, response, authentication) -> response.sendRedirect("/");
     }
 
+
+    /**
+     *
+     * Redirects to log in page if not successful log in
+     *
+     * @return request, response, exception
+     */
     public AuthenticationFailureHandler loginFailureHandler() {  //redirect to login when log in failed, and send flash message
         return (request, response, exception) -> {
             request.getSession().setAttribute("flash", new FlashMessage("Incorrect username and/or password. Please try again.", FlashMessage.Status.FAILURE));
@@ -86,6 +133,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         };
     }
 
+
+    /**
+     *
+     * Creates EvaluationContextExtension Bean
+     *
+     * @return EvaluationContextExtension
+     */
     @Bean
     public EvaluationContextExtension securityExtension() {
         return new EvaluationContextExtensionSupport() {

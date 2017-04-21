@@ -5,8 +5,23 @@ import java.util.Set;
 
 /**
  * Created by Andreas on 16.02.2017.
+ *
+ *
+ * Model for the Course object, containing fields, getters and setters
+ *
+ * Course-Objects relates to a creator(user).
+ *
+ *
+ * Hibernate takes care of the object relational mapping, so we can save and search for "objects" in the DB.
+ *
+ * the @Entity annotation informs hibernate that a schema should be created in the database
+ *
+ * Uses @Annotations to specify fields
+ *
+ *
+ *
+ *
  */
-
 @Entity                    //Mark the class as an entity, so a schema will be created in the database
 public class Course {
 
@@ -18,7 +33,7 @@ public class Course {
     @Column
     private String courseName;
 
-    @Column
+    @Column(unique = true)
     private String accessCode;
 
     @ManyToOne

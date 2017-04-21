@@ -27,8 +27,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * These methods return a String with the name of which HTML file to render from the
  * templates directory. Various objects or variables may be added to, or read from, the model.
  * (adding something to the model is like adding something to that particular HTML file rendering).
+ *
+ * This controller handles Question objects and views
+ *
  */
-
 @Controller
 public class QuestionController {
 
@@ -41,16 +43,48 @@ public class QuestionController {
     @Autowired
     private AlternativeService alternativeService;
 
+  
+  
+  /**
+     *
+     *Renders the page for a single question, where you can make changes
+     *
+     *
+     * @param model
+     * @param questionId
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping("/courses/{courseId}/{quizId}/{questionId}")
     public String renderQuestionView(Model model, @PathVariable Long questionId){
 
         Question question = questionService.findOne(questionId);
-
         model.addAttribute("question", question);
+        model.addAttribute("quizId", question.getQuiz().getId());
+        model.addAttribute("courseId", question.getQuiz().getCourse().getId());
+        Iterable<Alternative> alts = alternativeService.findAllByQuestion_Id(questionId);
+        List<Alternative> alternatives = new ArrayList<>();
+        alts.forEach(alternatives :: add);
+        for(int i = 0; i < alternatives.size(); i++){
+            model.addAttribute("alt" + Integer.toString(i + 1), alternatives.get(i));
+        }
 
         return "question";
     }
 
+  
+  /**
+     *
+     * Saves a new question to the database
+     *
+     *
+     * @param newQuestion
+     * @param quizId
+     * @param alt1
+     * @param alt2
+     * @param alt3
+     * @param redirectAttributes
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping(path = "/addQuestion", method = RequestMethod.POST)
     public String addQuestion(@ModelAttribute Question question, @RequestParam Long quizId, @RequestParam String alt1,
                               @RequestParam String alt2, @RequestParam String alt3, RedirectAttributes redirectAttributes){
@@ -90,25 +124,29 @@ public class QuestionController {
         return "redirect:/courses/" + courseId + "/" + quizId;
     }
 
-    @RequestMapping("/courses/{courseId}/{quizId}/{questionId}/editQuestion")
-    public String renderEditQuestionView(Model model, @PathVariable Long questionId){
 
-        Question question = questionService.findOne(questionId);
-        Iterable<Alternative> alts = alternativeService.findAllByQuestion_Id(questionId);
-        List<Alternative> alternatives = new ArrayList<>();
-        alts.forEach(alternatives :: add);
-
-        for(int i = 0; i < alternatives.size(); i++){
-            model.addAttribute("alt" + Integer.toString(i + 1), alternatives.get(i));
-        }
-
-        model.addAttribute("question", question);
-        model.addAttribute("quizId", question.getQuiz().getId());
-        model.addAttribute("courseId", question.getQuiz().getCourse().getId());
-
-        return "editQuestion";
-    }
-
+  
+  
+  /**
+     *
+     * Saves changes made to a question
+     *
+     *
+     *
+     * @param alt1
+     * @param alt2
+     * @param alt3
+     * @param alt1Id
+     * @param alt2Id
+     * @param alt3Id
+     * @param questionId
+     * @param correctAnswer
+     * @param theQuestion
+     * @param quizId
+     * @param topic
+     * @param redirectAttributes
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping("/courses/{courseId}/{quizId}/{questionId}/editQuestion/saveEditQuestion")
     public String saveEditedQuestion(@RequestParam String alt1, @RequestParam String alt2, @RequestParam String alt3,
                                    @RequestParam Long alt1Id, @RequestParam Long alt2Id, @RequestParam Long alt3Id,
@@ -135,9 +173,24 @@ public class QuestionController {
         redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.SUCCESS));
 
         Long courseId = quizService.findOne(quizId).getCourse().getId();
-        return "redirect:/courses/" + courseId + "/" + quizId + "/" + questionId + "/editQuestion?questionId=" + questionId;
+        return "redirect:/courses/" + courseId + "/" + quizId + "/" + questionId;
     }
 
+  
+  
+  
+  
+   /**
+     *
+     * Deletes the question with the given question ID from the database
+     *
+     * Also, deletes the alternatives and answers with matching question ID
+     *
+     *
+     * @param questionId
+     * @param redirectAttributes
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping("/deleteQuestion")
     public String deleteQuestion(@RequestParam Long questionId, RedirectAttributes redirectAttributes){
 
@@ -149,6 +202,6 @@ public class QuestionController {
 
         Long courseId = question.getQuiz().getCourse().getId();
         Long quizId = question.getQuiz().getId();
-        return "redirect:/courses/" + courseId + "/" + quizId + "/editQuiz?quizId=" + quizId;
+        return "redirect:/courses/" + courseId + "/" + quizId;
     }
 }

@@ -2,50 +2,47 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout :: head('register')"></head>
 
-<div class="spacer"></div>
 
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col s12 m6 offset-m3">
-            <div class="card">
-                <div>
-                    <img th:src="@{/img/LogoLiten.png}" alt="ChiliPrepper logo" class="logo-image"/>
-                </div>
-                <div class="card-content">
-                    <div th:replace="layout :: flash"></div>
 
 
-                    <form th:action="@{/register}" th:object="${user}" method="post">
 
-                        <div class="row">
-                            <div class="col s12">
-                                <input th:field="*{username}" placeholder="username"/>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s12">
-                                <input type="password" th:field="*{password}" placeholder="password"/>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s12">
-                                <input th:field="*{email}" placeholder="email@example.com"/>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s12">
-                                <button type="submit" class="btn">Register</button>
-                            </div>
-                        </div>
-                    </form>
+<div id="wrapper">
+    <section>
+        <div th:replace="layout :: flash"></div>
 
 
-                </div>
+        <div class="form-style-5">
+            <div id="loginlogo">
+                <img th:src="@{/img/LogoLiten.png}" alt="ChiliPrepper logo" class="logo-image"/>
             </div>
+
+            <form th:action="@{/register}" th:object="${user}" method="post">
+                <fieldset>
+                    <legend><span class="number">!</span> Registration form</legend>
+                    <input type="text" th:field="*{username}" placeholder="Username *"/>
+                    <input type="password" th:field="*{password}" placeholder="Password *"/>
+                    <input type="email" th:field="*{email}" placeholder="email@example.com *"/>
+                </fieldset>
+                <input type="submit" value="Register" />
+
+            </form>
+            <h4><a href="/login">Return to login page</a></h4>
+
+
         </div>
-    </div>
+
+
+
+
+    </section>
+
+
 </div>
+
+
+
+
 <div th:replace="layout :: scripts"></div>
 </body>
 </html>

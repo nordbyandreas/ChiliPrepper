@@ -4,6 +4,21 @@ import javax.persistence.*;
 
 /**
  * Created by Andreas on 20.02.2017.
+ *
+ * Model for the Quiz object, containing fields, getters and setters
+ *
+ * Quiz-Objects relates to courses
+ *
+ *
+ * Hibernate takes care of the object relational mapping, so we can save and search for "objects" in the DB.
+ *
+ * the @Entity annotation informs hibernate that a schema should be created in the database
+ *
+ * Uses @Annotations to specify fields
+ *
+ *
+ *
+ *
  */
 
 
