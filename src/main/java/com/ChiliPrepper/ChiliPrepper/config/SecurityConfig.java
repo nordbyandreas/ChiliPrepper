@@ -113,7 +113,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      *
      * Redirects to index page after successful login
      *
-     * @return
+     * @return request, response, authentication
      */
     public AuthenticationSuccessHandler loginSuccessHandler() {  //redirect to index when successfull login
         return (request, response, authentication) -> response.sendRedirect("/");
@@ -124,7 +124,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      *
      * Redirects to log in page if not successful log in
      *
-     * @return
+     * @return request, response, exception
      */
     public AuthenticationFailureHandler loginFailureHandler() {  //redirect to login when log in failed, and send flash message
         return (request, response, exception) -> {
@@ -138,7 +138,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      *
      * Creates EvaluationContextExtension Bean
      *
-     * @return
+     * @return EvaluationContextExtension
      */
     @Bean
     public EvaluationContextExtension securityExtension() {

@@ -43,7 +43,7 @@ public class DataConfig {
      *  Creates a  LocalContainerEntityManagerFactoryBean Bean
      *
      *
-     * @return
+     * @return LocalContainerEntityManagerFactoryBean
      */
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -64,7 +64,7 @@ public class DataConfig {
      *
      *
      *
-     * @return
+     * @return DataSource Bean
      */
     @Bean
     public DataSource dataSource() {                  //All of these properties are defined in "app.properties" in the static directory
@@ -81,7 +81,7 @@ public class DataConfig {
      *
      * Adds properties from app.properties to the Properties object
      *
-     * @return
+     * @return Properties for hibernate
      */
     private Properties getHibernateProperties() {    //All of these properties are defined in "app.properties" in the static directory
         Properties properties = new Properties();

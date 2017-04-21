@@ -29,7 +29,7 @@ public class TemplateConfig {
      *
      * sets classpath and suffix
      *
-     * @return
+     * @return SpringResourceTemplateResolver
      */
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
@@ -45,7 +45,7 @@ public class TemplateConfig {
      *
      * Creates a Spring template engine
      *
-     * @return
+     * @return Spring template engine
      */
     @Bean
     public SpringTemplateEngine templateEngine() {
@@ -60,7 +60,7 @@ public class TemplateConfig {
      *  Creates Thymeleaf ViewResolver Bean
      *
      *
-     * @return
+     * @return Thymeleaf viewresolver
      */
     @Bean
     public ThymeleafViewResolver viewResolver() {
