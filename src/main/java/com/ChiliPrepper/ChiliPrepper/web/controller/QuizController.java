@@ -552,7 +552,7 @@ public class QuizController {
 
         String message = "Quiz deleted!";
         redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.SUCCESS));
-        
+
         return "redirect:/courses/" + quiz.getCourse().getId();
     }
 }
