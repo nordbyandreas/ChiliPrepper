@@ -5,7 +5,6 @@ import com.ChiliPrepper.ChiliPrepper.service.*;
 
 import com.ChiliPrepper.ChiliPrepper.web.FlashMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +27,9 @@ import java.util.Set;
  * templates directory. Various objects or variables may be added to, or read from, the model.
  * (adding something to the model is like adding something to that particular HTML file rendering).
  *
+ * This controller handles Course objects and views
+ *
  */
-
-//marks class as a controller
 @Controller
 public class CourseController {
 
@@ -49,6 +48,18 @@ public class CourseController {
     @Autowired
     private QuestionService questionService;
 
+
+
+
+    /**
+     *
+     *Renders the index page (start page)
+     *
+     *
+     * @param model
+     * @param principal
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping("/")
     public String index(Model model, Principal principal) {
 
@@ -68,7 +79,17 @@ public class CourseController {
         return "index";
     }
 
-    //Single Course page
+
+    /**
+     *
+     *Renders the view for a single course page
+     *
+     *
+     * @param courseId
+     * @param model
+     * @param principal
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping("/courses/{courseId}")
     public String course(@PathVariable Long courseId, Model model, Principal principal){
         String username = principal.getName();
@@ -117,8 +138,17 @@ public class CourseController {
     }
 
 
-
-
+    /**
+     *
+     *Saves a new course to the database
+     *
+     * Redirects to the same page
+     *
+     * @param course
+     * @param principal
+     * @param redirectAttributes
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping(path = "/addCourse", method = RequestMethod.POST)
     public String addCourse(@ModelAttribute Course course, Principal principal, RedirectAttributes redirectAttributes) {
         String username = principal.getName();
@@ -135,9 +165,18 @@ public class CourseController {
     }
 
 
-
-
-
+    /**
+     *
+     *Registers a user in a course
+     *
+     * Redirects to same page
+     *
+     *
+     * @param principal
+     * @param accessCode
+     * @param redirectAttributes
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping(path = "/regCourse", method = RequestMethod.POST)
     public String regCourse (Principal principal, @RequestParam String accessCode, RedirectAttributes redirectAttributes){
         String username = principal.getName();
@@ -168,6 +207,15 @@ public class CourseController {
     }
 
 
+    /**
+     *
+     *Renders the courseChartDisplay view for a chart of course results
+     *
+     *
+     * @param courseId
+     * @param model
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping(path = "/courses/{courseId}/chart", method = RequestMethod.GET)
     public String courseChart(@PathVariable Long courseId, Model model){
 
@@ -176,6 +224,18 @@ public class CourseController {
         return "courseChartDisplay";
     }
 
+
+    /**
+     *
+     * Feeds the html file containig the Javascript for creating a chart with data
+     *
+     *(Jquery code in the courseChartDisplay.html file calls this method every 2000ms to create a "live" chart)
+     *
+     *
+     * @param model
+     * @param courseId
+     * @return Returns a String which points to the correct HTML file to be rendered (in this case just part of a html file)
+     */
     @RequestMapping(value = "/courseChart/{courseId}", method = RequestMethod.GET)
     public String getCourseChart(Model model, @PathVariable Long courseId) {
 
@@ -188,23 +248,31 @@ public class CourseController {
 
         model.addAttribute("results", results);
 
-        System.out.println("\n\n\n\n" + results + "\n\n\n\n");
-        System.out.println("\n\n\n\n" + courseName + "\n\n\n\n");
-
-
 //TODO: fix "overlap" in HTML on reload of chart
+
         return "courseChart:: courseChart";
     }
 
 
 
+
+
+    /**
+     *
+     *Gets average percentage scores for all quizes in a course
+     *
+     *
+     *
+     * @param quizes
+     * @return ArrayList containing average score for quizes in course
+     */
     public ArrayList<Double> getCourseResults(Iterable<Quiz> quizes) {
         ArrayList<Double> results = new ArrayList<>();
 
         for (Quiz quiz : quizes){
 
-            if(getAvgScoreForCourseChart(quiz.getId()) != null){
-                results.add(getAvgScoreForCourseChart(quiz.getId()));
+            if(getAvgQuizScoreForCourseChart(quiz.getId()) != null){
+                results.add(getAvgQuizScoreForCourseChart(quiz.getId()));
             }
             else{
                 results.add(0.0);
@@ -216,7 +284,17 @@ public class CourseController {
 
 
 
-    public Double getAvgScoreForCourseChart(Long quizId)  {
+
+
+    /**
+     *
+     *gets the average percentage score for a quiz
+     *
+     *
+     * @param quizId
+     * @return (double)score og null
+     */
+    public Double getAvgQuizScoreForCourseChart(Long quizId)  {
 
         Iterable<Answer> tAnswers = answerService.findAllByQuiz_Id(quizId);
 

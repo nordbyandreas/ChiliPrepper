@@ -80,10 +80,10 @@
                 <form th:action="@{/addQuestion}" th:object="${newQuestion}" method="post">
                     <fieldset>
                         <legend><span class="number">+</span> Create new question</legend>
-                        <input type="text" th:field="*{theQuestion}" placeholder="Enter question *"/>
-                        <input type="text" th:field="*{topic}" placeholder="Topic *"/>
-                        <input type="text" th:field="*{correctAnswer}" placeholder="Correct Answer *"/>
-                        <input type="text" name="alt1" placeholder="Alternative 1 *"/>
+                        <label>Question<input type="text" th:field="*{theQuestion}" placeholder="Enter question *"/></label>
+                        <label>Topic<input type="text" th:field="*{topic}" placeholder="Topic *"/></label>
+                        <label>Correct Answer<input type="text" th:field="*{correctAnswer}" placeholder="Correct Answer *"/></label>
+                        <label>Alternative<input type="text" name="alt1" placeholder="Alternative 1 *"/></label>
                         <input type="text" name="alt2" placeholder="Alternative 2 *"/>
                         <input type="text" name="alt3" placeholder="Alternative 3 *"/>
                         <input type="hidden" name="quizId" th:value="${quiz.id}"/>

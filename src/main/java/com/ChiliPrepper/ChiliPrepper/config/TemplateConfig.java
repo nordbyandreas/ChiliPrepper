@@ -1,8 +1,6 @@
 package com.ChiliPrepper.ChiliPrepper.config;
 
-/**
- * Created by Andreas on 15.02.2017.
- */
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
@@ -10,10 +8,29 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 
+
+
+
+/**
+ * Created by Andreas on 15.02.2017.
+ *
+ *
+ * Configuration class for Template- and view-resolvers
+ *
+ *
+ */
 @Configuration                  //marks as config-class
 public class TemplateConfig {
 
 
+    /**
+     *
+     * Creates a template resolver bean
+     *
+     * sets classpath and suffix
+     *
+     * @return
+     */
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
         final SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
@@ -23,6 +40,13 @@ public class TemplateConfig {
         return templateResolver;
     }
 
+
+    /**
+     *
+     * Creates a Spring template engine
+     *
+     * @return
+     */
     @Bean
     public SpringTemplateEngine templateEngine() {
         final SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
@@ -31,6 +55,13 @@ public class TemplateConfig {
         return springTemplateEngine;
     }
 
+
+    /**
+     *  Creates Thymeleaf ViewResolver Bean
+     *
+     *
+     * @return
+     */
     @Bean
     public ThymeleafViewResolver viewResolver() {
         final ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();

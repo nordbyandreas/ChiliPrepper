@@ -28,8 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  *
  */
-
-@Controller                   //marks class as a controller
+@Controller
 public class LoginController {
 
 

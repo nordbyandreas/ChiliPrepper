@@ -24,6 +24,8 @@ import java.util.*;
  * templates directory. Various objects or variables may be added to, or read from, the model.
  * (adding something to the model is like adding something to that particular HTML file rendering).
  *
+ * This controller handles Quiz objects and Views
+ *
  */
 @Controller
 public class QuizController {
@@ -51,7 +53,17 @@ public class QuizController {
 
 
 
-    //single quiz page
+
+    /**
+     *
+     *Renders the page for a single quiz
+     *
+     *
+     * @param model
+     * @param quizId
+     * @param courseId
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping("/courses/{courseId}/{quizId}")
     public String renderQuizView(Model model, @PathVariable Long quizId, @PathVariable Long courseId){
 
@@ -70,6 +82,17 @@ public class QuizController {
 
 
 
+
+    /**
+     *
+     *Saves a new quiz to the database
+     *
+     *
+     * @param quiz
+     * @param courseId
+     * @param redirectAttributes
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping(path = "/addQuiz", method = RequestMethod.POST)
     public String addQuiz(@ModelAttribute Quiz quiz, @RequestParam Long courseId, RedirectAttributes redirectAttributes) {
 
@@ -92,8 +115,16 @@ public class QuizController {
     }
 
 
-
-    //single quiz results page
+    /**
+     *
+     *Renders the quizchart view for a chart of quiz results
+     *
+     *
+     * @param model
+     * @param quizId
+     * @param courseId
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping("/courses/{courseId}/{quizId}/chart")
     public String renederQuizChartView(Model model, @PathVariable Long quizId, @PathVariable Long courseId){
 
@@ -107,9 +138,19 @@ public class QuizController {
     }
 
 
-
-
-    //method for serving questions to a quiz-taker
+    /**
+     *
+     *Serves and renders the Quiz in progress for a course-participant
+     *
+     *
+     *
+     *
+     * @param principal
+     * @param model
+     * @param quizId
+     * @param courseId
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping("/courses/{courseId}/{quizId}/quiz")
     public String quizEventHandler(Principal principal, Model model, @PathVariable Long quizId, @PathVariable Long courseId) {
 
@@ -169,6 +210,15 @@ public class QuizController {
 
 
 
+
+    /**
+     *Gets the average percentage score for a quiz (all users)
+     *
+     *
+     *
+     * @param quizId
+     * @return (double)score or null
+     */
     public Double getAvgScoreForQuiz(Long quizId)  {
 
         List<Answer> numAnswers = new ArrayList<>();
@@ -188,7 +238,16 @@ public class QuizController {
     }
 
 
-
+    /**
+     *
+     *Gets a users percentage score in a quiz
+     *
+     *
+     *
+     * @param quizId
+     * @param user
+     * @return (double)score or null
+     */
     public Double getUserScoreInQuiz(Long quizId, User user) {
 
         List<Answer> userNumAnswers = new ArrayList<>();
@@ -206,6 +265,15 @@ public class QuizController {
         }
     }
 
+
+    /**
+     *
+     *Returns all correct answers from all answers
+     *
+     *
+     * @param userAnswers
+     * @return ArrayList containing correct answers
+     */
     private ArrayList<Answer> getCorrectAnswers(Iterable<Answer> userAnswers) {
         ArrayList<Answer> correctAnswers = new ArrayList<>();
         for (Answer answer : userAnswers) {
@@ -216,6 +284,15 @@ public class QuizController {
         return correctAnswers;
     }
 
+
+    /**
+     *
+     *Sends email to users concerning their result on  a quiz
+     *
+     *
+     * @param user
+     * @param quizId
+     */
     private void sendQuizResultsByMail(User user, Long quizId) {
 
         boolean mailEnabled = user.isParticipantQuizResults();
@@ -231,6 +308,15 @@ public class QuizController {
         }
     }
 
+
+    /**
+     *
+     *Generates the subject to be used in email
+     *
+     *
+     * @param quizId
+     * @return String, "subject"
+     */
     public String generateMailSubject(Long quizId){
 
         Quiz q = quizService.findOne(quizId);
@@ -238,6 +324,15 @@ public class QuizController {
     }
 
 
+    /**
+     *
+     *Generates the entire text to be sendt in email to users
+     *
+     *
+     * @param quizId
+     * @param userId
+     * @return String, "body of text"
+     */
     public String generateMailBody(Long quizId, Long userId){
         User user = userService.findOne(userId);
         Quiz quiz = quizService.findOne(quizId);
@@ -254,6 +349,17 @@ public class QuizController {
         return body;
     }
 
+
+    /**
+     *
+     *Generates a message depending on the given userScore
+     *
+     * Used for simple bot personality
+     *
+     *
+     * @param userScore
+     * @return String "message"
+     */
     private String generateBotFeedback(double userScore) {
         String message = "";
         if(userScore < 30){
@@ -269,6 +375,20 @@ public class QuizController {
     }
 
 
+    /**
+     *
+     *Saves the users answer to the Database
+     *
+     *
+     *
+     * @param redirectAttributes
+     * @param questionId
+     * @param courseId
+     * @param quizId
+     * @param principal
+     * @param answer
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping(path = "/submitAnswer", method = RequestMethod.POST)
     public String submitAnswer(RedirectAttributes redirectAttributes, @RequestParam Long questionId, @RequestParam Long courseId,
                                @RequestParam Long quizId, Principal principal, @RequestParam String answer) {
@@ -298,8 +418,18 @@ public class QuizController {
     }
 
 
-
-
+    /**
+     *Creates a new answer with the given parameters
+     *
+     *
+     *
+     * @param answer
+     * @param user
+     * @param course
+     * @param quiz
+     * @param question
+     * @return Answer object
+     */
     private Answer createNewAnswer(@RequestParam String answer, User user, Course course, Quiz quiz, Question question) {
         Answer newAnswer = new Answer();
         newAnswer.setQuestion(question);
@@ -311,7 +441,16 @@ public class QuizController {
     }
 
 
-    //publish quiz
+    /**
+     *
+     *Publishes a quiz  (becomes available for users participating in that course)
+     *
+     *Redirects to the same page
+     *
+     * @param quizId
+     * @param redirectAttributes
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping("/publishQuiz")
     public String publishQuiz(@RequestParam Long quizId, RedirectAttributes redirectAttributes){
 
@@ -335,6 +474,18 @@ public class QuizController {
     }
 
 
+
+
+    /**
+     *
+     *Feeds the html file containg the Javascript for creating a chart with data
+     *
+     *(Jquery code in the quizChart.html file calls this method every 2000ms to create a "live" chart)
+     *
+     * @param model
+     * @param quizId
+     * @return Returns a String which points to the correct HTML file to be rendered (in this case just part of a html file)
+     */
     @RequestMapping(value = "/quizChart/{quizId}", method = RequestMethod.GET)
     public String feedQuizChartData(Model model, @PathVariable Long quizId) {
 
@@ -348,6 +499,17 @@ public class QuizController {
         return "graph:: quizChart";
     }
 
+
+
+
+    /**
+     *
+     *Calculates the average percentage score per question in a quiz and returns it
+     *
+     *
+     * @param questions
+     * @return ArrayList containing the average score for each question
+     */
     public ArrayList<Double> getQuizResults(Iterable<Question> questions) {
 
         ArrayList<Double> results = new ArrayList<>();
@@ -362,7 +524,16 @@ public class QuizController {
     }
 
 
-
+    /**
+     *
+     *Saves changes to a quiz
+     *
+     * Redirects to that quiz page
+     *
+     *
+     * @param quiz
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping(path = "/saveEditQuiz", method = RequestMethod.POST)
     public String saveEditQuiz(@ModelAttribute Quiz quiz) {
 
@@ -374,12 +545,26 @@ public class QuizController {
 
 
 
-    //method for deleting quiz
+    /**
+     * Deletes the quiz with the given quizID
+     *
+     * Redirects to same page
+     *
+     *
+     *
+     * @param quizId
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping("/deleteQuiz")
-    public String deleteQuiz(@RequestParam Long quizId){
+    public String deleteQuiz(@RequestParam Long quizId, RedirectAttributes redirectAttributes){
 
         Quiz quiz = quizService.findOne(quizId);
         quizService.delete(quiz);
+
+        String message = "Quiz deleted!";
+        redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.SUCCESS));
+
+
         return "redirect:/courses/" + quiz.getCourse().getId();
     }
 
