@@ -1,22 +1,19 @@
 package com.ChiliPrepper.ChiliPrepper.web.controller;
 
-import com.ChiliPrepper.ChiliPrepper.model.User;
-import com.ChiliPrepper.ChiliPrepper.service.UserService;
-import com.ChiliPrepper.ChiliPrepper.web.FlashMessage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import java.security.Principal;
 import org.springframework.ui.Model;
+import com.ChiliPrepper.ChiliPrepper.model.User;
+import org.springframework.stereotype.Controller;
+import com.ChiliPrepper.ChiliPrepper.web.FlashMessage;
+import com.ChiliPrepper.ChiliPrepper.service.UserService;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.security.Principal;
 
 /**
  * Created by Andreas on 20.02.2017.
- *
  *
  * The @Controller annotation lets Spring know that this is a controller.
  *
@@ -27,21 +24,14 @@ import java.security.Principal;
  * templates directory. Various objects or variables may be added to, or read from, the model.
  * (adding something to the model is like adding something to that particular HTML file rendering).
  *
- *
  * This class renders the profile and about pages, and also lets you save you're "BOT"-preferences
- *
- *
  */
 
 @Controller
 public class ProfileController {
 
-
     @Autowired
     private UserService userService;
-
-
-
 
     /**
      * Renders the profile page
@@ -51,41 +41,35 @@ public class ProfileController {
      * @return String pointing to the profile.html
      */
     @RequestMapping("/profile")
-    public String profile(Model model, Principal principal){
+    public String renderProfileView(Model model, Principal principal){
+
         String username = principal.getName();
         User user = userService.findByUsername(username);
+
         model.addAttribute("user", user);
+
         return "profile";
     }
-
-
-
-
-
 
     /**
      * Renders the about page
      *
-     * @param model model to add attributes to
      * @return  String pointing to the correct HTML
      */
     @RequestMapping("/about")
-    public String about(Model model){
+    public String renderAboutView(){
+
         return "about";
     }
 
     @RequestMapping(value = "/saveBotDetails", method = RequestMethod.POST)
-    public String saveBotDetails(@ModelAttribute User user, RedirectAttributes redirectAttributes){
-
-        System.out.println(user.getUsername());
-        System.out.println(user.getEmail());
+    public String saveBotPreferences(@ModelAttribute User user, RedirectAttributes redirectAttributes){
 
         userService.save(user);
 
-        redirectAttributes.addFlashAttribute("flash",new FlashMessage("Bot preferences saved. ", FlashMessage.Status.SUCCESS));
+        String message = "Bot preferences saved!";
+        redirectAttributes.addFlashAttribute("flash", new FlashMessage(message, FlashMessage.Status.SUCCESS));
 
         return "redirect:/profile";
     }
-
-
 }
