@@ -1,14 +1,6 @@
 package com.ChiliPrepper.ChiliPrepper;
 
 
-/**
- * Created by Andreas on 22.03.2017.
- */
-
-
-
-
-
 import java.util.*;
 
 import com.ChiliPrepper.ChiliPrepper.model.*;
@@ -92,10 +84,7 @@ public class ScheduledMailSender {
             for (Quiz quiz : quizes) {
                 if(quizController.getAvgScoreForQuiz(quiz.getId()) != null) {
                     courseAvg += quizController.getAvgScoreForQuiz(quiz.getId());
-                    System.out.println("\n\n\n\n" + courseAvg + "\n\n\n\n");
                     counter += 1;
-                    System.out.println("\n\n\n\n" + counter + "\n\n\n\n");
-
                 }
                 else{
                         System.out.println("no quiz results");

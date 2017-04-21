@@ -1,16 +1,15 @@
 package com.ChiliPrepper.ChiliPrepper.web.controller;
 
+import java.util.*;
+import java.security.Principal;
+import org.springframework.ui.Model;
 import com.ChiliPrepper.ChiliPrepper.model.*;
 import com.ChiliPrepper.ChiliPrepper.service.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import com.ChiliPrepper.ChiliPrepper.web.FlashMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.security.Principal;
-import java.util.*;
 
 /**
  * Created by Christer on 20.02.2017.
@@ -50,6 +49,33 @@ public class QuizController {
 
     @Autowired
     private QuizMailService quizMailService;
+
+    /**
+     *
+     *Renders the page for a single quiz
+     *
+     *
+     * @param model
+     * @param quizId
+     * @param courseId
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
+    @RequestMapping("/courses/{courseId}/{quizId}")
+    public String renderQuizView(Model model, @PathVariable Long quizId, @PathVariable Long courseId){
+
+        Course course = courseService.findOne(courseId);
+        Quiz quiz = quizService.findOne(quizId);
+        Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
+
+        model.addAttribute("quiz", quiz);
+        model.addAttribute("newQuestion", new Question());
+        model.addAttribute("questions", questions);
+        model.addAttribute("course", course);
+
+        return "quiz";
+
+    }
+
 
 
 
@@ -196,7 +222,7 @@ public class QuizController {
         double userScore = getUserScoreInQuiz(quizId, user);
         double avgScore = getAvgScoreForQuiz(quizId);
 
-        String message = "Congratz, you've completed this quiz!";
+        String message = "Congrats, you've completed this quiz!";
         model.addAttribute("message", message);
         model.addAttribute("quizId", quizId);
         model.addAttribute("courseId", courseId);
@@ -207,7 +233,6 @@ public class QuizController {
 
         return "quizEvent";
     }
-
 
 
 
@@ -345,8 +370,8 @@ public class QuizController {
         String body = "Hi " + username + "!\n\n" +
                 "You got " + userScore + "% correct on the " + quiz.getQuizName() + " quiz.\n\n" +
                 message + "\n\n" + "ChiliPrepper";
-
-        return body;
+        
+      return body;
     }
 
 
@@ -413,11 +438,13 @@ public class QuizController {
             redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.FAILURE));
         }
         answerService.save(newAnswer);
-      
+
         return "redirect:/courses/" + course.getId() + "/" + quiz.getId() + "/quiz";
     }
 
 
+  
+  
     /**
      *Creates a new answer with the given parameters
      *
@@ -475,7 +502,6 @@ public class QuizController {
 
 
 
-
     /**
      *
      *Feeds the html file containg the Javascript for creating a chart with data
@@ -499,9 +525,9 @@ public class QuizController {
         return "graph:: quizChart";
     }
 
-
-
-
+  
+  
+  
     /**
      *
      *Calculates the average percentage score per question in a quiz and returns it
@@ -518,10 +544,13 @@ public class QuizController {
             List<Answer> numAnswers = new ArrayList<>();
             ans.forEach(numAnswers :: add);
             ArrayList<Answer> numCorrectAnswers = getCorrectAnswers(ans);
-            results.add((double)numCorrectAnswers.size() * 100 / numAnswers.size());
+            double percentCorrectAnswers = numCorrectAnswers.size() * 100 / numAnswers.size();
+            results.add(percentCorrectAnswers);
+
         }
         return results;
     }
+
 
 
     /**
@@ -545,6 +574,7 @@ public class QuizController {
 
 
 
+  
     /**
      * Deletes the quiz with the given quizID
      *
@@ -564,10 +594,6 @@ public class QuizController {
         String message = "Quiz deleted!";
         redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.SUCCESS));
 
-
         return "redirect:/courses/" + quiz.getCourse().getId();
     }
-
-
-
 }

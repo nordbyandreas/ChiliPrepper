@@ -25,6 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  * 3. The request status correspond to the expected outcome
  * 4. The view name or redirected url correspond to the expected outcome
  */
+
 @RunWith(MockitoJUnitRunner.class)
 public class LoginControllerTest {
     private MockMvc mockMvc;
@@ -53,7 +54,6 @@ public class LoginControllerTest {
                 .andExpect(view().name("login"));
     }
 
-
     @Test
     public void accessDenied_RendersAccessDeniedView() throws Exception {
         mockMvc.perform(get("/access_denied.html"))
@@ -61,8 +61,6 @@ public class LoginControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("access_denied"));
     }
-
-
 
     @Test
     public void logOut_WhileLoggedIn_RedirectsToLogin() throws Exception {
@@ -83,5 +81,4 @@ public class LoginControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login"));
     }
-
 }
