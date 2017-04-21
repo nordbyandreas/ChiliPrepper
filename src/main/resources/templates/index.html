@@ -16,26 +16,60 @@
         <div th:replace="layout :: flash"></div>
 
 
+        <div id="createdCourses">
+            <div id="courseForm1" class="form-style-5">
+                <form th:action="@{addCourse}" th:object="${course}" method="post">
+                    <fieldset>
+                        <legend><span class="number">+</span> Create a new course</legend>
+                        <input type="text" th:field="*{courseName}" placeholder="Course name *"/>
+                        <input type="text" th:field="*{accessCode}" placeholder="Access code *"/>
+                    </fieldset>
+                    <input type="submit" value="Create course" />
+                </form>
+            </div>
 
-        <div id="courseForm1" class="form-style-5">
-            <form th:action="@{addCourse}" th:object="${course}" method="post">
-                <fieldset>
-                    <legend><span class="number">+</span> Create a new course</legend>
-                    <input type="text" th:field="*{courseName}" placeholder="Course name *"/>
-                    <input type="text" th:field="*{accessCode}" placeholder="Access code *"/>
-                </fieldset>
-                <input type="submit" value="Create course" />
-            </form>
+
+
+
+            <div th:if="${!myCourses.empty}"  id="courseContainer1" class="form-style-5">
+
+                    <fieldset>
+                        <legend>Your Created Courses</legend>
+                        <ul class="gallery" th:each="course : ${myCourses}">
+
+                            <li>
+                                <a th:href="@{|/courses/${course.id}|}">
+                                    <img th:src="@{/img/placeholder2.png}"/>
+                                    <p th:text="${course.courseName}"></p>
+                                </a>
+                            </li>
+                        </ul>
+                    </fieldset>
+
+
+            </div>
+
         </div>
 
 
+        <div id="joinedCourses">
+            <div id="courseForm2" class="form-style-5">
+                <form th:action="@{regCourse}" method="post">
+                    <fieldset>
+                        <legend><span class="number">!</span> Join a new course</legend>
+                        <input type="text" name="accessCode" placeholder="Access code *"/>
+                    </fieldset>
+                    <input type="submit" value="Join" />
+                </form>
+            </div>
 
 
-        <div th:if="${!myCourses.empty}"  id="courseContainer1" class="form-style-5">
+
+            <div th:if="${!regCourses.empty}" id="courseContainer2" class="form-style-5">
 
                 <fieldset>
-                    <legend><span class="number">+</span> Your Created Courses</legend>
-                    <ul class="gallery" th:each="course : ${myCourses}">
+                    <legend>Courses you've joined</legend>
+                    <ul class="gallery"  th:each="course : ${regCourses}">
 
                         <li>
                             <a th:href="@{|/courses/${course.id}|}">
@@ -43,49 +77,15 @@
                                 <p th:text="${course.courseName}"></p>
                             </a>
                         </li>
+
+
                     </ul>
                 </fieldset>
 
 
-        </div>
-
-
-
-
-
-        <div id="courseForm2" class="form-style-5">
-            <form th:action="@{regCourse}" method="post">
-                <fieldset>
-                    <legend><span class="number">!</span> Join a new course</legend>
-                    <input type="text" name="accessCode" placeholder="Access code *"/>
-                </fieldset>
-                <input type="submit" value="Join" />
-            </form>
-        </div>
-
-
-
-        <div th:if="${!regCourses.empty}" id="courseContainer2" class="form-style-5">
-
-            <fieldset>
-                <legend><span class="number">!</span> Courses you've joined</legend>
-                <ul class="gallery"  th:each="course : ${regCourses}">
-
-                    <li>
-                        <a th:href="@{|/courses/${course.id}|}">
-                            <img th:src="@{/img/placeholder.png}"/>
-                            <p th:text="${course.courseName}"></p>
-                        </a>
-                    </li>
-
-
-                </ul>
-            </fieldset>
-
+            </div>
 
         </div>
-
-
 
 
     </section>

@@ -11,15 +11,13 @@
 
 </header>
 
-<div class="spacer"></div>
-
 <div id="wrapper">
     <section>
 
 
         <div th:replace="layout :: flash"></div>
 
-    <h3 th:text="${question.theQuestion}"></h3>
+    <h1 class="pageTitle" th:text="${question.theQuestion}"></h1>
         <div class="form-style-5">
             <form th:action="@{|/courses/${courseId}/${quizId}/${question.id}/editQuestion/saveEditQuestion|}"  method="post">
                 <fieldset>

@@ -361,19 +361,6 @@ public class QuizController {
         return results;
     }
 
-    //for returning the editQuiz page
-    @RequestMapping("/courses/{courseId}/{quizId}/editQuiz")
-    public String editQuiz(Model model, @RequestParam Long quizId){
-
-        Quiz quiz = quizService.findOne(quizId);
-        Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
-
-        model.addAttribute("quiz", quiz);
-        model.addAttribute("questions", questions);
-        model.addAttribute("course", quiz.getCourse());
-
-        return "editQuiz";
-    }
 
 
     @RequestMapping(path = "/saveEditQuiz", method = RequestMethod.POST)

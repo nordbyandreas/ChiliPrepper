@@ -11,12 +11,12 @@
 
 </header>
 
-<div class="spacer"></div>
-
 <div id="wrapper">
     <section>
         <div th:replace="layout :: flash"></div>
-        <h1 th:text="'Welcome ' + ${user.username} + '!'" style="color: black;"></h1>
+        <h1 th:text="'Welcome ' + ${user.username} + '!  '" style="color: black;"></h1>
+
+
 
         <div class="form-style-5">
             <form th:action="@{/saveBotDetails}" th:object="${user}" method="post">
@@ -29,12 +29,17 @@
                 <label><input type="hidden" th:field="*{role}"/></label>
                 <label><input type="hidden" th:field="*{id}"/></label>
                 <fieldset>
-                    <legend><span class="number">?</span> Email settings:</legend>
-                    <input type="checkbox" th:field="*{creatorCourseUpdate}" th:checked="*{creatorCourseUpdate}"/> Enable Course Updates(for courses you've created)<br/>
-                    <input type="checkbox"  th:field="*{creatorQuizResults}" th:checked="*{creatorQuizResults}"/> Enable Quiz Results (for courses you've created)<br/><br/>
-                    <input type="checkbox"  th:field="*{participantTopicUpdate}" th:checked="*{participantTopicUpdate}"/> Enable Topic updates (for courses you're taking)<br/>
-                    <input type="checkbox" th:field="*{participantQuizResults}" th:checked="*{participantQuizResults}"/> Enable Quiz Results (for courses you're taking)<br/>
+                    <legend><span class="number">?</span> Email settings for courses you've created:</legend>
+                    <input type="checkbox" th:field="*{creatorCourseUpdate}" th:checked="*{creatorCourseUpdate}"/> Enable mail concerning course results<br/>
+                    <input type="checkbox"  th:field="*{creatorQuizResults}" th:checked="*{creatorQuizResults}"/> Enable mail concerning quiz results<br/><br/>
+
                 </fieldset>
+                <fieldset>
+                    <legend><span class="number">?</span> Email settings for courses you've joined:</legend>
+                    <input type="checkbox"  th:field="*{participantTopicUpdate}" th:checked="*{participantTopicUpdate}"/> Enable mail concerning topic you struggle with<br/>
+                    <input type="checkbox" th:field="*{participantQuizResults}" th:checked="*{participantQuizResults}"/> Enable mail concerning your quiz results<br/>
+                </fieldset>
+
                 <input type="submit" value="Save changes" />
 
             </form>

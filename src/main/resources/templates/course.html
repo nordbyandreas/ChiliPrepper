@@ -23,20 +23,19 @@
 
     <div th:if="${userId} == ${creatorId}">
         <div>
-            <h1 th:text="${course.courseName}" style="color: black; float: left;"></h1>
+            <h1 class="pageTitle" th:text="${course.courseName}"></h1>
 
             <a class="chartLink" th:href="@{|/courses/${course.id}/chart|}">
                 <img th:src="@{/img/chart-icon-color.png}"/>
-
             </a>
         </div>
 
 
 
-        <div th:if="${!myQuizes.empty}" class="form-style-5">
+        <div id="quizList" th:if="${!myQuizes.empty}" class="form-style-5">
 
             <fieldset>
-                <legend><span class="number">!</span> Quizes in this course</legend>
+                <legend>Quizes in this course</legend>
                 <ul class="gallery"  th:each="quiz : ${myQuizes}">
                     <li>
                         <a th:href="@{|/courses/${course.id}/${quiz.id}|}">
@@ -45,7 +44,7 @@
                             <div th:if="${quiz.published} == true">
                                 <form th:action="@{/publishQuiz}" method="post">
                                     <input type="hidden" name="quizId" th:value="${quiz.id}"/>
-                                    <button type="submit" class="button">Unpublish</button>
+                                    <button type="submit" class="button" style="background-color: khaki">Unpublish</button>
                                 </form>
 
 
@@ -54,12 +53,12 @@
                             <div th:if="${quiz.published} == false">
                                 <form th:action="@{/publishQuiz}" method="post">
                                     <input type="hidden" name="quizId" th:value="${quiz.id}"/>
-                                    <button type="submit" class="button" style="background-color: #7f9e40">Publish</button>
+                                    <button type="submit" class="button" style="background-color: khaki">Publish</button>
                                 </form>
                             </div>
                             <form th:action="@{/deleteQuiz}" method="post">
                                 <label><input type="hidden" name="quizId" th:value="${quiz.id}"/></label>
-                                <button type="submit" class="button">Delete</button>
+                                <button type="submit" class="button" style="background-color: #cf4343">Delete</button>
                             </form>
                         </a>
                     </li>
@@ -70,7 +69,7 @@
         </div>
 
 
-        <div class="form-style-5">
+        <div id="quizForm" class="form-style-5">
             <form th:action="@{/addQuiz}" th:object="${quiz}" method="post">
                 <fieldset>
                     <legend><span class="number">+</span> Create a new quiz</legend>
@@ -101,9 +100,9 @@
 
 
 
-            <div class="form-style-5">
+            <div id="quizListPart" class="form-style-5">
                 <fieldset>
-                    <legend><span class="number">!</span> Available quizes in this course</legend>
+                    <legend>Available quizes in this course</legend>
                     <ul class="gallery"  th:each="quiz : ${myQuizes}">
 
                         <li>

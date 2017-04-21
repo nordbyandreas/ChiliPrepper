@@ -42,7 +42,7 @@
 
 
             <div>
-                <h1 th:text="${quiz.quizName}" style="color: black; float: left;"></h1>
+                <h1 class="pageTitle" th:text="${quiz.quizName}"></h1>
                 <a class="chartLink" th:href="@{|/courses/${course.id}/${quiz.id}/chart|}">
                     <img th:src="@{/img/chart-icon-color.png}"/>
 
@@ -50,16 +50,10 @@
             </div>
 
 
-            <form th:action="@{|/courses/${course.id}/${quiz.id}/editQuiz|}" method="get">
-                <input type="hidden" name="quizId" th:value="${quiz.id}"/>
-                <button type="submit" class="button">Edit</button>
-            </form>
 
-
-
-            <div th:if="${!questions.empty}" class="form-style-5">
+            <div id="questionList" th:if="${!questions.empty}" class="form-style-5">
                 <fieldset>
-                    <legend><span class="number">!</span> Questions in this quiz</legend>
+                    <legend>Questions in this quiz</legend>
                     <ul class="gallery"  th:each="question : ${questions}">
 
                         <li>
@@ -70,7 +64,7 @@
                             </a>
                             <form th:action="@{/deleteQuestion}" method="post">
                                 <input type="hidden" name="questionId" th:value="${question.id}"/>
-                                <button type="submit" class="button">Delete</button>
+                                <button type="submit" class="button" style="background-color: #cf4343">Delete</button>
                             </form>
                         </li>
 
@@ -82,16 +76,16 @@
 
 
 
-            <div class="form-style-5">
+            <div id="questionForm" class="form-style-5">
                 <form th:action="@{/addQuestion}" th:object="${newQuestion}" method="post">
                     <fieldset>
                         <legend><span class="number">+</span> Create new question</legend>
-                        <input type="text" th:field="*{theQuestion}" placeholder="Ask the question"/>
-                        <input type="text" th:field="*{topic}" placeholder="topic"/>
-                        <input type="text" th:field="*{correctAnswer}" placeholder="Correct Answer"/>
-                        <input type="text" name="alt1" placeholder="Alternative 1"/>
-                        <input type="text" name="alt2" placeholder="Alternative 2"/>
-                        <input type="text" name="alt3" placeholder="Alternative 3"/>
+                        <input type="text" th:field="*{theQuestion}" placeholder="Enter question *"/>
+                        <input type="text" th:field="*{topic}" placeholder="Topic *"/>
+                        <input type="text" th:field="*{correctAnswer}" placeholder="Correct Answer *"/>
+                        <input type="text" name="alt1" placeholder="Alternative 1 *"/>
+                        <input type="text" name="alt2" placeholder="Alternative 2 *"/>
+                        <input type="text" name="alt3" placeholder="Alternative 3 *"/>
                         <input type="hidden" name="quizId" th:value="${quiz.id}"/>
                     </fieldset>
 
