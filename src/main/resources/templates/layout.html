@@ -1,3 +1,12 @@
+<!--
+html for layouts (fragments)
+
+fragments are imported from here to other .html files as needed
+
+
+-->
+
+
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
@@ -12,11 +21,7 @@
 
 </head>
 
-
-
-
 <body>
-
 <header th:fragment="header">
     <a th:href="@{/}" id="logo">
         <img th:src="@{/img/LogoLiten.png}" alt="ChiliPrepper logo" id="navbarLogo"/>
@@ -27,6 +32,9 @@
             <li><a th:href="@{/about}">About</a></li>
             <li><a th:href="@{/profile}">Settings</a></li>
             <li><a th:href="@{/logout}">Logout</a></li>
+            <li><form th:action="@{/logout}" method="post">
+                <button type="submit" name="your_name" value="your_value" class="btn-link">logout</button>
+            </form></li>
         </ul>
     </nav>
 </header>

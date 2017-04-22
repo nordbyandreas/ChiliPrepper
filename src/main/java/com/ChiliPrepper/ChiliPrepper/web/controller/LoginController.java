@@ -44,15 +44,6 @@ public class LoginController {
 
         model.addAttribute("user", new User());
 
-        try {
-            Object flash = request.getSession().getAttribute("flash");
-            model.addAttribute("flash", flash);
-            request.getSession().removeAttribute("flash");
-        }
-        catch (Exception ex) {
-            // "flash" session attribute must not exist...do nothing and proceed normally
-        }
-
         return "login";
     }
 
@@ -68,22 +59,27 @@ public class LoginController {
         return "access_denied";
     }
 
+
+
+
     /**
      * Logs a user out
      *
      * @param request
      * @param response
      * @return returns a            redirect to the login page HTML
-     */
-    @RequestMapping(path = "/logout", method = RequestMethod.GET)
+
+    @RequestMapping(path = "/logout", method = RequestMethod.POST)
     public String logOut(HttpServletRequest request, HttpServletResponse response){
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if(auth != null){
+            request.getSession().invalidate();
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
 
         return "redirect:/login";
     }
+     */
 }

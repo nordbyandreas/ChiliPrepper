@@ -51,7 +51,7 @@ public class User implements UserDetails {
     private String password;
 
 
-    // @Column(unique = true, nullable = false)  removed uniqe for testing of mail sending
+    // @Column(unique = true, nullable = false)  removed unique for testing of mail sending
     @Column(nullable = false)
     @Email
     private String email;

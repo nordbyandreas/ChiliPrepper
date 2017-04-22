@@ -1,135 +1,128 @@
+
+<!--
+html for a single course page
+
+
+-->
+
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="layout :: head('course')">
+    <head th:replace="layout :: head('course')">
 
-</head>
+    </head>
 
-<body>
+    <body>
 
-<header th:replace="layout :: header">
+        <header th:replace="layout :: header">
+        </header>
 
-</header>
+    <div id="wrapper">
+        <section>
+            <div th:replace="layout :: flash"></div>
 
-<div class="spacer"></div>
-
-<div id="wrapper">
-    <section>
-
-        <div th:replace="layout :: flash"></div>
-
-
-        <!-- FOR COURSE CREATORS -->
-
-    <div th:if="${userId} == ${creatorId}">
-        <div>
-            <h1 class="pageTitle" th:text="${course.courseName}"></h1>
-
-            <a class="chartLink" th:href="@{|/courses/${course.id}/chart|}">
-                <img th:src="@{/img/chart-icon-color.png}"/>
-            </a>
-        </div>
-
-
-
-        <div id="quizList" th:if="${!myQuizes.empty}" class="form-style-5">
-
-            <fieldset>
-                <legend>Quizes in this course</legend>
-                <ul class="gallery"  th:each="quiz : ${myQuizes}">
-                    <li>
-                        <a th:href="@{|/courses/${course.id}/${quiz.id}|}">
-                            <img th:src="@{/img/placeholder.png}"/>
-                            <p th:text="${quiz.quizName}"></p>
-                            <div th:if="${quiz.published} == true">
-                                <form th:action="@{/publishQuiz}" method="post">
-                                    <input type="hidden" name="quizId" th:value="${quiz.id}"/>
-                                    <button type="submit" class="button" style="background-color: khaki">Unpublish</button>
-                                </form>
-
-
-                            </div>
-
-                            <div th:if="${quiz.published} == false">
-                                <form th:action="@{/publishQuiz}" method="post">
-                                    <input type="hidden" name="quizId" th:value="${quiz.id}"/>
-                                    <button type="submit" class="button" style="background-color: khaki">Publish</button>
-                                </form>
-                            </div>
-                            <form th:action="@{/deleteQuiz}" method="post">
-                                <label><input type="hidden" name="quizId" th:value="${quiz.id}"/></label>
-                                <button type="submit" class="button" style="background-color: #cf4343">Delete</button>
-                            </form>
+            <!-- FOR COURSE CREATORS -->
+            <div th:if="${userId} == ${creatorId}">
+                <div>
+                    <div class="topLeft">
+                        <h1 class="pageTitle" th:text="${course.courseName}"></h1>
+                        <a class="nameChange" th:href="@{|/courses/${course.id}/editName|}">Change name of course?</a>
+                    </div>
+                    <div class="topRight">
+                        <a class="chartLink" th:href="@{|/courses/${course.id}/chart|}">
+                            <img th:src="@{/img/chart-icon-color.png}"/>
                         </a>
-                    </li>
-                </ul>
-            </fieldset>
+                        <a class="textLink" th:href="@{|/courses/${course.id}/chart|}">View results</a>
+                    </div>
+                </div>
 
 
-        </div>
-
-
-        <div id="quizForm" class="form-style-5">
-            <form th:action="@{/addQuiz}" th:object="${quiz}" method="post">
-                <fieldset>
-                    <legend><span class="number">+</span> Create a new quiz</legend>
-                    <label><input type="text" th:field="*{quizName}" placeholder="Quiz name *"/></label>
-                    <label><input type="hidden" name="courseId" th:value="${course.id}"/></label>
-                </fieldset>
-                <input type="submit" value="Create" />
-            </form>
-        </div>
-
-
-    </div>
-
-        <!-- FOR COURSE CREATORS -->
-
-
-
-        <!-- FOR COURSE PARTICIPANTS -->
-
-        <div th:if="${userId} != ${creatorId}">
-
-            <h1 th:text="${course.courseName}" style="color: black;"></h1>
-
-            <div>
-                <h3>Current points: <span th:text="${score}"></span> of <span th:text="${maxScore}"></span> </h3>
-
-            </div>
-
-
-
-            <div id="quizListPart" class="form-style-5">
-                <fieldset>
-                    <legend>Available quizes in this course</legend>
-                    <ul class="gallery"  th:each="quiz : ${myQuizes}">
-
-                        <li>
-                            <a th:href="@{|/courses/${course.id}/${quiz.id}/quiz|}">
-                                <div th:if="${quiz.published} == true">
+                <div id="quizList" th:if="${!myQuizzes.empty}" class="form-style-5">
+                    <fieldset>
+                        <legend>Quizes in this course</legend>
+                        <ul class="gallery"  th:each="quiz : ${myQuizzes}">
+                            <li>
+                                <a th:href="@{|/courses/${course.id}/${quiz.id}|}">
                                     <img th:src="@{/img/placeholder.png}"/>
                                     <p th:text="${quiz.quizName}"></p>
-                                </div>
-                            </a>
-                        </li>
+                                    <div th:if="${quiz.published} == true">
+                                        <form th:action="@{/publishQuiz}" method="post">
+                                            <input type="hidden" name="quizId" th:value="${quiz.id}"/>
+                                            <button type="submit" class="pubButton" >Unpublish</button>
+                                        </form>
+                                    </div>
+
+                                    <div th:if="${quiz.published} == false">
+                                        <form th:action="@{/publishQuiz}" method="post">
+                                            <input type="hidden" name="quizId" th:value="${quiz.id}"/>
+                                            <button type="submit" class="pubButton" >Publish</button>
+                                        </form>
+                                    </div>
+                                    <form th:action="@{/deleteQuiz}" method="post">
+                                        <label><input type="hidden" name="quizId" th:value="${quiz.id}"/></label>
+                                        <button type="submit" class="delButton">Delete</button>
+                                    </form>
+                                </a>
+                            </li>
+                        </ul>
+                    </fieldset>
 
 
-                    </ul>
-                </fieldset>
+                </div>
+                <div id="quizForm" class="form-style-5">
+                    <form th:action="@{/addQuiz}" th:object="${quiz}" method="post">
+                        <fieldset>
+                            <legend><span class="number">+</span> Create a new quiz</legend>
+                            <label><input type="text" th:field="*{quizName}" placeholder="Quiz name *"/></label>
+                            <label><input type="hidden" name="courseId" th:value="${course.id}"/></label>
+                        </fieldset>
+                        <input type="submit" value="Create" />
+                    </form>
+                </div>
+
             </div>
-        </div>
 
-        <!-- FOR COURSE PARTICIPANTS -->
-
+                <!-- FOR COURSE CREATORS -->
 
 
-    </section>
 
-    <footer th:replace="layout :: footer">
+            <!-- FOR COURSE PARTICIPANTS -->
 
-    </footer>
-</div>
-</body>
+            <div th:if="${userId} != ${creatorId}">
+
+                <h1 th:text="${course.courseName}" style="color: black;"></h1>
+                <div>
+                    <h3>Current points: <span th:text="${score}"></span> of <span th:text="${maxScore}"></span> </h3>
+                </div>
+
+                <div id="quizListPart" class="form-style-5">
+                    <fieldset>
+                        <legend>Available quizes in this course</legend>
+                        <ul class="gallery"  th:each="quiz : ${myQuizzes}">
+
+                            <li>
+                                <a th:href="@{|/courses/${course.id}/${quiz.id}/quiz|}">
+                                    <div th:if="${quiz.published} == true">
+                                        <img th:src="@{/img/placeholder.png}"/>
+                                        <p th:text="${quiz.quizName}"></p>
+                                    </div>
+                                </a>
+                            </li>
+
+
+                        </ul>
+                    </fieldset>
+                </div>
+            </div>
+
+            <!-- FOR COURSE PARTICIPANTS -->
+
+        </section>
+
+        <footer th:replace="layout :: footer">
+
+        </footer>
+    </div>
+    </body>
 
 </html>

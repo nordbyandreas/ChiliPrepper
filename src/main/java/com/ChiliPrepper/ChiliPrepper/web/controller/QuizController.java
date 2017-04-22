@@ -80,33 +80,6 @@ public class QuizController {
 
 
 
-    /**
-     *
-     *Renders the page for a single quiz
-     *
-     *
-     * @param model
-     * @param quizId
-     * @param courseId
-     * @return Returns a String which points to the correct HTML file to be rendered
-     */
-    @RequestMapping("/courses/{courseId}/{quizId}")
-    public String renderQuizView(Model model, @PathVariable Long quizId, @PathVariable Long courseId){
-
-        Course course = courseService.findOne(courseId);
-        Quiz quiz = quizService.findOne(quizId);
-        Iterable<Question> questions = questionService.findAllByQuiz_Id(quizId);
-
-        model.addAttribute("quiz", quiz);
-        model.addAttribute("newQuestion", new Question());
-        model.addAttribute("questions", questions);
-        model.addAttribute("course", course);
-
-        return "quiz";
-
-    }
-
-
 
 
     /**
@@ -152,7 +125,7 @@ public class QuizController {
      * @return Returns a String which points to the correct HTML file to be rendered
      */
     @RequestMapping("/courses/{courseId}/{quizId}/chart")
-    public String renederQuizChartView(Model model, @PathVariable Long quizId, @PathVariable Long courseId){
+    public String renderQuizChartView(Model model, @PathVariable Long quizId, @PathVariable Long courseId){
 
         Course course = courseService.findOne(courseId);
         Quiz quiz = quizService.findOne(quizId);
@@ -596,4 +569,62 @@ public class QuizController {
 
         return "redirect:/courses/" + quiz.getCourse().getId();
     }
+
+
+    /**
+     * Renders the editQuiz page
+     *
+     *
+     * @param model
+     * @param courseId
+     * @param quizId
+     * @return  Returns a String which points to the correct HTML file to be rendered
+     */
+    @RequestMapping(value = "/courses/{courseId}/{quizId}/editName", method = RequestMethod.GET)
+    public String renderEditQuiz(Model model, @PathVariable Long courseId, @PathVariable Long quizId) {
+
+        Quiz quiz = quizService.findOne(quizId);
+        Course course = courseService.findOne(courseId);
+
+        model.addAttribute("quiz", quiz);
+        model.addAttribute("course", course);
+
+        return "editQuiz";
+
+    }
+
+
+    /**
+     *
+     * Saves the new quizName to the db
+     *
+     * Redirects to quiz page
+     *
+     *
+     * @param quizName
+     * @param courseId
+     * @param quizId
+     * @param redirectAttributes
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
+    @RequestMapping(value = "/courses/{courseId}/{quizId}/editName", method = RequestMethod.POST)
+    public String saveNewQuizName(@RequestParam String quizName, @RequestParam Long courseId, @RequestParam Long quizId, RedirectAttributes redirectAttributes) {
+
+        System.out.println("\n\n\n\n\n\n\n\n\n\n  i was called  \n\n\n\n\n\n\n\n\n");
+
+        Quiz quiz = quizService.findOne(quizId);
+        quiz.setQuizName(quizName);
+
+        quizService.save(quiz);
+
+        String message = "Quiz name was changed to " + quizName;
+        redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.SUCCESS));
+
+        return "redirect:/courses/" + courseId + "/" + quizId;
+
+    }
+
+
+
+
 }

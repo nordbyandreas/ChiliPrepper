@@ -82,12 +82,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      *
      * Configuration class for websecurity, authentication and authorization
-     *
+     * Login and logout
      *
      *
      * @param http
      * @throws Exception
      */
+    /**
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -101,12 +102,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(loginSuccessHandler())
                 .failureHandler(loginFailureHandler())
                 .and()
-                .logout()
+                .logout().invalidateHttpSession(true).deleteCookies("JSESSIONID")
                 .permitAll()
                 .logoutSuccessUrl("/login")
                 .and()
                 .csrf();
     }
+**/
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers("/register", "/img/LogoLiten.png", "/css/**").permitAll()  //allows all users to access the register-form
+                .anyRequest().authenticated()   //hasRole("USER")  somewhere here?
+                .and()
+                    .formLogin()
+                    .loginPage("/login")  //allows all users access to the login form
+                    .permitAll()
+                    .successHandler(loginSuccessHandler())
+                    .failureHandler(loginFailureHandler())
+                .and()
+                .logout()
+                    //.logoutSuccessHandler(logoutSuccessHandler)
+                    .invalidateHttpSession(true)
+                    //.addLogoutHandler(logoutHandler)
+                    .deleteCookies("JSESSIONID")
+                    .clearAuthentication(true)
+
+                .permitAll()
+                .logoutSuccessUrl("/login")
+                .and()
+                .csrf();
+    }
+
 
 
     /**
@@ -118,6 +147,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationSuccessHandler loginSuccessHandler() {  //redirect to index when successfull login
         return (request, response, authentication) -> response.sendRedirect("/");
     }
+
+
 
 
     /**

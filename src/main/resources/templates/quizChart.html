@@ -1,4 +1,10 @@
+<!--
+html and javascript for displaying a chart
 
+the chart is imported from graph.html
+
+
+-->
 
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
@@ -19,7 +25,6 @@
         /*<![CDATA[*/
 
         var quizId = [[${quiz.id}]];
-
 
         $(document).ready(function(){
             var url = '/quizChart/' + quizId;
@@ -42,10 +47,6 @@
 
 <body>
 
-<!--<header th:replace="layout :: header"></header>
--->
-
-
 
 <header th:replace="layout :: header">
 
@@ -61,13 +62,7 @@
 
         <div id="quizChart">
 
-
-
         </div>
-
-
-
-
 
     </section>
 

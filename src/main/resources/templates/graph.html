@@ -1,4 +1,11 @@
 
+<!--
+html and javascript for drawing a chart
+
+the thymeleaf fragment is imported into quizChart.html for display
+
+
+-->
 
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
@@ -25,8 +32,6 @@
 
 </header>
 
-<div class="spacer"></div>
-
 <div id="wrapper">
     <section>
 
@@ -44,9 +49,7 @@
                 google.charts.load('current', {'packages':['bar']});
                 google.charts.setOnLoadCallback(drawChart);
 
-
                 function drawChart() {
-
 
                     var quizData = [["questions", "results"]];
                     for (i = 0; i < results.length; i++) {
@@ -54,10 +57,7 @@
                         quizData.push(temp);
                     }
 
-
                     var data = google.visualization.arrayToDataTable(quizData);
-
-
 
                     var options = {
                         chart: {

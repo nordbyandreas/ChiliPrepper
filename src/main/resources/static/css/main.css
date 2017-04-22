@@ -1,3 +1,15 @@
+/********************
+FOR MOBILE DEVICES
+
+
+
+(look in responsive.css for "larger screen"-css)
+
+********************/
+
+
+
+
 
 /********************
 GENERAL
@@ -13,6 +25,7 @@ body {
     max-width: 940px;
     margin: 0 auto;
     padding: 0 5%;
+    clear: both;
 
 }
 
@@ -167,30 +180,7 @@ nav a {
     font-weight: 800;
 }
 
-/*
-nav {
-    clear: both;
-    padding: 10px 0;
-    margin: 20px 0 0;
-}
 
-nav ul {
-    list-style: none;
-    margin: 0 10px;
-    padding: 0;
-}
-
-nav li {
-    display: inline-block;
-}
-
-nav a {
-    font-family: 'Oswald', sans-serif;
-    padding: 15px 10px;
-    min-height: 48px;
-    min-width: 48px;
-}
-*/
 
 /********************
 FOOTER
@@ -211,6 +201,8 @@ footer {
     height: 20px;
     margin: 0 5px;
 }
+
+
 
 
 /********************
@@ -278,9 +270,6 @@ PAGE: COURSES
 
 /*Courses*/
 
-.button-alist{
-    width: 100%;
-}
 
 .gallery{
     width: 100%;
@@ -311,6 +300,16 @@ PAGE: COURSES
     border-radius: 4px;
 }
 
+.topLeft{
+    float: left;
+    width: 45%;
+}
+
+.topRight{
+    float: right;
+    width: 45%;
+
+}
 
 .chartLink {
     background-color: #f5f5f5;
@@ -338,58 +337,35 @@ PAGE: COURSES
     margin: 10px auto;
     clear: both;
     text-align: center;
+}
+
+.textLink:hover{
+    color: #32673f;
+}
+
+.textLink{
+    text-align: center;
+    clear: both;
+    width: 90%;
+    float: right;
+    margin: 10px;
 
 }
 
+.nameChange:hover{
+    color: #32673f;
 
+}
 
-.courseBox{
+.nameChange{
+    text-align: center;
+    clear: both;
+    width: 90%;
     float: left;
-    display: block;
-    height: 60px;
-    width: 28.3%;
-    margin: 2.5%;
+    margin: 10px;
 }
 
 
-
-
-
-.courseBox a {
-    background: #F0B04A;
-    color: #FFF;
-    padding: 15px 10px;
-    font-family: 'Oswald', sans-serif;
-    width: 100%;
-    height: 100%;
-}
-
-/*Menu*/
-
-
-
-/*
-#gallery {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-#gallery li {
-    float: left;
-    width: 45%;
-    margin: 2.5%;
-    background-color: #f5f5f5;
-    color: #bdc3c7;
-}
-
-#gallery li a p {
-    margin: 0;
-    padding: 5%;
-    font-size: 0.75em;
-    color: #bdc3c7;
-}
-'/
 
 /********************
 PAGE: ABOUT
@@ -405,34 +381,7 @@ PAGE: ABOUT
 
 
 
-/********************
-PAGE: CONTACT
 
-********************/
-
-.contact-info{
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-size: 0.9em;
-}
-
-.contact-info a{
-    display: block;
-    min-height: 20px;
-    background-repeat: no-repeat;
-    background-size: 20px 20px;
-    padding: 0 0 0 30px;
-    margin: 0 0 10px;
-}
-
-.contact-info li.phone a {
-    background-image: url('../img/phone.png');
-}
-
-.contact-info li.mail a {
-    background-image: url('../img/mail.png');
-}
 
 /********************
 QUIZ QUESTIONS
@@ -451,6 +400,13 @@ CHART
     height	: 500px;
 }
 
+
+
+
+/********************
+FLASHMESSAGES
+
+********************/
 
 .flash {
     clear: both;
@@ -474,18 +430,45 @@ CHART
     color: #f2e2e2;
 }
 
+
+
+
+
+
 /********************
 FORMS
 
 ********************/
 
-.group{
 
-    clear: both;
+
+.delButton{
+    width: 90%;
+    text-align: center;
+    margin: 0 auto;
+    padding: 3px 10px 3px 10px;
+    background: #cf4343;
+    color: #000000;
+    margin-bottom: 5px;
 }
 
+.delButton:hover{
+    background-color: #ef4343;
+}
 
+.pubButton{
+    width: 90%;
+    text-align: center;
+    margin: 0 auto;
+    padding: 3px 10px 3px 10px;
+    background: #6ab47b;
+    color: white;
+}
 
+.pubButton:hover{
+    background-color: #32673f;
+    color: white;
+}
 
 
 .form{
@@ -594,6 +577,7 @@ FORMS
     border-width: 1px 1px 3px;
     margin-bottom: 10px;
 }
+
 .form-style-5 input[type="submit"]:hover,
 .form-style-5 input[type="button"]:hover
 {

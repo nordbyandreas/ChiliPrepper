@@ -1,4 +1,8 @@
+<!--
+html for a single quiz page
 
+
+-->
 
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
@@ -18,10 +22,6 @@
 
 <body>
 
-<!--<header th:replace="layout :: header"></header>
--->
-
-
 
 <header th:replace="layout :: header">
 
@@ -38,17 +38,18 @@
 
         <div th:if="${userId} == ${creatorId}">
 
-
-
-
             <div>
-                <h1 class="pageTitle" th:text="${quiz.quizName}"></h1>
-                <a class="chartLink" th:href="@{|/courses/${course.id}/${quiz.id}/chart|}">
-                    <img th:src="@{/img/chart-icon-color.png}"/>
-
-                </a>
+                <div class="topLeft">
+                    <h1 class="pageTitle" th:text="${quiz.quizName}"></h1>
+                    <a class="nameChange" th:href="@{|/courses/${course.id}/${quiz.id}/editName|}">Change name of quiz?</a>
+                </div>
+                <div class="topRight">
+                    <a class="chartLink" th:href="@{|/courses/${course.id}/${quiz.id}/chart|}">
+                        <img th:src="@{/img/chart-icon-color.png}"/>
+                    </a>
+                    <a class="textLink" th:href="@{|/courses/${course.id}/${quiz.id}/chart|}">View results</a>
+                </div>
             </div>
-
 
 
             <div id="questionList" th:if="${!questions.empty}" class="form-style-5">
@@ -64,7 +65,7 @@
                             </a>
                             <form th:action="@{/deleteQuestion}" method="post">
                                 <input type="hidden" name="questionId" th:value="${question.id}"/>
-                                <button type="submit" class="button" style="background-color: #cf4343">Delete</button>
+                                <button type="submit" class="delButton">Delete</button>
                             </form>
                         </li>
 
@@ -72,8 +73,6 @@
                     </ul>
                 </fieldset>
             </div>
-
-
 
 
             <div id="questionForm" class="form-style-5">
@@ -93,17 +92,7 @@
                 </form>
             </div>
 
-
-
         </div>
-
-
-
-
-
-
-
-
 
 
     </section>

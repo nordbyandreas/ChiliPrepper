@@ -1,0 +1,46 @@
+
+<!--
+html for a editing a course's name
+
+
+-->
+
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: head('editCourse')">
+
+</head>
+
+<body>
+
+<header th:replace="layout :: header">
+
+</header>
+
+<div id="wrapper">
+    <section>
+
+
+        <div th:replace="layout :: flash"></div>
+
+        <h1 class="pageTitle" th:text="${course.courseName}"></h1>
+        <div class="form-style-5">
+            <form th:action="@{|/courses/${course.id}/editName|}"  method="post">
+                <fieldset>
+                    <label><input type="hidden" name="courseId" th:value="${course.id}"/></label>
+                    <legend><span class="number">?</span> Make changes </legend>
+                    <label>Course name <input type="text" name="courseName" th:value="${course.courseName}"/></label>
+                </fieldset>
+                <input type="submit" value="Save changes" />
+            </form>
+        </div>
+
+    </section>
+
+    <footer th:replace="layout :: footer">
+
+    </footer>
+</div>
+</body>
+</html>

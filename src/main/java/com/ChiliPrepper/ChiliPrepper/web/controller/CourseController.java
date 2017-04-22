@@ -234,6 +234,9 @@ public class CourseController {
     }
 
 
+
+
+
     /**
      *
      * Feeds the html file containig the Javascript for creating a chart with data
@@ -269,7 +272,7 @@ public class CourseController {
      *
      *
      *
-     * @param quizes
+     * @param quizzes
      * @return ArrayList containing average score for quizes in course
      */
     public ArrayList<Double> getCourseResults(Iterable<Quiz> quizzes) {
@@ -298,7 +301,7 @@ public class CourseController {
      * @param quizId
      * @return (double)score og null
      */
-    public Double getAvgScoreForCourseChart(Long quizId)  {
+    public Double getAvgQuizScoreForCourseChart(Long quizId)  {
 
         Iterable<Answer> tAnswers = answerService.findAllByQuiz_Id(quizId);
 
@@ -323,4 +326,54 @@ public class CourseController {
             return null;
         }
     }
+
+
+
+
+    /**
+     *
+     * Renders the editCourse page
+     *
+     * @param model
+     * @param courseId
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
+    @RequestMapping(value = "/courses/{courseId}/editName", method = RequestMethod.GET)
+    public String renderEditCourse(Model model, @PathVariable Long courseId) {
+        Course course = courseService.findOne(courseId);
+
+        model.addAttribute(course);
+
+        return "editCourse";
+
+    }
+
+
+
+    /**
+     * Saves the new name of the course to the db
+     *
+     * Redirects back to course page
+     *
+     *
+     * @param courseName
+     * @param courseId
+     * @param redirectAttributes
+     * @return  Returns a String which points to the correct HTML file to be rendered
+     */
+    @RequestMapping(value = "/courses/{courseId}/editName", method = RequestMethod.POST)
+    public String saveNewCourseName(@RequestParam String courseName, @RequestParam Long courseId, RedirectAttributes redirectAttributes) {
+        Course course = courseService.findOne(courseId);
+        course.setCourseName(courseName);
+
+        courseService.save(course);
+
+        String message = "Course name was changed to " + courseName;
+        redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.SUCCESS));
+
+        return "redirect:/courses/" + courseId;
+
+    }
+
+
 }

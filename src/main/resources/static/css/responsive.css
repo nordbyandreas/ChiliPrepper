@@ -2,6 +2,17 @@
 
 
 
+
+/********************
+For medium screens
+
+
+(this section needs more work)
+
+********************/
+
+
+
 @media screen and (min-width: 480px) {
 
     /********************
@@ -13,22 +24,6 @@
         max-width: 150px;
     }
 
-    /********************
-    TWO COLUMN LAYOUT
-
-    ********************/
-
-    /*
-    #primary {
-        width: 50%;
-        float: left;
-    }
-
-    #secondary {
-        width: 40%;
-        float: right;
-    }
-    */
 
     /********************
     PAGE: LOGIN
@@ -72,17 +67,6 @@
         font-size: 1.5em;
     }
 
-    /*Menu*/
-
-
-    /*
-    #gallery li {
-        width: 28.3333%;
-    }
-    #gallery li:nth-child(4n) {
-        clear: left;
-    }
-    */
 
     /********************
     PAGE: ABOUT
@@ -103,6 +87,14 @@
 
 
 
+
+
+/********************
+For larger screens
+
+********************/
+
+
 @media screen and (min-width: 660px) {
 
     /********************
@@ -121,26 +113,7 @@
         padding: 5px;
     }
 
-    button {
-        /*margin: 3px;*/
-        padding: 10px 15px;
-    }
 
-    button:hover, button:focus {
-        font-weight: bold;
-        outline: none;
-        /*margin: 0;
-        border: 3px solid #A00005;*/
-        transform: scale(1.1);
-        transition-duration: 0.1s;
-    }
-
-    button:active {
-        background: #6A0003;
-        color: #FFCACB;
-        /*border: none;*/
-        transform: scale(1);
-    }
 
     input:focus, input:hover {
         outline: none;
@@ -198,6 +171,10 @@
 
     }
 
+    .textLink{
+        width: 95%;
+    }
+
 
 
 
@@ -238,60 +215,6 @@
 
 
 
-    /********************
-    PAGE: COURSES
 
-    ********************/
-
-    /*Courses*/
-
-
-
-    /*
-    #course-created li, #course-registered li {
-        margin: 50px 0;
-    }
-
-    #course-created a, #course-registered a {
-        font-size: 2em;
-    }
-    */
-
-    .button-alist a:hover {
-        font-weight: bold;
-        outline: none;
-        padding: 18px 13px;
-        transition-duration: 0.1s;
-    }
-
-    .button-alist a:active {
-        background: #E09514;
-        color: #FFE6C0;
-        padding: 15px 10px;
-    }
-
-
-
-    /********************
-    QUIZ QUESTIONS
-
-    ********************/
-
-    .quizquestion {
-        display: block;
-    }
-
-    .quizquestion label:hover {
-        font-weight: bold;
-        outline: none;
-        padding: 18px 13px;
-        transition-duration: 0.1s;
-    }
-
-    .quizquestion label:active {
-        background: #637733;
-        color: #EBF4D8;
-        padding: 15px 10px;
-    }
 
 }

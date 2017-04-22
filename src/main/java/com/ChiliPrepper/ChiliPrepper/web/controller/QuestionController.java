@@ -77,7 +77,7 @@ public class QuestionController {
      * Saves a new question to the database
      *
      *
-     * @param newQuestion
+     * @param question
      * @param quizId
      * @param alt1
      * @param alt2

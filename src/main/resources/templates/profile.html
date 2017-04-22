@@ -1,3 +1,9 @@
+<!--
+html for the profile/settings page
+
+
+-->
+
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
@@ -15,8 +21,6 @@
     <section>
         <div th:replace="layout :: flash"></div>
         <h1 th:text="'Welcome ' + ${user.username} + '!  '" style="color: black;"></h1>
-
-
 
         <div class="form-style-5">
             <form th:action="@{/saveBotDetails}" th:object="${user}" method="post">
@@ -44,8 +48,6 @@
 
             </form>
         </div>
-
-
 
 
     </section>
