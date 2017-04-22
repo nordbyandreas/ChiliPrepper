@@ -40,11 +40,6 @@ public class Course {
     @JoinColumn(name = "user_id")
     private User creator;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "regCourses")
-    private Set<User> regUsers;
-
-
-
 
     //Default constructor
     public Course() {}
@@ -52,14 +47,6 @@ public class Course {
 
 
     //getters and setters for all fields:
-
-    public Set<User> getRegUsers() {
-        return regUsers;
-    }
-
-    public void setRegUsers(Set<User> regUsers) {
-        this.regUsers = regUsers;
-    }
 
 
     public Long getId() {

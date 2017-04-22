@@ -1,5 +1,6 @@
 package com.ChiliPrepper.ChiliPrepper.web.controller;
 
+import java.util.Iterator;
 import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
@@ -46,6 +47,8 @@ public class CourseController {
     @Autowired
     private QuestionService questionService;
 
+    @Autowired
+    private CourseUserService courseUserService;
 
 
 
@@ -63,8 +66,15 @@ public class CourseController {
 
         String username = principal.getName();
         User user = userService.findByUsername(username);
-        Set<Course> regCourses = user.getRegCourses();
         Iterable<Course> myCourses = courseService.findAllForCreator();
+
+        Iterable<CourseUser> regCourseUser = courseUserService.findAllByUser_id(user.getId());
+        ArrayList<Course> regCourses = new ArrayList<>();
+
+        for(CourseUser courseUser : regCourseUser){
+            Course course = courseService.findOne(courseUser.getCourse().getId());
+            regCourses.add(course);
+        }
 
         model.addAttribute("myCourses", myCourses);
         model.addAttribute("course", new Course());
@@ -181,7 +191,7 @@ public class CourseController {
      * @param accessCode
      * @param redirectAttributes
      * @return Returns a String which points to the correct HTML file to be rendered
-     */
+
     @RequestMapping(path = "/regCourse", method = RequestMethod.POST)
     public String registerForCourse (Principal principal, @RequestParam String accessCode, RedirectAttributes redirectAttributes){
 
@@ -214,6 +224,41 @@ public class CourseController {
             return "redirect:/";
         }
     }
+     */
+
+
+    @RequestMapping(path = "/regCourse", method = RequestMethod.POST)
+    public String registerForCourse (Principal principal, @RequestParam String accessCode, RedirectAttributes redirectAttributes){
+
+        String username = principal.getName();
+        User user = userService.findByUsername(username);
+
+        if(courseService.findByAccessCode(accessCode) != null){
+
+            Course course = courseService.findByAccessCode(accessCode);
+
+            CourseUser courseUser = new CourseUser();
+
+            courseUser.setCourse(course);
+            courseUser.setUser(user);
+
+            courseUserService.save(courseUser);
+
+            String message = "You've registered in " + course.getCourseName() + "!";
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.SUCCESS));
+
+            return "redirect:/";
+        }
+        else{
+            String message = "Registration failed! No course with that access code found!";
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.FAILURE));
+
+            return "redirect:/";
+        }
+    }
+
+
+
 
 
     /**

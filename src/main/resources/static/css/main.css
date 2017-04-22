@@ -180,6 +180,25 @@ nav a {
     font-weight: 800;
 }
 
+nav li button {
+     border: none;
+     background: none;
+     color: #fff;
+     font: inherit;
+     font-size: inherit;
+     font-family: 'Oswald', sans-serif;
+     font-weight: 800;
+
+ }
+
+nav li button:hover {
+    color: #32673f;
+
+}
+
+
+
+
 
 
 /********************

@@ -62,24 +62,4 @@ public class LoginController {
 
 
 
-    /**
-     * Logs a user out
-     *
-     * @param request
-     * @param response
-     * @return returns a            redirect to the login page HTML
-
-    @RequestMapping(path = "/logout", method = RequestMethod.POST)
-    public String logOut(HttpServletRequest request, HttpServletResponse response){
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if(auth != null){
-            request.getSession().invalidate();
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-
-        return "redirect:/login";
-    }
-     */
 }

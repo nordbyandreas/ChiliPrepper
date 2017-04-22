@@ -64,12 +64,6 @@ public class User implements UserDetails {
     private Role role;
 
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name= "course_user", joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name="course_id"))
-    private Set<Course> regCourses;
-
-
 
     @Column(name= "creator_quiz_results")
     private boolean creatorQuizResults;
@@ -105,13 +99,6 @@ public class User implements UserDetails {
 
 //Getters and Setters
 
-    public Set<Course> getRegCourses() {
-        return regCourses;
-    }
-
-    public void setRegCourses(Set<Course> regCourses) {
-        this.regCourses = regCourses;
-    }
 
     public Long getId() {
         return id;
