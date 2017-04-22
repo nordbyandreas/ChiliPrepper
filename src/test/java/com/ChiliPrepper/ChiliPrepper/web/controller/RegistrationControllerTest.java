@@ -48,7 +48,7 @@ public class RegistrationControllerTest {
     }
 
     @Test
-    public void regForm_RendersRegistrationView() throws Exception {
+    public void renderRegistrationFormView() throws Exception {
         mockMvc.perform(get("/register"))
 
                 .andExpect(model().attribute("user", instanceOf(User.class)))
@@ -60,7 +60,7 @@ public class RegistrationControllerTest {
 
 
     @Test
-    public void regUser_ShouldSuccessfullyCreateUser_RedirectsToRegister() throws Exception {
+    public void registerUser_SuccessfullyCreatesUser_RedirectsToRegister() throws Exception {
         //Email and username are entered and aren't occupied, and should therefore successfully create a new user
         when(user.getEmail()).thenReturn("username@domain.com");
         when(user.getUsername()).thenReturn("username");
@@ -70,7 +70,7 @@ public class RegistrationControllerTest {
                 .flashAttr("user", user))
 
                 .andExpect(flash().attributeExists("flash"))
-                .andExpect(flash().attribute("flash", hasProperty("message", Matchers.is("Registration success! Return to login page to get started !"))))
+                .andExpect(flash().attribute("flash", hasProperty("message", Matchers.is("Registration successful! Return to the login page to get started!"))))
                 .andExpect(flash().attribute("flash", hasProperty("status", Matchers.is(FlashMessage.Status.SUCCESS))))
 
                 .andExpect(status().is3xxRedirection())
@@ -80,7 +80,7 @@ public class RegistrationControllerTest {
     }
 
     @Test
-    public void regUser_EmailNotEntered_RedirectsToRegister() throws Exception {
+    public void registerUser_EmailNotEntered_RedirectsToRegister() throws Exception {
         //The email field is empty, which will cause a failure when trying to create the account
         when(user.getEmail()).thenReturn("");
 
@@ -96,7 +96,7 @@ public class RegistrationControllerTest {
     }
 
     @Test
-    public void regUser_UsernameOccupied_RedirectsToRegister() throws Exception {
+    public void registerUser_UsernameAlreadyTaken_RedirectsToRegister() throws Exception {
         //The user have entered its email and username in order to create the account
         when(user.getEmail()).thenReturn("username@domain.com");
         when(user.getUsername()).thenReturn("username");
@@ -108,7 +108,7 @@ public class RegistrationControllerTest {
                 .flashAttr("user", user))
 
                 .andExpect(flash().attributeExists("flash"))
-                .andExpect(flash().attribute("flash", hasProperty("message", Matchers.is("Registration failed! That username is taken!"))))
+                .andExpect(flash().attribute("flash", hasProperty("message", Matchers.is("Registration failed! The username is already taken!"))))
                 .andExpect(flash().attribute("flash", hasProperty("status", Matchers.is(FlashMessage.Status.FAILURE))))
 
                 .andExpect(status().is3xxRedirection())

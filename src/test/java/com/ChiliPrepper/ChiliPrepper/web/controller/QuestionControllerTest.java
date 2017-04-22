@@ -76,6 +76,22 @@ public class QuestionControllerTest {
     }
 
     @Test
+    public void renderQuestionView() throws Exception {
+        //Finds the selected question
+        when(questionService.findOne(1L)).thenReturn(question);
+
+        mockMvc.perform(get
+                ("/courses/{courseId}/{quizId}/{questionId}", 1L, 1L, 1L))
+                .andExpect(model().attributeExists("question"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("question"));
+
+        verify(questionService).findOne(1L);
+    }
+
+
+
+    @Test
     public void addQuestion_SuccessfullyAddsQuestion_RedirectsToTheQuiz() throws Exception {
         //Finds the quiz that is selected within the course
         when(course.getId()).thenReturn(1L);
@@ -94,7 +110,7 @@ public class QuestionControllerTest {
                 .param("alt3", "alt3"))
 
                 .andExpect(flash().attributeExists("flash"))
-                .andExpect(flash().attribute("flash", hasProperty("message", is("Question added! "))))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Question added!"))))
                 .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.SUCCESS))))
 
                 .andExpect(status().is3xxRedirection())
@@ -123,7 +139,7 @@ public class QuestionControllerTest {
                 .param("alt3", "alt3"))
 
                 .andExpect(flash().attributeExists("flash"))
-                .andExpect(flash().attribute("flash", hasProperty("message", is("Could not add question. Needs at least a question and correct answer!"))))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Failed to add question. Needs at least a question and correct answer!"))))
                 .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.FAILURE))))
 
                 .andExpect(status().is3xxRedirection())
@@ -149,7 +165,7 @@ public class QuestionControllerTest {
                 .param("alt3", "alt3"))
 
                 .andExpect(flash().attributeExists("flash"))
-                .andExpect(flash().attribute("flash", hasProperty("message", is("Could not add question. Needs at least a question and correct answer!"))))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Failed to add question. Needs at least a question and correct answer!"))))
                 .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.FAILURE))))
 
                 .andExpect(status().is3xxRedirection())
@@ -159,23 +175,7 @@ public class QuestionControllerTest {
 
 
     @Test
-    public void question_RendersQuestionView() throws Exception {
-        //Finds the selected question
-        when(questionService.findOne(1L)).thenReturn(question);
-
-        mockMvc.perform(get
-                ("/courses/{courseId}/{quizId}/{questionId}", 1L, 1L, 1L))
-                .andExpect(model().attributeExists("question"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("question"));
-
-        verify(questionService).findOne(1L);
-    }
-
-
-
-    @Test
-    public void editQuestion_RendersEditQuestionView() throws Exception {
+    public void renderEditQuestionView() throws Exception {
         //Finds the selected question
         when(questionService.findOne(1L)).thenReturn(question);
 
@@ -208,7 +208,7 @@ public class QuestionControllerTest {
 
 
     @Test
-    public void saveEditQuestion_RedirectsToTheQuestion() throws Exception {
+    public void saveEditedQuestion_RedirectsToTheQuestion() throws Exception {
         //Finds the question's alternatives
         when(alternativeService.findOne(1L)).thenReturn(alt1);
         when(alternativeService.findOne(2L)).thenReturn(alt2);
@@ -238,7 +238,7 @@ public class QuestionControllerTest {
                 .param("topic", "topic"))
 
                 .andExpect(flash().attributeExists("flash"))
-                .andExpect(flash().attribute("flash", hasProperty("message", is("Question updated ! "))))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Question updated!"))))
                 .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.SUCCESS))))
 
                 .andExpect(status().is3xxRedirection())
@@ -266,7 +266,7 @@ public class QuestionControllerTest {
                 .param("questionId", "1"))
 
                 .andExpect(flash().attributeExists("flash"))
-                .andExpect(flash().attribute("flash", hasProperty("message", is("Question deleted! "))))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Question deleted!"))))
                 .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.SUCCESS))))
 
                 .andExpect(status().is3xxRedirection())

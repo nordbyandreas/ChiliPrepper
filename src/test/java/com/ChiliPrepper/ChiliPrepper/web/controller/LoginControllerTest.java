@@ -45,7 +45,7 @@ public class LoginControllerTest {
     }
 
     @Test
-    public void loginForm_RendersLoginView() throws Exception {
+    public void renderLoginView() throws Exception {
         mockMvc.perform(get("/login.html"))
 
                 .andExpect(model().attributeExists("user"))
@@ -55,7 +55,7 @@ public class LoginControllerTest {
     }
 
     @Test
-    public void accessDenied_RendersAccessDeniedView() throws Exception {
+    public void renderAccessDeniedView() throws Exception {
         mockMvc.perform(get("/access_denied.html"))
 
                 .andExpect(status().isOk())
@@ -81,4 +81,5 @@ public class LoginControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login"));
     }
+
 }

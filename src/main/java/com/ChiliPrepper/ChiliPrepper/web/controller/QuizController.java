@@ -1,15 +1,16 @@
 package com.ChiliPrepper.ChiliPrepper.web.controller;
 
-import java.util.*;
-import java.security.Principal;
-import org.springframework.ui.Model;
 import com.ChiliPrepper.ChiliPrepper.model.*;
 import com.ChiliPrepper.ChiliPrepper.service.*;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 import com.ChiliPrepper.ChiliPrepper.web.FlashMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
+import java.util.*;
 
 /**
  * Created by Christer on 20.02.2017.
@@ -50,6 +51,9 @@ public class QuizController {
     @Autowired
     private QuizMailService quizMailService;
 
+
+
+
     /**
      *
      *Renders the page for a single quiz
@@ -80,8 +84,6 @@ public class QuizController {
 
 
 
-
-
     /**
      *
      *Saves a new quiz to the database
@@ -100,7 +102,7 @@ public class QuizController {
         if(quiz.getQuizName().isEmpty()){
             String message = "Could not create quiz. Quiz name cannot be empty!";
             redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.FAILURE));
-            return "redirect:/courses/" + course.getId();
+            return "redirect:/courses/" + courseId;
         }
 
         quiz.setCourse(course);
@@ -168,7 +170,7 @@ public class QuizController {
             if (questionNotAnswered) {
 
                 List<Alternative> alts = (List<Alternative>) alternativeService.findAllByQuestion_Id(question.getId());
-                List<String> alternatives = new ArrayList<String>();
+                List<String> alternatives = new ArrayList<>();
 
                 for (Alternative alt : alts) {
                     alternatives.add(alt.getAlternative());
@@ -206,6 +208,7 @@ public class QuizController {
 
         return "quizEvent";
     }
+
 
 
 
@@ -361,13 +364,13 @@ public class QuizController {
     private String generateBotFeedback(double userScore) {
         String message = "";
         if(userScore < 30){
-            message = "Oh.. Not great =p  I'm guessing you didn't prepare for this quiz =/ \n  You should put in some more work.";
+            message = "Oh.. Not great =p I'm guessing you didn't prepare for this quiz =/\nYou should put in some more work.";
         }
         else if (userScore < 70){
-            message = "Not bad, but don't get cocky!  Keep it up :) ";
+            message = "Not bad, but don't get cocky! Keep it up :)";
         }
         else if(userScore < 101 ){
-            message = "Excellent work!  You're doing great.  Keep it up!!";
+            message = "Excellent work! You're doing great. Keep it up!";
         }
         return message;
     }
@@ -460,18 +463,19 @@ public class QuizController {
         if(quiz.isPublished()){
             quiz.setPublished(false);
 
-            String message = "Quiz Unpublished!";
+            String message = "Quiz unpublished!";
             redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.SUCCESS));
         }
         else{
             quiz.setPublished(true);
-            String message = "Quiz Unpublished!";
+            String message = "Quiz published!";
             redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.SUCCESS));
         }
         quizService.save(quiz);
 
         return "redirect:/courses/" + course.getId();
     }
+
 
 
 
@@ -498,6 +502,7 @@ public class QuizController {
         return "graph:: quizChart";
     }
 
+
   
   
   
@@ -517,9 +522,9 @@ public class QuizController {
             List<Answer> numAnswers = new ArrayList<>();
             ans.forEach(numAnswers :: add);
             ArrayList<Answer> numCorrectAnswers = getCorrectAnswers(ans);
-            double percentCorrectAnswers = numCorrectAnswers.size() * 100 / numAnswers.size();
-            results.add(percentCorrectAnswers);
 
+            results.add((double)numCorrectAnswers.size() * 100 / numAnswers.size());
+         
         }
         return results;
     }
@@ -547,7 +552,7 @@ public class QuizController {
 
 
 
-  
+
     /**
      * Deletes the quiz with the given quizID
      *
@@ -566,6 +571,7 @@ public class QuizController {
 
         String message = "Quiz deleted!";
         redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.SUCCESS));
+
 
         return "redirect:/courses/" + quiz.getCourse().getId();
     }

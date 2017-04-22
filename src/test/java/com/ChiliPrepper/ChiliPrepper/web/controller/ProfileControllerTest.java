@@ -52,7 +52,7 @@ public class ProfileControllerTest {
     }
 
     @Test
-    public void profile_RendersProfileView() throws Exception {
+    public void renderProfileView() throws Exception {
         //Finds the logged in user
         when(principal.getName()).thenReturn("username");
         when(userService.findByUsername("username")).thenReturn(user);
@@ -69,7 +69,7 @@ public class ProfileControllerTest {
 
 
     @Test
-    public void about_RendersAboutView() throws Exception {
+    public void renderAboutView() throws Exception {
         mockMvc.perform(get("/about.html"))
 
                 .andExpect(status().isOk())
@@ -79,12 +79,12 @@ public class ProfileControllerTest {
 
 
     @Test
-    public void saveBotDetails_RedirectsToProfile() throws Exception {
+    public void saveBotPreferences_RedirectsToProfile() throws Exception {
         mockMvc.perform(post("/saveBotDetails")
                 .flashAttr("user", user))
 
                 .andExpect(flash().attributeExists("flash"))
-                .andExpect(flash().attribute("flash", hasProperty("message", is("Bot preferences saved. "))))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Bot preferences saved!"))))
                 .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.SUCCESS))))
 
                 .andExpect(status().is3xxRedirection())
