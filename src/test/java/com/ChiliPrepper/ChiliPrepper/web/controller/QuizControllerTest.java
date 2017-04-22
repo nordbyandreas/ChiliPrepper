@@ -1,10 +1,9 @@
 package com.ChiliPrepper.ChiliPrepper.web.controller;
 
+import java.util.*;
 import org.mockito.*;
 import org.junit.Test;
 import org.junit.Before;
-import java.util.Arrays;
-import java.util.ArrayList;
 import java.security.Principal;
 import org.junit.runner.RunWith;
 import com.ChiliPrepper.ChiliPrepper.model.*;
@@ -17,10 +16,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Matchers.any;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.hasProperty;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -58,10 +55,7 @@ public class QuizControllerTest {
 
     @Mock
     private Answer answerTwo;
-
-    @Mock
-    private QuizMail quizMail;
-
+    
     @Mock
     private Principal principal;
 
@@ -90,10 +84,10 @@ public class QuizControllerTest {
     private CourseService courseService;
 
     @Mock
-    private QuestionService questionService;
+    private QuizMailService quizMailService;
 
     @Mock
-    private QuizMailService quizMailService;
+    private QuestionService questionService;
 
     @Mock
     private AlternativeService alternativeService;
@@ -108,7 +102,7 @@ public class QuizControllerTest {
     }
 
     @Test
-    public void quiz_RendersQuizView() throws Exception {
+    public void renderQuizView() throws Exception {
         Iterable<Question> questions = new ArrayList<>(Arrays.asList(new Question(), new Question()));
 
         //Finds the selected quiz within a course, in addition to the quiz's questions
@@ -145,7 +139,7 @@ public class QuizControllerTest {
                 .param("courseId", "1"))
 
                 .andExpect(flash().attributeExists("flash"))
-                .andExpect(flash().attribute("flash", hasProperty("message", is("Quiz created ! "))))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Quiz created!"))))
                 .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.SUCCESS))))
 
                 .andExpect(status().is3xxRedirection())
@@ -166,7 +160,7 @@ public class QuizControllerTest {
                 .param("courseId", "1"))
 
                 .andExpect(flash().attributeExists("flash"))
-                .andExpect(flash().attribute("flash", hasProperty("message", is("Could not create quiz. Quiz name cannot be empty! "))))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Could not create quiz. Quiz name cannot be empty!"))))
                 .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.FAILURE))))
 
                 .andExpect(status().is3xxRedirection())
@@ -175,192 +169,172 @@ public class QuizControllerTest {
 
 
 
-    private void setUp_getQuizResults() throws Exception {
-        when(questionOne.getId()).thenReturn(1L);
-        when(questionTwo.getId()).thenReturn(1L);
-        when(answerOne.isCorrect()).thenReturn(true);
-        when(answerTwo.isCorrect()).thenReturn(false);
-        when(answerService.findAllByQuestion_Id(1L)).thenReturn(new ArrayList<>(Arrays.asList(answerOne, answerTwo)));
-
-    }
-
     @Test
-    public void getQuizResults() throws Exception {
-        setUp_getQuizResults();
-        ArrayList<Double> results = controller.getQuizResults(new ArrayList<>(Arrays.asList(questionOne, questionTwo)));
-        assertThat(results, is(new ArrayList<>(Arrays.asList(50.0, 50.0))));
-    }
-
-
-
-
-
-
-
-    private void setUp_quizzer() {
-        when(principal.getName()).thenReturn("username");
-        when(userService.findByUsername("username")).thenReturn(user);
-
+    public void renderQuizChartView() throws Exception {
+        //Finds the course and quiz, for which the quiz is being created in.
         when(courseService.findOne(1L)).thenReturn(course);
         when(quizService.findOne(1L)).thenReturn(quiz);
-        when(quizService.findOne(2L)).thenReturn(quiz);
 
+        mockMvc.perform(post("/courses/{courseId}/{quizId}/chart", 1L, 1L))
+
+                .andExpect(model().attribute("quiz", quiz))
+                .andExpect(model().attribute("course", course))
+
+                .andExpect(status().isOk())
+                .andExpect(view().name("quizChart"));
+    }
+
+
+
+    @Test
+    public void quizEventHandler_AllQuestionsAnswered() throws Exception {
+        when(principal.getName()).thenReturn("username");
+        when(userService.findByUsername("username")).thenReturn(user);
+        when(courseService.findOne(1L)).thenReturn(course);
+        when(quizService.findOne(1L)).thenReturn(quiz);
         when(questionService.findAllByQuiz_Id(1L)).thenReturn(new ArrayList<>(Arrays.asList(questionOne)));
-        when(questionService.findAllByQuiz_Id(2L)).thenReturn(new ArrayList<>(Arrays.asList(questionTwo)));
 
         when(user.getId()).thenReturn(1L);
         when(questionOne.getId()).thenReturn(1L);
-        when(questionTwo.getId()).thenReturn(2L);
+        when(answerService.findOneByQuestion_IdAndUser_Id(1L, 1L)).thenReturn(answerOne, answerTwo);
 
+        when(answerService.findAllByQuiz_IdAndUser_Id(1L, 1L)).thenReturn(Arrays.asList(answerOne));
+        when(answerService.findAllByQuiz_Id(1L)).thenReturn(Arrays.asList(answerOne, answerTwo));
+        when(answerOne.isCorrect()).thenReturn(true);
+        when(answerTwo.isCorrect()).thenReturn(false);
 
-        when(answerService.findOneByQuestion_IdAndUser_Id(1L, 1L)).thenReturn(null);
-        when(answerService.findOneByQuestion_IdAndUser_Id(2L, 1L)).thenReturn(answerOne);
-
-        when(alternativeService.findAllByQuestion_Id(1L)).thenReturn(new ArrayList<>(Arrays.asList(alternativeOne, alternativeTwo)));
-        when(alternativeOne.getAlternative()).thenReturn("AlternativeOne");
-        when(alternativeTwo.getAlternative()).thenReturn("AlternativeTwo");
-        when(questionOne.getCorrectAnswer()).thenReturn("AlternativeOne");
-
-        when(user.getId()).thenReturn(1L);
-        when(user.getEmail()).thenReturn("username@domain.com");
-        when(user.isParticipantQuizResults()).thenReturn(true);
-        when(quizService.findOne(1L)).thenReturn(quiz);
-        when(quizService.findOne(2L)).thenReturn(quiz);
-        when(quizMailService.findOneByQuiz_IdAndParticipant_Id(1L,1L)).thenReturn(quizMail);
-        when(quizMailService.findOneByQuiz_IdAndParticipant_Id(2L,1L)).thenReturn(quizMail);
-        when(quiz.getQuizName()).thenReturn("Unit test");
-        when(quizService.findOne(1L)).thenReturn(quiz);
-        setUp_getUserScore();
-        when(userService.findOne(1L)).thenReturn(user);
-        when(quizService.findOne(2L)).thenReturn(quiz);
-
-        when(user.getUsername()).thenReturn("username");
-        //when(mockController.getUserScore(1L, user)).thenReturn(95.0);
-
-        when(quiz.getQuizName()).thenReturn("quizName");
-
-    }
-
-    @Test
-    public void quizzer_1() throws Exception {
-        setUp_quizzer();
+        when(user.isParticipantQuizResults()).thenReturn(false);
+        when(quizMailService.findOneByQuiz_IdAndParticipant_Id(1L, 1L)).thenReturn(null);
 
         mockMvc.perform(get("/courses/{courseId}/{quizId}/quiz", 1L, 1L)
                 .principal(principal))
+
+                .andExpect(model().attribute("message", "Congrats, you've completed this quiz!"))
+                .andExpect(model().attribute("quizId", 1L))
+                .andExpect(model().attribute("courseId", 1L))
+                .andExpect(model().attribute("userScore", 100.0))
+                .andExpect(model().attribute("avgScore", 50.0))
+
+                .andExpect(status().isOk())
                 .andExpect(view().name("quizEvent"));
     }
 
     @Test
-    public void quizzer_2() throws Exception {
-        setUp_quizzer();
-        setUp_getUserScore();
-        setUp_getAvgScore();
+    public void quizEventHandler_QuestionsNotAnswered() throws Exception {
+        List<Alternative> alternativeList = new ArrayList<>(Arrays.asList(alternativeOne, alternativeTwo));
 
-        mockMvc.perform(get("/courses/{courseId}/{quizId}/quiz", 1L, 2L)
+        when(principal.getName()).thenReturn("username");
+        when(userService.findByUsername("username")).thenReturn(user);
+        when(courseService.findOne(1L)).thenReturn(course);
+        when(quizService.findOne(1L)).thenReturn(quiz);
+        when(questionService.findAllByQuiz_Id(1L)).thenReturn(new ArrayList<>(Arrays.asList(questionOne)));
+
+        when(user.getId()).thenReturn(1L);
+        when(questionOne.getId()).thenReturn(1L);
+        when(answerService.findOneByQuestion_IdAndUser_Id(1L, 1L)).thenReturn(null);
+
+        when(alternativeService.findAllByQuestion_Id(1L)).thenReturn(alternativeList);
+        when(alternativeOne.getAlternative()).thenReturn("alternativeOne");
+        when(alternativeTwo.getAlternative()).thenReturn("alternativeTwo");
+        when(questionOne.getCorrectAnswer()).thenReturn("correctAnswer");
+
+        mockMvc.perform(get("/courses/{courseId}/{quizId}/quiz", 1L, 1L)
                 .principal(principal))
+
+                .andExpect(model().attribute("quiz", quiz))
+                .andExpect(model().attribute("alternatives", is(org.hamcrest.Matchers.containsInAnyOrder("alternativeOne", "alternativeTwo", "correctAnswer"))))
+                .andExpect(model().attribute("course", course))
+                .andExpect(model().attribute("question", questionOne))
+                .andExpect(model().attribute("questionId", 1L))
+                .andExpect(model().attribute("quizId", 1L))
+                .andExpect(model().attribute("courseId", 1L))
+
+                .andExpect(status().isOk())
                 .andExpect(view().name("quizEvent"));
     }
 
-    private void setUp_getAvgScore() {
-        when(answerOne.isCorrect()).thenReturn(true);
-        when(answerTwo.isCorrect()).thenReturn(false);
-        when(answerService.findAllByQuiz_Id(1L)).thenReturn(new ArrayList<>(Arrays.asList()));
-        when(answerService.findAllByQuiz_Id(2L)).thenReturn(new ArrayList<>(Arrays.asList(answerOne, answerTwo)));
-    }
+
 
     @Test
-    public void getAvgScore_shouldReturnNull() throws Exception {
-        setUp_getAvgScore();
-        assertNull(this.controller.getAvgScoreForQuiz(1L));
-        verify(answerService).findAllByQuiz_Id(1L);
-    }
-
-    @Test
-    public void getAvgScore_shouldReturnDouble() throws Exception {
-        setUp_getAvgScore();
-        double result = this.controller.getAvgScoreForQuiz(2L);
-        assertThat(result, is(50.0));
-        verify(answerService).findAllByQuiz_Id(2L);
-    }
-
-    private void setUp_getUserScore() {
+    public void getUserScoreInQuiz_WithNoAnswers_ReturnsNullValue() throws Exception {
         when(user.getId()).thenReturn(1L);
-        when(answerOne.isCorrect()).thenReturn(true);
-        when(answerTwo.isCorrect()).thenReturn(false);
-        when(answerService.findAllByQuiz_IdAndUser_Id(1L, 1L)).thenReturn(new ArrayList<>());
-        when(answerService.findAllByQuiz_IdAndUser_Id(2L, 1L)).thenReturn(new ArrayList<>(Arrays.asList(answerOne, answerTwo)));
+        when(answerService.findAllByQuiz_IdAndUser_Id(1L, 1L)).thenReturn(Arrays.asList());
+
+        Double getUserScoreInQuiz = controller.getUserScoreInQuiz(1L, user);
+        assertThat(getUserScoreInQuiz, nullValue());
     }
+
+
 
     @Test
-    public void getUserScore_ShouldReturnNull() throws Exception {
-        setUp_getUserScore();
-        assertNull(this.controller.getUserScoreInQuiz(1L, user));
-        verify(answerService).findAllByQuiz_IdAndUser_Id(1L, 1L);
+    public void getAvgScoreForQuiz_WithNoAnswers_ReturnsNullValue() throws Exception {
+        when(answerService.findAllByQuiz_Id(1L)).thenReturn(Arrays.asList());
+
+        Double result = controller.getAvgScoreForQuiz(1L);
+        assertThat(result, nullValue());
     }
 
-    @Test
-    public void getUserScore_ShouldReturnDouble() throws Exception {
-        setUp_getUserScore();
-        double result = this.controller.getUserScoreInQuiz(2L, user);
-        assertThat(result, is(50.0));
-        verify(answerService).findAllByQuiz_IdAndUser_Id(2L, 1L);
-    }
-
-    @Test
-    public void sendQuizResultsByMail() throws Exception {
-        when(user.getId()).thenReturn(1L);
-        when(user.getEmail()).thenReturn("username@domain.com");
-
-        when(quizService.findOne(1L)).thenReturn(quiz);
-        when(quizService.findOne(2L)).thenReturn(quiz);
-        when(quizMailService.findOneByQuiz_IdAndParticipant_Id(1L,1L)).thenReturn(null);
-        when(quizMailService.findOneByQuiz_IdAndParticipant_Id(2L,1L)).thenReturn(quizMail);
-
-
-
-}
-
-    private void setUp_sendQuizResultsByMail() {
-        when(quiz.getQuizName()).thenReturn("Unit test");
-        when(quizService.findOne(1L)).thenReturn(quiz);
-
-        when(user.getId()).thenReturn(1L);
-        when(quizMailService.findOneByQuiz_IdAndParticipant_Id(1L, 1L)).thenReturn(null);
-        when(user.getEmail()).thenReturn("username@domain.com");
-
-
-    }
 
 
     @Test
     public void generateMailSubject() throws Exception {
-        when(quiz.getQuizName()).thenReturn("Unit test");
         when(quizService.findOne(1L)).thenReturn(quiz);
-
-        String result = this.controller.generateMailSubject(1L);
-        assertThat(result, is("Unit test - results"));
-
-        verify(quizService).findOne(1L);
-    }
-
-    @Test
-    public void generateMailBody_50() throws Exception {
-        setUp_getUserScore();
-        when(userService.findOne(1L)).thenReturn(user);
-        when(quizService.findOne(2L)).thenReturn(quiz);
-
-        when(user.getUsername()).thenReturn("username");
-        //when(mockController.getUserScore(1L, user)).thenReturn(95.0);
-
         when(quiz.getQuizName()).thenReturn("quizName");
 
-        String result = this.controller.generateMailBody(2L, 1L);
-        assertThat(result, is("Hi username!\n\nYou got 50.0% correct on the quizName quiz.\n\nNot bad, but don't get cocky!  Keep it up :) \n\nChiliPrepper"));
-
+        String result = this.controller.generateMailSubject(1L);
+        assertThat(result, is("quizName - results"));
     }
 
 
-    private void setUpForSubmitAnswer() {
+
+    @Test
+    public void generateMailBody() throws Exception {
+        User userOne = mock(User.class);
+        User userTwo = mock(User.class);
+        User userThree = mock(User.class);
+
+        when(user.getUsername()).thenReturn("username");
+        when(quiz.getQuizName()).thenReturn("quizName");
+
+        when(answerOne.isCorrect()).thenReturn(true);
+        when(answerTwo.isCorrect()).thenReturn(false);
+
+        //One out of one answer correct
+        when(quizService.findOne(1L)).thenReturn(quiz);
+        when(userService.findOne(1L)).thenReturn(userOne);
+        when(userOne.getId()).thenReturn(1L);
+        when(userOne.getUsername()).thenReturn("username");
+        when(answerService.findAllByQuiz_IdAndUser_Id(1L, 1L)).thenReturn(new ArrayList<>(Arrays.asList(answerOne)));
+
+        String result1Of1 = this.controller.generateMailBody(1L, 1L);
+        assertThat(result1Of1, is("Hi username!\n\nYou got 100.0% correct on the quizName quiz.\n\nExcellent work! You're doing great. Keep it up!\n\nChiliPrepper"));
+
+        //One out of two answer correct
+        when(quizService.findOne(2L)).thenReturn(quiz);
+        when(userService.findOne(2L)).thenReturn(userTwo);
+        when(userTwo.getId()).thenReturn(2L);
+        when(userTwo.getUsername()).thenReturn("username");
+        when(answerService.findAllByQuiz_IdAndUser_Id(2L, 2L)).thenReturn(new ArrayList<>(Arrays.asList(answerOne, answerTwo)));
+
+        String result1Of2 = this.controller.generateMailBody(2L, 2L);
+        assertThat(result1Of2, is("Hi username!\n\nYou got 50.0% correct on the quizName quiz.\n\nNot bad, but don't get cocky! Keep it up :)\n\nChiliPrepper"));
+
+        //Zero out of one answer correct
+        when(quizService.findOne(3L)).thenReturn(quiz);
+        when(userService.findOne(3L)).thenReturn(userThree);
+        when(userThree.getId()).thenReturn(3L);
+        when(userThree.getUsername()).thenReturn("username");
+        when(answerService.findAllByQuiz_IdAndUser_Id(3L, 3L)).thenReturn(new ArrayList<>(Arrays.asList(answerTwo)));
+
+        String result0Of1 = this.controller.generateMailBody(3L, 3L);
+        assertThat(result0Of1, is( "Hi username!\n\nYou got 0.0% correct on the quizName quiz.\n\nOh.. Not great =p I'm guessing you didn't prepare for this quiz =/\nYou should put in some more work.\n\nChiliPrepper"));
+    }
+
+
+
+
+    @Test
+    public void submitAnswer_CorrectAnswer() throws Exception {
         when(course.getId()).thenReturn(1L);
         when(quiz.getId()).thenReturn(1L);
 
@@ -372,40 +346,59 @@ public class QuizControllerTest {
         when(questionService.findOne(1L)).thenReturn(questionOne);
 
         when(questionOne.getCorrectAnswer()).thenReturn("correctAnswer");
-    }
 
-    @Test
-    public void submitAnswer_() throws Exception {
-
-        setUpForSubmitAnswer();
         mockMvc.perform(post("/submitAnswer")
                 .param("questionId", "1")
                 .param("courseId", "1")
                 .param("quizId", "1")
                 .param("answer", "correctAnswer")
                 .principal(principal))
+
+                .andExpect(flash().attributeExists("flash"))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Correct! Good job!"))))
+                .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.SUCCESS))))
+
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/courses/1/1/quiz"));
 
+        verify(answerService).save(any(Answer.class));
     }
+
     @Test
-    public void submitAnswer_2() throws Exception {
-        setUpForSubmitAnswer();
+    public void submitAnswer_WrongAnswer() throws Exception {
+        when(course.getId()).thenReturn(1L);
+        when(quiz.getId()).thenReturn(1L);
+
+        when(principal.getName()).thenReturn("username");
+        when(userService.findByUsername("username")).thenReturn(user);
+
+        when(courseService.findOne(1L)).thenReturn(course);
+        when(quizService.findOne(1L)).thenReturn(quiz);
+        when(questionService.findOne(1L)).thenReturn(questionOne);
+
+        when(questionOne.getCorrectAnswer()).thenReturn("correctAnswer");
+
         mockMvc.perform(post("/submitAnswer")
                 .param("questionId", "1")
                 .param("courseId", "1")
                 .param("quizId", "1")
                 .param("answer", "incorrectAnswer")
                 .principal(principal))
+
+                .andExpect(flash().attributeExists("flash"))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Wrong answer, too bad!"))))
+                .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.FAILURE))))
+
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/courses/1/1/quiz"));
+
+        verify(answerService).save(any(Answer.class));
     }
 
 
 
-
     @Test
-    public void publishQuiz() throws Exception {
+    public void publishQuiz_QuizPublished() throws Exception {
         when(quiz.isPublished()).thenReturn(false);
         when(course.getId()).thenReturn(1L);
         when(quiz.getCourse()).thenReturn(course);
@@ -413,6 +406,11 @@ public class QuizControllerTest {
 
         mockMvc.perform(get("/publishQuiz")
                 .param("quizId", "1"))
+
+                .andExpect(flash().attributeExists("flash"))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Quiz published!"))))
+                .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.SUCCESS))))
+
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/courses/" + course.getId()));
 
@@ -421,7 +419,7 @@ public class QuizControllerTest {
     }
 
     @Test
-    public void publfreishQuiz() throws Exception {
+    public void publishQuiz_QuizUnpublished() throws Exception {
         when(quiz.isPublished()).thenReturn(true);
         when(course.getId()).thenReturn(1L);
         when(quiz.getCourse()).thenReturn(course);
@@ -429,51 +427,47 @@ public class QuizControllerTest {
 
         mockMvc.perform(get("/publishQuiz")
                 .param("quizId", "1"))
+
+                .andExpect(flash().attributeExists("flash"))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Quiz unpublished!"))))
+                .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.SUCCESS))))
+
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/courses/" + course.getId()));
 
         verify(quizService).save(any(Quiz.class));
     }
 
-    /**Uses */
-    @Test
-    public void quizChart() throws Exception {
-        Iterable<Question> questions = new ArrayList<>(Arrays.asList(questionOne, questionTwo));
 
-        setUp_getQuizResults();
-        when(questionService.findAllByQuiz_Id(1L)).thenReturn(questions);
+
+    @Test
+    public void feedQuizChartData_RendersQuizChartGraph() throws Exception {
+        when(questionService.findAllByQuiz_Id(1L)).thenReturn(new ArrayList<>(Arrays.asList(questionOne, questionTwo)));
+
+        when(questionOne.getId()).thenReturn(1L);
+        when(answerService.findAllByQuestion_Id(1L)).thenReturn(new ArrayList<>(Arrays.asList(answerOne)));
+        when(answerOne.isCorrect()).thenReturn(true);
+        when(answerTwo.isCorrect()).thenReturn(false);
+
+        when(questionTwo.getId()).thenReturn(2L);
+        when(answerService.findAllByQuestion_Id(2L)).thenReturn(new ArrayList<>(Arrays.asList(answerTwo)));
+
         when(quizService.findOne(1L)).thenReturn(quiz);
         when(quiz.getQuizName()).thenReturn("quizName");
 
         mockMvc.perform(get("/quizChart/{quizId}", 1L))
-                .andExpect(model().attribute("results", controller.getQuizResults(questions)))
+
+                .andExpect(model().attribute("results", Arrays.asList(100.0, 0.0)))
                 .andExpect(model().attribute("quizName", "quizName"))
 
                 .andExpect(status().isOk())
                 .andExpect(view().name("graph:: quizChart"));
     }
 
-    @Test
-    public void editQuiz() throws Exception {
-        Iterable<Question> questions = new ArrayList<>(Arrays.asList(questionOne, questionTwo));
 
-        when(quizService.findOne(1L)).thenReturn(quiz);
-        when(questionService.findAllByQuiz_Id(1L)).thenReturn(questions);
-        when(quiz.getCourse()).thenReturn(course);
-
-        mockMvc.perform(get("/courses/{courseId}/{quizId}/editQuiz", 1L, 1L)
-                .param("quizId", "1"))
-
-                .andExpect(model().attribute("quiz", quiz))
-                .andExpect(model().attribute("questions", questions))
-                .andExpect(model().attribute("course", course))
-
-                .andExpect(status().isOk())
-                .andExpect(view().name("editQuiz"));
-    }
 
     @Test
-    public void saveEditQuiz() throws Exception {
+    public void saveEditedQuiz_RedirectsToQuizView() throws Exception {
         when(quiz.getQuizName()).thenReturn("quizName");
         when(quiz.getCourse()).thenReturn(course);
         when(course.getId()).thenReturn(1L);
@@ -489,8 +483,10 @@ public class QuizControllerTest {
         verify(quizService).save(any(Quiz.class));
     }
 
+
+
     @Test
-    public void deleteQuiz() throws Exception {
+    public void deleteQuiz_RedirectsToCourseView() throws Exception {
         when(quizService.findOne(1L)).thenReturn(quiz);
         when(quiz.getCourse()).thenReturn(course);
         when(course.getId()).thenReturn(1L);

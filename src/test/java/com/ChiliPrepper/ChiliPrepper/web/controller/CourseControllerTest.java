@@ -93,7 +93,7 @@ public class CourseControllerTest {
     }
 
     @Test
-    public void index_RendersIndexView() throws Exception {
+    public void renderIndexView() throws Exception {
         Iterable<Course> myCreatedCourses = new ArrayList<>(Collections.singletonList(new Course()));
         Set<Course> participatesInCourses = new HashSet<>(Collections.singletonList(new Course()));
 
@@ -121,7 +121,7 @@ public class CourseControllerTest {
 
 
     @Test
-    public void course_RendersCourseView() throws Exception {
+    public void renderCourseView() throws Exception {
         Iterable<Quiz> quizzes= new ArrayList<>(Arrays.asList(quizOne, quizTwo));
         Iterable<Answer> answers= new ArrayList<>(Arrays.asList(answerOne, answerTwo));
         Iterable<Answer> totalAnswers = new ArrayList<>(Arrays.asList(answerOne, answerTwo, new Answer(), new Answer()));
@@ -160,8 +160,8 @@ public class CourseControllerTest {
                 .andExpect(model().attribute("courseId", 1L))
                 .andExpect(model().attribute("myQuizzes", quizzes))
                 .andExpect(model().attribute("course", course))
-                .andExpect(model().attribute("score", 10))
-                .andExpect(model().attribute("maxScore", 20))
+                .andExpect(model().attribute("score", 10.0))
+                .andExpect(model().attribute("maxScore", 20.0))
 
                 .andExpect(status().isOk())
                 .andExpect(view().name("course"));
@@ -185,7 +185,7 @@ public class CourseControllerTest {
                 .flashAttr("course", course))
 
                 .andExpect(flash().attributeExists("flash"))
-                .andExpect(flash().attribute("flash", hasProperty("message", is("You've successfully created courseName !"))))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("You've successfully created courseName!"))))
                 .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.SUCCESS))))
 
                 .andExpect(status().is3xxRedirection())
@@ -211,7 +211,7 @@ public class CourseControllerTest {
                 .flashAttr("course", course))
 
                 .andExpect(flash().attributeExists("flash"))
-                .andExpect(flash().attribute("flash", hasProperty("message", is("Could not create the course. Name and accessCode cannot be empty! "))))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Could not create the course. Name and accessCode cannot be empty!"))))
                 .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.FAILURE))))
 
                 .andExpect(status().is3xxRedirection())
@@ -219,7 +219,7 @@ public class CourseControllerTest {
     }
 
     @Test
-    public void addCourse_ShouldFailToCreateCourse_NoAccessCodeEntered() throws Exception {
+    public void addCourse_FailsToCreateCourse_NoAccessCodeEntered() throws Exception {
         //Finds the logged in user
         when(principal.getName()).thenReturn("user");
         when(userService.findByUsername("user")).thenReturn(user);
@@ -234,7 +234,7 @@ public class CourseControllerTest {
                 .flashAttr("course", course))
 
                 .andExpect(flash().attributeExists("flash"))
-                .andExpect(flash().attribute("flash", hasProperty("message", is("Could not create the course. Name and accessCode cannot be empty! "))))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Could not create the course. Name and accessCode cannot be empty!"))))
                 .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.FAILURE))))
 
                 .andExpect(status().is3xxRedirection())
@@ -244,7 +244,7 @@ public class CourseControllerTest {
 
 
     @Test
-    public void regCourse_ShouldSuccessfullyRegisterForCourse() throws Exception {
+    public void registerForCourse_SuccessfullyRegistersForCourse() throws Exception {
         //Finds the logged in user
         when(principal.getName()).thenReturn("user");
         when(userService.findByUsername("user")).thenReturn(user);
@@ -262,7 +262,7 @@ public class CourseControllerTest {
                 .param("accessCode", "accessCode"))
 
                 .andExpect(flash().attributeExists("flash"))
-                .andExpect(flash().attribute("flash", hasProperty("message", is("You've registered in courseName"))))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("You've registered in courseName!"))))
                 .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.SUCCESS))))
 
                 .andExpect(status().is3xxRedirection())
@@ -270,7 +270,7 @@ public class CourseControllerTest {
     }
 
     @Test
-    public void regCourse_ShouldFailToRegisterForCourse() throws Exception {
+    public void registerForCourse_FailsToRegisterForCourse() throws Exception {
         //Finds the logged in user
         when(principal.getName()).thenReturn("user");
         when(userService.findByUsername("user")).thenReturn(user);
@@ -284,7 +284,7 @@ public class CourseControllerTest {
                 .param("accessCode", "accessCode"))
 
                 .andExpect(flash().attributeExists("flash"))
-                .andExpect(flash().attribute("flash", hasProperty("message", is("Registration failed! No course with that accessCode found."))))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Registration failed! No course with that access code found!"))))
                 .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.FAILURE))))
 
                 .andExpect(status().is3xxRedirection())
@@ -294,7 +294,7 @@ public class CourseControllerTest {
 
 
     @Test
-    public void courseChart_ShouldRenderCourseChartDisplayView() throws Exception {
+    public void renderCourseChartDisplayView() throws Exception {
         mockMvc.perform(get("/courses/{courseId}/chart", 1L))
 
                 .andExpect(model().attribute("courseId", 1L))
@@ -320,7 +320,7 @@ public class CourseControllerTest {
      * "results" should thus consist of an ArrayList<Double> containing 0.0 and 50.0
      */
     @Test
-    public void getCourseChart_ShouldRenderCourseChartView() throws Exception {
+    public void getCourseChart_RendersCourseChartView() throws Exception {
         String courseName = "courseName";
 
         when(quizService.findAllByCourse_id(1L)).thenReturn(new ArrayList<>(Arrays.asList(quizOne, quizTwo)));
