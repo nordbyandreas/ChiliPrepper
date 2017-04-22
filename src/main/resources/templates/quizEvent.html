@@ -1,3 +1,11 @@
+<!--
+html for the quiz event page
+
+(answering questions)
+
+
+-->
+
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
@@ -11,8 +19,6 @@
 
 </header>
 
-<div class="spacer"></div>
-
 <div id="wrapper">
     <section>
 
@@ -20,32 +26,28 @@
 
 
         <div th:if="${alternatives}">
-            <h3 th:text="${quiz.quizName}"></h3>
+            <h1 class="pageTitle" th:text="${quiz.quizName}"></h1>
 
             <div>
-                <h3 th:text="${question.theQuestion}"></h3>
 
+                <div class="form-style-5">
+                    <form th:action="@{/submitAnswer}" method="post">
+                        <input type="hidden" name="quizId" th:value="${quizId}"/>
+                        <input type="hidden" name="questionId" th:value="${questionId}"/>
+                        <input type="hidden" name="courseId" th:value="${courseId}"/>
+                        <fieldset>
+                            <legend th:text="${question.theQuestion}"><span class="number">+</span></legend>
+                        </fieldset>
 
-                <form th:action="@{/submitAnswer}" method="post">
-                <div th:each="alternative : ${alternatives}">
-                    <div>
+                            <div th:each="alternative : ${alternatives}">
+                                <input type="submit" name="answer" class="button" th:value="${alternative}"/>
 
-                        <input type="radio" name="answer" th:value="${alternative}" th:text="${alternative}"/>
+                            </div>
 
-                    </div>
-
-
+                    </form>
                 </div>
-                    <input type="hidden" name="quizId" th:value="${quizId}"/>
-                    <input type="hidden" name="questionId" th:value="${questionId}"/>
-                    <input type="hidden" name="courseId" th:value="${courseId}"/>
-                    <button type="submit" class="button">Submit answer</button>
-                </form>
-
             </div>
-
         </div>
-
 
 
         <div th:if="!${alternatives}">
@@ -56,9 +58,7 @@
 
             </div>
             <a th:href="@{|/courses/${courseId}|}">Back to course</a>
-
         </div>
-
 
 
     </section>

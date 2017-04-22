@@ -4,6 +4,21 @@ import javax.persistence.*;
 
 /**
  * Created by Christer on 17.03.2017.
+ *
+ *
+ * Model for the QuizMail object, containing fields, getters and setters
+ *
+ * QuizMail-Objects are used for checking if particular mails have been sendt
+ *
+ *
+ * Hibernate takes care of the object relational mapping, so we can save and search for "objects" in the DB.
+ *
+ * the @Entity annotation informs hibernate that a schema should be created in the database
+ *
+ * Uses @Annotations to specify fields
+ *
+ *
+ *
  */
 
 @Entity

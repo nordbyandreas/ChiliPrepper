@@ -8,7 +8,9 @@ import java.security.Principal;
 import org.junit.runner.RunWith;
 import com.ChiliPrepper.ChiliPrepper.model.*;
 import org.mockito.runners.MockitoJUnitRunner;
+
 import com.ChiliPrepper.ChiliPrepper.service.*;
+
 import org.springframework.test.web.servlet.MockMvc;
 import com.ChiliPrepper.ChiliPrepper.web.FlashMessage;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -294,6 +296,7 @@ public class QuizControllerTest {
         User userThree = mock(User.class);
 
         when(user.getUsername()).thenReturn("username");
+
         when(quiz.getQuizName()).thenReturn("quizName");
 
         when(answerOne.isCorrect()).thenReturn(true);

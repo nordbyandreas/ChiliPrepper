@@ -26,7 +26,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  *
  * This class renders the profile and about pages, and also lets you save you're "BOT"-preferences
  */
-
 @Controller
 public class ProfileController {
 

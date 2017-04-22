@@ -25,7 +25,6 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
  *
  * This is the class that handles the login and logout of ChiliPrepper
  */
-
 @Controller
 public class LoginController {
 
@@ -45,15 +44,6 @@ public class LoginController {
 
         model.addAttribute("user", new User());
 
-        try {
-            Object flash = request.getSession().getAttribute("flash");
-            model.addAttribute("flash", flash);
-            request.getSession().removeAttribute("flash");
-        }
-        catch (Exception ex) {
-            // "flash" session attribute must not exist...do nothing and proceed normally
-        }
-
         return "login";
     }
 
@@ -69,22 +59,7 @@ public class LoginController {
         return "access_denied";
     }
 
-    /**
-     * Logs a user out
-     *
-     * @param request
-     * @param response
-     * @return returns a            redirect to the login page HTML
-     */
-    @RequestMapping(path = "/logout", method = RequestMethod.GET)
-    public String logOut(HttpServletRequest request, HttpServletResponse response){
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if(auth != null){
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
 
-        return "redirect:/login";
-    }
 }

@@ -2,6 +2,17 @@
 
 
 
+
+/********************
+For medium screens
+
+
+(this section needs more work)
+
+********************/
+
+
+
 @media screen and (min-width: 480px) {
 
     /********************
@@ -13,22 +24,28 @@
         max-width: 150px;
     }
 
+
     /********************
-    TWO COLUMN LAYOUT
+    PAGE: LOGIN
 
     ********************/
 
-    /*
-    #primary {
-        width: 50%;
-        float: left;
+    #logincontainer {
+        background: #F5F3EB;
     }
 
-    #secondary {
-        width: 40%;
-        float: right;
+    #logincard {
+        width: 400px;
+        height: 500px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        background: #FFF;
+        border: 5px solid #849852;
     }
-    */
 
     /********************
     PAGE: COURSES
@@ -37,25 +54,19 @@
 
     /*Courses*/
 
-    #course-created li, #course-registered li {
-        margin: 30px 0;
+
+    .button-alist li{
+        float: left;
+        display: block;
+        width: 20%;
+        margin: 2.5%;
+
     }
 
-    #course-created a, #course-registered a {
+    .button-alist a {
         font-size: 1.5em;
     }
 
-    /*Menu*/
-
-
-    /*
-    #gallery li {
-        width: 28.3333%;
-    }
-    #gallery li:nth-child(4n) {
-        clear: left;
-    }
-    */
 
     /********************
     PAGE: ABOUT
@@ -76,6 +87,14 @@
 
 
 
+
+
+/********************
+For larger screens
+
+********************/
+
+
 @media screen and (min-width: 660px) {
 
     /********************
@@ -83,32 +102,18 @@
 
     ********************/
 
+    h2{
+        font-size: 2em;
+        /*margin-bottom: 20px;*/
+    }
+
     input, button {
         min-height: 0;
         min-width: 0;
         padding: 5px;
     }
 
-    button {
-        /*margin: 3px;*/
-        padding: 10px 15px;
-    }
 
-    button:hover, button:focus {
-        font-weight: bold;
-        outline: none;
-        /*margin: 0;
-        border: 3px solid #A00005;*/
-        transform: scale(1.1);
-        transition-duration: 0.1s;
-    }
-
-    button:active {
-        background: #6A0003;
-        color: #FFCACB;
-        /*border: none;*/
-        transform: scale(1);
-    }
 
     input:focus, input:hover {
         outline: none;
@@ -117,21 +122,80 @@
         transition-duration: 0.1s;
     }
 
+
+    #createdCourses{
+        float: left;
+        clear: none;
+        max-width: 50%;
+    }
+
+    #joinedCourses{
+        float: right;
+        clear: none;
+        max-width: 50%;
+    }
+
+    #quizList{
+        float: left;
+        clear: none;
+        max-width: 70%;
+    }
+
+    #quizForm{
+        float: right;
+        clear: none;
+        max-width: 20%;
+    }
+
+    #quizListPart{
+        max-width: 90%;
+    }
+
+    #questionList{
+        float: left;
+        clear: none;
+        max-width: 70%;
+    }
+
+    #questionForm{
+        float: right;
+        clear: none;
+        max-width: 20%
+    }
+
+
+    .gallery li{
+
+        width: 26%;
+        margin: 2.5%;
+
+    }
+
+    .textLink{
+        width: 95%;
+    }
+
+
+
+
+
     /********************
     HEADER
 
     ********************/
     nav {
-        clear: none;
+
         background: none;
         float: right;
+        vertical-align: bottom;
         font-size: 1.125em;
         text-align: right;
         width: 45%;
-        position: fixed;
-        right: 5%;
-        top: 89px;
+        margin-right: 5%;
+
     }
+
+
 
     #logo{
         float: left;
@@ -143,64 +207,14 @@
     h1{
         font-size: 2.5em;
     }
-    h2{
-        font-size: 0.825em;
-        margin-bottom: 20px;
-    }
+
     header{
         margin-bottom: 60px;
-        position: fixed;
-        top: 0;
+        border-bottom: 5px solid #599a68;
     }
 
-    .spacer {
-        width: 100%;
-        height: 200px;
-    }
 
-    /********************
-    PAGE: COURSES
 
-    ********************/
 
-    /*Courses*/
-
-    #course {
-        display: block;
-        float: left;
-    }
-
-    #course-created li, #course-registered li {
-        margin: 50px 0;
-    }
-
-    #course-created a, #course-registered a {
-        font-size: 2em;
-    }
-
-    #course-created a:hover, #course-registered a:hover {
-        font-weight: bold;
-        outline: none;
-        border: 3px solid #A00005;
-        transition-duration: 0.1s;
-    }
-
-    #course-created a:active, #course-registered a:active {
-        background: #6A0003;
-        color: #FFCACB;
-        border: none;
-    }
-
-    /*Menu*/
-
-    #menu {
-        display: block;
-        float: right;
-        padding: 5px 50px 25px 25px;
-        border: 3px solid #F0B04A;
-        position: fixed;
-        top: 200px;
-        right: 5%;
-    }
 
 }

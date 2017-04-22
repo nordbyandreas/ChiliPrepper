@@ -1,3 +1,15 @@
+/********************
+FOR MOBILE DEVICES
+
+
+
+(look in responsive.css for "larger screen"-css)
+
+********************/
+
+
+
+
 
 /********************
 GENERAL
@@ -13,8 +25,11 @@ body {
     max-width: 940px;
     margin: 0 auto;
     padding: 0 5%;
+    clear: both;
 
 }
+
+
 
 a {
     text-decoration: none;
@@ -24,6 +39,13 @@ img {
     max-width: 100%;
 }
 
+h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.5em;
+    /*margin: -5px 0 0;*/
+    font-weight: normal;
+}
+
 h3 {
     font-family: 'Oswald', sans-serif;
     /*padding: 1em 0 0.5em;*/
@@ -31,33 +53,16 @@ h3 {
     font-weight: normal;
 }
 
-input, button {
-    margin: 5px;
-    min-height: 48px;
-    min-width: 48px;
+
+
+.courseContainer{
+    border-color: #888888;
+    border-style: solid;
+    border-width: 1px;
+    width: 100%;
+
 }
 
-input {
-    padding: 10px 5px;
-    border: 2px solid #849852;
-    /*margin: 3px;*/
-}
-
-input:focus {
-    outline: none;
-    border-width: 5px;
-    /*margin: 0;*/
-}
-
-button {
-    background-color: #A00005;
-    border: none;
-    color: #FFF;
-    font-family: 'Oswald', sans-serif;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-}
 
 /********************
 COLORS
@@ -73,36 +78,35 @@ body{
 
 /*green header*/
 header {
-    background: #F5F3EB;
-    border-color: #849852;
+    background: #6ab47b;
+    border-color: #599a68;
 }
 
 /*logo text*/
-h1, h2 {
+h1 {
     color: #F0B04A;
 }
 
 /*links*/
 a{
-    color: #A00005;
+    color: #6ab47b;
 }
 
 /*nav background mobile devices*/
-/* nav {
+nav {
     background-color: #599a68;
 
-} */
+}
 
 /*nav link*/
-nav a, nav a:visited {
-    color: #A00005;
+nav a {
+    color: #fff;
 }
 
 /*selected nav link*/
 nav a.selected, nav a:hover {
-    background: #A00005;
-    color: #fff;
-    border-radius: 25% 25% 0 0;
+    color: #32673f;
+
 }
 
 /********************
@@ -115,19 +119,30 @@ header {
     margin: 0 0 30px 0;
     padding: 5px 0 0 0;
     width: 100%;
-    border-bottom: 5px solid #849852;
 }
+
 
 .logo-image {
     float: left;
     display: block;
-    max-width: 31.25%;
+    max-width: 150px;
 }
 
-#logo{
-    display: block;
+#navbarLogo{
     max-height: 150px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
+
+
+
+#logo{
+    text-align: center;
+    margin: 0;
+}
+
+
 
 h1 {
     font-family: 'Oswald', sans-serif;
@@ -137,20 +152,14 @@ h1 {
     line-height: 0.8em;
 }
 
-h2 {
-    font-family: 'Oswald', sans-serif;
-    font-size: 0.75em;
-    margin: -5px 0 0;
-    font-weight: normal;
-}
-
 /********************
 NAVIGATION
 
 ********************/
 
+
 nav {
-    clear: both;
+    text-align: center;
     padding: 10px 0;
     margin: 20px 0 0;
 }
@@ -168,9 +177,28 @@ nav li {
 nav a {
     font-family: 'Oswald', sans-serif;
     padding: 15px 10px;
-    min-height: 48px;
-    min-width: 48px;
+    font-weight: 800;
 }
+
+nav li button {
+     border: none;
+     background: none;
+     color: #fff;
+     font: inherit;
+     font-size: inherit;
+     font-family: 'Oswald', sans-serif;
+     font-weight: 800;
+
+ }
+
+nav li button:hover {
+    color: #32673f;
+
+}
+
+
+
+
 
 
 /********************
@@ -194,17 +222,64 @@ footer {
 }
 
 
+
+
 /********************
 PAGE: LOGIN
 
 ********************/
 
-.container {
-    width: 100%
+#logincontainer {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 
-.row {
+#logincard {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background: #f4f7f8;
+}
+
+#logintitle {
+    margin: auto auto 0;
+    clear: both;
+    text-align: center;
+}
+
+#logintitle h1 {
+    font-size: 2.5em;
+}
+
+#loginlogo {
+    margin: 0 auto;
+    clear: both;
+    max-width: 200px;
+}
+
+
+
+
+
+#loginlogo .logo-image {
+    clear: both;
+    display: block;
     margin: auto;
+    max-width: 200px;
+}
+
+#loginform {
+    clear: both;
+    margin: 0 auto auto;
 }
 
 /********************
@@ -214,55 +289,102 @@ PAGE: COURSES
 
 /*Courses*/
 
-#course-created ul, #course-registered ul{
-    padding: 0 0 0 5px;
-}
 
-#course-created li, #course-registered li{
-    list-style: none;
-    display: block;
-    min-height: 48px;
-    min-width: 48px;
-}
-
-#course-created a, #course-registered a {
-    background: #A00005;
-    color: #FFF;
-    padding: 15px 10px;
-    font-family: 'Oswald', sans-serif;
-    min-height: 48px;
-    min-width: 48px;
-}
-
-/*Menu*/
-
-#menu {
-    display: none;
-}
-
-
-/*
-#gallery {
+.gallery{
+    width: 100%;
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-#gallery li {
+.gallery li{
     float: left;
-    width: 45%;
+    width: 44%;
     margin: 2.5%;
     background-color: #f5f5f5;
     color: #bdc3c7;
+    border: #f2e2e2 1px solid;
+    border-radius: 4px;
 }
 
-#gallery li a p {
+.gallery li a p{
     margin: 0;
     padding: 5%;
     font-size: 0.75em;
-    color: #bdc3c7;
+    color: #666666;
 }
-'/
+
+
+.gallery li a img{
+    border-radius: 4px;
+}
+
+.topLeft{
+    float: left;
+    width: 45%;
+}
+
+.topRight{
+    float: right;
+    width: 45%;
+
+}
+
+.chartLink {
+    background-color: #f5f5f5;
+    max-height: 100px;
+    border-radius: 30px;
+    margin-bottom: 10px;
+    margin: 10px auto;
+    clear: both;
+
+}
+
+.chartLink img{
+    background-color: #f4f7f8;
+    max-height: 70px;
+    display:block;
+    margin:auto;
+    border-radius: 30px;
+    border-color: #E09514;
+    border: solid 1px;
+
+}
+
+.pageTitle{
+    color: #32673f;
+    margin: 10px auto;
+    clear: both;
+    text-align: center;
+}
+
+.textLink:hover{
+    color: #32673f;
+}
+
+.textLink{
+    text-align: center;
+    clear: both;
+    width: 90%;
+    float: right;
+    margin: 10px;
+
+}
+
+.nameChange:hover{
+    color: #32673f;
+
+}
+
+.nameChange{
+    text-align: center;
+    clear: both;
+    width: 90%;
+    float: left;
+    margin: 10px;
+}
+
+
 
 /********************
 PAGE: ABOUT
@@ -278,34 +400,7 @@ PAGE: ABOUT
 
 
 
-/********************
-PAGE: CONTACT
 
-********************/
-
-.contact-info{
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-size: 0.9em;
-}
-
-.contact-info a{
-    display: block;
-    min-height: 20px;
-    background-repeat: no-repeat;
-    background-size: 20px 20px;
-    padding: 0 0 0 30px;
-    margin: 0 0 10px;
-}
-
-.contact-info li.phone a {
-    background-image: url('../img/phone.png');
-}
-
-.contact-info li.mail a {
-    background-image: url('../img/mail.png');
-}
 
 /********************
 QUIZ QUESTIONS
@@ -325,20 +420,185 @@ CHART
 }
 
 
+
+
+/********************
+FLASHMESSAGES
+
+********************/
+
 .flash {
+    clear: both;
     margin-top: 2rem;
     margin-bottom: 2rem;
     padding: 1rem 2rem;
     border-radius: 4px;
     font-size: 1.1rem;
+    max-width: 50%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .flash.success {
-    background-color: #7f9e40;
+    background-color: #6ab47b;
     color: #f3f6ee;
 }
 
 .flash.failure {
-    background-color: #ac4343;
+    background-color: #cf4343;
     color: #f2e2e2;
+}
+
+
+
+
+
+
+/********************
+FORMS
+
+********************/
+
+
+
+.delButton{
+    width: 90%;
+    text-align: center;
+    margin: 0 auto;
+    padding: 3px 10px 3px 10px;
+    background: #cf4343;
+    color: #000000;
+    margin-bottom: 5px;
+}
+
+.delButton:hover{
+    background-color: #ef4343;
+}
+
+.pubButton{
+    width: 90%;
+    text-align: center;
+    margin: 0 auto;
+    padding: 3px 10px 3px 10px;
+    background: #6ab47b;
+    color: white;
+}
+
+.pubButton:hover{
+    background-color: #32673f;
+    color: white;
+}
+
+
+.form{
+    clear: both;
+    background: #f4f7f8;
+    border-radius: 8px;
+}
+
+.form-style-5{
+    clear: both;
+    max-width: 500px;
+    padding: 10px 20px;
+    background: #f4f7f8;
+    margin: 10px auto;
+    padding: 20px;
+    background: #f4f7f8;
+    border-radius: 8px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+.form-style-5 fieldset{
+    clear: both;
+    border: none;
+}
+.form-style-5 legend {
+    font-size: 1.4em;
+    margin-bottom: 10px;
+}
+.form-style-5 label {
+    display: block;
+    margin-bottom: 8px;
+}
+.form-style-5 input[type="text"],
+.form-style-5 input[type="date"],
+.form-style-5 input[type="datetime"],
+.form-style-5 input[type="email"],
+.form-style-5 input[type="number"],
+.form-style-5 input[type="search"],
+.form-style-5 input[type="time"],
+.form-style-5 input[type="url"],
+.form-style-5 input[type="password"],
+.form-style-5 textarea,
+.form-style-5 select {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    background: rgba(255,255,255,.1);
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    margin: 0;
+    outline: 0;
+    padding: 7px;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background-color: #e8eeef;
+    color:#8a97a0;
+    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+    margin-bottom: 30px;
+
+}
+.form-style-5 input[type="text"]:focus,
+.form-style-5 input[type="date"]:focus,
+.form-style-5 input[type="datetime"]:focus,
+.form-style-5 input[type="email"]:focus,
+.form-style-5 input[type="number"]:focus,
+.form-style-5 input[type="search"]:focus,
+.form-style-5 input[type="time"]:focus,
+.form-style-5 input[type="url"]:focus,
+.form-style-5 textarea:focus,
+.form-style-5 select:focus{
+    background: #d2d9dd;
+}
+.form-style-5 select{
+    -webkit-appearance: menulist-button;
+    height:35px;
+}
+.form-style-5 .number {
+    background: #599a68;
+    color: #fff;
+    height: 30px;
+    width: 30px;
+    display: inline-block;
+    font-size: 0.8em;
+    margin-right: 4px;
+    line-height: 30px;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+    border-radius: 15px 15px 15px 0px;
+}
+
+.form-style-5 input[type="submit"],
+.form-style-5 input[type="button"]
+{
+    position: relative;
+    display: block;
+    padding: 19px 39px 18px 39px;
+    color: #FFF;
+    margin: 0 auto;
+    background: #6ab47b;
+    font-size: 18px;
+    text-align: center;
+    font-style: normal;
+    width: 100%;
+    border: 1px solid #599a68;
+    border-width: 1px 1px 3px;
+    margin-bottom: 10px;
+}
+
+.form-style-5 input[type="submit"]:hover,
+.form-style-5 input[type="button"]:hover
+{
+    background: #599a68;
 }

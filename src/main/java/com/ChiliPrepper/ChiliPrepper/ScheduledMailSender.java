@@ -1,14 +1,12 @@
 package com.ChiliPrepper.ChiliPrepper;
 
-import java.text.SimpleDateFormat;
+
 import java.util.*;
 
 import com.ChiliPrepper.ChiliPrepper.model.*;
 import com.ChiliPrepper.ChiliPrepper.service.*;
 import com.ChiliPrepper.ChiliPrepper.web.controller.BotMailSender;
 import com.ChiliPrepper.ChiliPrepper.web.controller.QuizController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -35,7 +33,6 @@ import org.springframework.stereotype.Component;
  *
  *
  */
-
 @Component
 public class ScheduledMailSender {
 
@@ -66,6 +63,7 @@ public class ScheduledMailSender {
 
 
 
+
     /**
      * This method sends the total course average % to the course's creator on a given interval
      * if the creator has enabled it.
@@ -87,7 +85,6 @@ public class ScheduledMailSender {
                 if(quizController.getAvgScoreForQuiz(quiz.getId()) != null) {
                     courseAvg += quizController.getAvgScoreForQuiz(quiz.getId());
                     counter += 1;
-
                 }
                 else{
                         System.out.println("no quiz results");
@@ -109,6 +106,7 @@ public class ScheduledMailSender {
 
         }
     }
+
 
     /**
      * This method sends the average results of a single Quiz to the creator of a quiz if he has enabled the contact.
@@ -145,6 +143,8 @@ public class ScheduledMailSender {
             }
         }
     }
+
+
 
     /**
      * This method sends course-participants mail regarding topics they struggle with
@@ -205,6 +205,7 @@ public class ScheduledMailSender {
             }
         }
     }
+
 
 
     /**

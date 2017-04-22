@@ -4,9 +4,22 @@ import javax.persistence.*;
 
 /**
  * Created by Andreas on 23.03.2017.
+ *
+ * Model for the CreatorQuizMail object, containing fields, getters and setters
+ *
+ * CreatorQuizMail-Objects is used to check if a courseCreator has received particular mail
+ *
+ *
+ * Hibernate takes care of the object relational mapping, so we can save and search for "objects" in the DB.
+ *
+ * the @Entity annotation informs hibernate that a schema should be created in the database
+ *
+ * Uses @Annotations to specify fields
+ *
+ *
+ *
+ *
  */
-
-
 @Entity
 public class CreatorQuizMail {
 

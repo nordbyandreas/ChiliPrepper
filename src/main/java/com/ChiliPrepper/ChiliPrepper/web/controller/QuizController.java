@@ -83,6 +83,7 @@ public class QuizController {
 
 
 
+
     /**
      *
      *Saves a new quiz to the database
@@ -345,8 +346,8 @@ public class QuizController {
         String body = "Hi " + username + "!\n\n" +
                 "You got " + userScore + "% correct on the " + quiz.getQuizName() + " quiz.\n\n" +
                 message + "\n\n" + "ChiliPrepper";
-
-        return body;
+        
+      return body;
     }
 
 
@@ -418,6 +419,8 @@ public class QuizController {
     }
 
 
+  
+  
     /**
      *Creates a new answer with the given parameters
      *
@@ -500,8 +503,9 @@ public class QuizController {
     }
 
 
-
-
+  
+  
+  
     /**
      *
      *Calculates the average percentage score per question in a quiz and returns it
@@ -518,10 +522,13 @@ public class QuizController {
             List<Answer> numAnswers = new ArrayList<>();
             ans.forEach(numAnswers :: add);
             ArrayList<Answer> numCorrectAnswers = getCorrectAnswers(ans);
+
             results.add((double)numCorrectAnswers.size() * 100 / numAnswers.size());
+         
         }
         return results;
     }
+
 
 
     /**
@@ -542,6 +549,7 @@ public class QuizController {
 
         return "redirect:/courses/" + course.getId() + "/" + quiz.getId();
     }
+
 
 
 
@@ -567,4 +575,62 @@ public class QuizController {
 
         return "redirect:/courses/" + quiz.getCourse().getId();
     }
+
+
+    /**
+     * Renders the editQuiz page
+     *
+     *
+     * @param model
+     * @param courseId
+     * @param quizId
+     * @return  Returns a String which points to the correct HTML file to be rendered
+     */
+    @RequestMapping(value = "/courses/{courseId}/{quizId}/editName", method = RequestMethod.GET)
+    public String renderEditQuiz(Model model, @PathVariable Long courseId, @PathVariable Long quizId) {
+
+        Quiz quiz = quizService.findOne(quizId);
+        Course course = courseService.findOne(courseId);
+
+        model.addAttribute("quiz", quiz);
+        model.addAttribute("course", course);
+
+        return "editQuiz";
+
+    }
+
+
+    /**
+     *
+     * Saves the new quizName to the db
+     *
+     * Redirects to quiz page
+     *
+     *
+     * @param quizName
+     * @param courseId
+     * @param quizId
+     * @param redirectAttributes
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
+    @RequestMapping(value = "/courses/{courseId}/{quizId}/editName", method = RequestMethod.POST)
+    public String saveNewQuizName(@RequestParam String quizName, @RequestParam Long courseId, @RequestParam Long quizId, RedirectAttributes redirectAttributes) {
+
+        System.out.println("\n\n\n\n\n\n\n\n\n\n  i was called  \n\n\n\n\n\n\n\n\n");
+
+        Quiz quiz = quizService.findOne(quizId);
+        quiz.setQuizName(quizName);
+
+        quizService.save(quiz);
+
+        String message = "Quiz name was changed to " + quizName;
+        redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.SUCCESS));
+
+        return "redirect:/courses/" + courseId + "/" + quizId;
+
+    }
+
+
+
+
 }

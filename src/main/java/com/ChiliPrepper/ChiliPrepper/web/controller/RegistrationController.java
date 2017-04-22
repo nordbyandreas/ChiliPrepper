@@ -32,6 +32,11 @@ public class RegistrationController {
     @Autowired
     private UserService userService;
 
+
+
+
+
+
     /**
      * Renders the registration page.
      *
@@ -47,6 +52,12 @@ public class RegistrationController {
 
         return "registration";
     }
+
+
+
+
+
+
 
     /**
      * Saves the new user to the DB and redirects to the login page
@@ -64,27 +75,26 @@ public class RegistrationController {
         if(emailNotEntered){
             String message = "Registration failed! You must include a correct email!";
             redirectAttributes.addFlashAttribute("flash", new FlashMessage(message, FlashMessage.Status.FAILURE));
-
             return "redirect:/register";
         }
-
         else if(usernameAlreadyTaken){
             String message = "Registration failed! The username is already taken!";
             redirectAttributes.addFlashAttribute("flash", new FlashMessage(message, FlashMessage.Status.FAILURE));
-
             return "redirect:/register";
         }
+
 
         //Setting for whether the bot should contact the user
         user.setCreatorQuizResults(false);
         user.setCreatorCourseUpdate(false);
+
         user.setParticipantTopicUpdate(false);
         user.setParticipantQuizResults(false);
         userService.save(user);
 
-        String message = "Registration successful! Return to the login page to get started!";
+        String message = "Success!  Welcome to ChiliPrepper, log in to start !";
         redirectAttributes.addFlashAttribute("flash", new FlashMessage(message, FlashMessage.Status.SUCCESS));
 
-        return "redirect:/register";
+        return "redirect:/login";
     }
 }

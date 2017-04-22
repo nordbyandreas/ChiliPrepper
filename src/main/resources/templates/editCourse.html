@@ -1,5 +1,6 @@
+
 <!--
-html for a editing a quiz's name
+html for a editing a course's name
 
 
 -->
@@ -7,7 +8,7 @@ html for a editing a quiz's name
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="layout :: head('editQuiz')">
+<head th:replace="layout :: head('editCourse')">
 
 </head>
 
@@ -23,15 +24,13 @@ html for a editing a quiz's name
 
         <div th:replace="layout :: flash"></div>
 
-        <h1 class="pageTitle" th:text="${quiz.quizName}"></h1>
+        <h1 class="pageTitle" th:text="${course.courseName}"></h1>
         <div class="form-style-5">
-            <form th:action="@{|/courses/${course.id}/${quiz.id}/editName|}"  method="post">
+            <form th:action="@{|/courses/${course.id}/editName|}"  method="post">
                 <fieldset>
-                    <label><input type="hidden" name="quizId" th:value="${quiz.id}"/></label>
                     <label><input type="hidden" name="courseId" th:value="${course.id}"/></label>
-
                     <legend><span class="number">?</span> Make changes </legend>
-                    <label>Quiz name <input type="text" name="quizName" th:value="${quiz.quizName}"/></label>
+                    <label>Course name <input type="text" name="courseName" th:value="${course.courseName}"/></label>
                 </fieldset>
                 <input type="submit" value="Save changes" />
             </form>

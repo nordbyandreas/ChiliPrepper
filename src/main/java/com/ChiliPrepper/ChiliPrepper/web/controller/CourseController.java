@@ -1,5 +1,6 @@
 package com.ChiliPrepper.ChiliPrepper.web.controller;
 
+import java.util.Iterator;
 import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
@@ -24,8 +25,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * These methods return a String with the name of which HTML file to render from the
  * templates directory. Various objects or variables may be added to, or read from, the model.
  * (adding something to the model is like adding something to that particular HTML file rendering).
+ *
+ * This controller handles Course objects and views
+ *
  */
-
 @Controller
 public class CourseController {
 
@@ -44,13 +47,34 @@ public class CourseController {
     @Autowired
     private QuestionService questionService;
 
+    @Autowired
+    private CourseUserService courseUserService;
+
+
+
+    /**
+     *
+     *Renders the index page (start page)
+     *
+     *
+     * @param model
+     * @param principal
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping("/")
     public String renderIndexView(Model model, Principal principal) {
 
         String username = principal.getName();
         User user = userService.findByUsername(username);
-        Set<Course> regCourses = user.getRegCourses();
         Iterable<Course> myCourses = courseService.findAllForCreator();
+
+        Iterable<CourseUser> regCourseUser = courseUserService.findAllByUser_id(user.getId());
+        ArrayList<Course> regCourses = new ArrayList<>();
+
+        for(CourseUser courseUser : regCourseUser){
+            Course course = courseService.findOne(courseUser.getCourse().getId());
+            regCourses.add(course);
+        }
 
         model.addAttribute("myCourses", myCourses);
         model.addAttribute("course", new Course());
@@ -59,6 +83,18 @@ public class CourseController {
         return "index";
     }
 
+
+
+    /**
+     *
+     *Renders the view for a single course page
+     *
+     *
+     * @param courseId
+     * @param model
+     * @param principal
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping("/courses/{courseId}")
     public String renderCourseView(@PathVariable Long courseId, Model model, Principal principal){
 
@@ -107,6 +143,18 @@ public class CourseController {
         return "course";
     }
 
+
+    /**
+     *
+     *Saves a new course to the database
+     *
+     * Redirects to the same page
+     *
+     * @param course
+     * @param principal
+     * @param redirectAttributes
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping(path = "/addCourse", method = RequestMethod.POST)
     public String addCourse(@ModelAttribute Course course, Principal principal, RedirectAttributes redirectAttributes) {
 
@@ -127,6 +175,22 @@ public class CourseController {
 
         return "redirect:/";
     }
+
+
+      
+
+
+    /**
+     *
+     *Registers a user in a course
+     *
+     * Redirects to same page
+     *
+     *
+     * @param principal
+     * @param accessCode
+     * @param redirectAttributes
+     * @return Returns a String which points to the correct HTML file to be rendered
 
     @RequestMapping(path = "/regCourse", method = RequestMethod.POST)
     public String registerForCourse (Principal principal, @RequestParam String accessCode, RedirectAttributes redirectAttributes){
@@ -160,8 +224,52 @@ public class CourseController {
             return "redirect:/";
         }
     }
+     */
 
 
+    @RequestMapping(path = "/regCourse", method = RequestMethod.POST)
+    public String registerForCourse (Principal principal, @RequestParam String accessCode, RedirectAttributes redirectAttributes){
+
+        String username = principal.getName();
+        User user = userService.findByUsername(username);
+
+        if(courseService.findByAccessCode(accessCode) != null){
+
+            Course course = courseService.findByAccessCode(accessCode);
+
+            CourseUser courseUser = new CourseUser();
+
+            courseUser.setCourse(course);
+            courseUser.setUser(user);
+
+            courseUserService.save(courseUser);
+
+            String message = "You've registered in " + course.getCourseName() + "!";
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.SUCCESS));
+
+            return "redirect:/";
+        }
+        else{
+            String message = "Registration failed! No course with that access code found!";
+            redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.FAILURE));
+
+            return "redirect:/";
+        }
+    }
+
+
+
+
+
+    /**
+     *
+     *Renders the courseChartDisplay view for a chart of course results
+     *
+     *
+     * @param courseId
+     * @param model
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
     @RequestMapping(path = "/courses/{courseId}/chart", method = RequestMethod.GET)
     public String renderCourseChartDisplayView(@PathVariable Long courseId, Model model){
 
@@ -170,6 +278,21 @@ public class CourseController {
         return "courseChartDisplay";
     }
 
+
+
+
+
+    /**
+     *
+     * Feeds the html file containig the Javascript for creating a chart with data
+     *
+     *(Jquery code in the courseChartDisplay.html file calls this method every 2000ms to create a "live" chart)
+     *
+     *
+     * @param model
+     * @param courseId
+     * @return Returns a String which points to the correct HTML file to be rendered (in this case just part of a html file)
+     */
     @RequestMapping(value = "/courseChart/{courseId}", method = RequestMethod.GET)
     public String getCourseChart(Model model, @PathVariable Long courseId) {
 
@@ -180,18 +303,31 @@ public class CourseController {
         model.addAttribute("courseName", courseName);
         model.addAttribute("results", results);
 
+        //TODO: fix "overlap" in HTML on reload of chart
+
         return "courseChart:: courseChart";
     }
 
 
 
+
+    /**
+     *
+     *Gets average percentage scores for all quizes in a course
+     *
+     *
+     *
+     * @param quizzes
+     * @return ArrayList containing average score for quizes in course
+     */
     public ArrayList<Double> getCourseResults(Iterable<Quiz> quizzes) {
+
         ArrayList<Double> results = new ArrayList<>();
 
         for (Quiz quiz : quizzes){
 
-            if(getAvgScoreForCourseChart(quiz.getId()) != null){
-                results.add(getAvgScoreForCourseChart(quiz.getId()));
+            if(getAvgQuizScoreForCourseChart(quiz.getId()) != null){
+                results.add(getAvgQuizScoreForCourseChart(quiz.getId()));
             }
             else{
                 results.add(0.0);
@@ -201,10 +337,22 @@ public class CourseController {
         return results;
     }
 
-    public Double getAvgScoreForCourseChart(Long quizId)  {
+
+    /**
+     *
+     *gets the average percentage score for a quiz
+     *
+     *
+     * @param quizId
+     * @return (double)score og null
+     */
+    public Double getAvgQuizScoreForCourseChart(Long quizId)  {
+
         Iterable<Answer> tAnswers = answerService.findAllByQuiz_Id(quizId);
+
         List<Answer> nAnswers = new ArrayList<>();
         List<Answer> nCorrectAnswers = new ArrayList<>();
+
         tAnswers.forEach(nAnswers::add);
 
         for (Answer answer : tAnswers) {
@@ -214,7 +362,8 @@ public class CourseController {
         }
 
         try{
-            return (double) (nCorrectAnswers.size() * 100 / nAnswers.size());
+            double coursePercentageScore = (nCorrectAnswers.size() * 100 / nAnswers.size());
+            return coursePercentageScore;
         }
 
         catch(ArithmeticException ae){
@@ -222,4 +371,54 @@ public class CourseController {
             return null;
         }
     }
+
+
+
+
+    /**
+     *
+     * Renders the editCourse page
+     *
+     * @param model
+     * @param courseId
+     * @return Returns a String which points to the correct HTML file to be rendered
+     */
+    @RequestMapping(value = "/courses/{courseId}/editName", method = RequestMethod.GET)
+    public String renderEditCourse(Model model, @PathVariable Long courseId) {
+        Course course = courseService.findOne(courseId);
+
+        model.addAttribute(course);
+
+        return "editCourse";
+
+    }
+
+
+
+    /**
+     * Saves the new name of the course to the db
+     *
+     * Redirects back to course page
+     *
+     *
+     * @param courseName
+     * @param courseId
+     * @param redirectAttributes
+     * @return  Returns a String which points to the correct HTML file to be rendered
+     */
+    @RequestMapping(value = "/courses/{courseId}/editName", method = RequestMethod.POST)
+    public String saveNewCourseName(@RequestParam String courseName, @RequestParam Long courseId, RedirectAttributes redirectAttributes) {
+        Course course = courseService.findOne(courseId);
+        course.setCourseName(courseName);
+
+        courseService.save(course);
+
+        String message = "Course name was changed to " + courseName;
+        redirectAttributes.addFlashAttribute("flash",new FlashMessage(message, FlashMessage.Status.SUCCESS));
+
+        return "redirect:/courses/" + courseId;
+
+    }
+
+
 }

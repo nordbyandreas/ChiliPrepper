@@ -1,8 +1,6 @@
 package com.ChiliPrepper.ChiliPrepper.config;
 
-/**
- * Created by Andreas on 15.02.2017.
- */
+
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +16,35 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-@Configuration   //Let Spring know this is a configuration class
+
+
+/**
+ * Created by Andreas on 15.02.2017.
+ *
+ *
+ * Configuration class for Database technologies
+ *
+ *
+ *
+ *
+ */
+@Configuration                                                             //Let Spring know this is a configuration class
 @EnableJpaRepositories(basePackages = "com.ChiliPrepper.ChiliPrepper.dao")   //Enable JPA-Repositories
-@PropertySource("app.properties")    //Let Spring know where to look for data properties
+@PropertySource("app.properties")                                          //Let Spring know where to look for data properties
 @EnableTransactionManagement
 public class DataConfig {
 
     @Autowired
-    private Environment env;  //The content of app.properties is loaded into the Environment
+    private Environment env;                          //The content of app.properties is loaded into the Environment
 
+
+    /**
+     *
+     *  Creates a  LocalContainerEntityManagerFactoryBean Bean
+     *
+     *
+     * @return LocalContainerEntityManagerFactoryBean
+     */
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
@@ -39,6 +57,15 @@ public class DataConfig {
         return factory;
     }
 
+
+    /**
+     *
+     * creates a DataSource Bean
+     *
+     *
+     *
+     * @return DataSource Bean
+     */
     @Bean
     public DataSource dataSource() {                  //All of these properties are defined in "app.properties" in the static directory
         BasicDataSource ds = new BasicDataSource();
@@ -49,6 +76,13 @@ public class DataConfig {
         return ds;
     }
 
+
+    /**
+     *
+     * Adds properties from app.properties to the Properties object
+     *
+     * @return Properties for hibernate
+     */
     private Properties getHibernateProperties() {    //All of these properties are defined in "app.properties" in the static directory
         Properties properties = new Properties();
         properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
