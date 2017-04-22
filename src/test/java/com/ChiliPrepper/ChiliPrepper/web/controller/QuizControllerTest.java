@@ -55,7 +55,7 @@ public class QuizControllerTest {
 
     @Mock
     private Answer answerTwo;
-    
+
     @Mock
     private Principal principal;
 
