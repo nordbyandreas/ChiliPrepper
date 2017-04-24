@@ -82,6 +82,11 @@ public class RegistrationController {
             redirectAttributes.addFlashAttribute("flash", new FlashMessage(message, FlashMessage.Status.FAILURE));
             return "redirect:/register";
         }
+        else if(user.getPassword().length() < 6){
+            String message = "Registration failed! Password must be at least 6 characters.";
+            redirectAttributes.addFlashAttribute("flash", new FlashMessage(message, FlashMessage.Status.FAILURE));
+            return "redirect:/register";
+        }
 
 
         //Setting for whether the bot should contact the user

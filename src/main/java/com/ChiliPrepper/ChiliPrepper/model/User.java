@@ -40,7 +40,8 @@ public class User implements UserDetails {
     @Size(min = 1, max = 20)
     private String username;
 
-    @Column(length = 100)
+    @Column
+    @Size(min = 6, max = 20)
     private String password;
 
     // @Column(unique = true, nullable = false)  removed unique for testing of mail sending
