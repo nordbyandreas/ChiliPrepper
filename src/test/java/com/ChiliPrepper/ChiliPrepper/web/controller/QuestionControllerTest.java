@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.mockito.Mock;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Collections;
+
 import org.mockito.InjectMocks;
 import org.junit.runner.RunWith;
 import com.ChiliPrepper.ChiliPrepper.model.*;
@@ -77,12 +79,25 @@ public class QuestionControllerTest {
 
     @Test
     public void renderQuestionView() throws Exception {
-        //Finds the selected question
+        //Finds the selected question, the quiz's ID and the course's ID
         when(questionService.findOne(1L)).thenReturn(question);
+
+        when(question.getQuiz()).thenReturn(quiz);
+        when(quiz.getId()).thenReturn(1L);
+
+        when(quiz.getCourse()).thenReturn(course);
+        when(course.getId()).thenReturn(1L);
+
+        when(alternativeService.findAllByQuestion_Id(1L)).thenReturn(new ArrayList<>(Collections.singletonList(alt1)));
 
         mockMvc.perform(get
                 ("/courses/{courseId}/{quizId}/{questionId}", 1L, 1L, 1L))
-                .andExpect(model().attributeExists("question"))
+
+                .andExpect(model().attribute("question", question))
+                .andExpect(model().attribute("quizId", 1L))
+                .andExpect(model().attribute("courseId", 1L))
+                .andExpect(model().attribute("alt1", alt1))
+
                 .andExpect(status().isOk())
                 .andExpect(view().name("question"));
 
@@ -175,39 +190,6 @@ public class QuestionControllerTest {
 
 
     @Test
-    public void renderEditQuestionView() throws Exception {
-        //Finds the selected question
-        when(questionService.findOne(1L)).thenReturn(question);
-
-        //Finds the question's alternatives
-        when(alternativeService.findAllByQuestion_Id(1L)).thenReturn(new ArrayList<>(Arrays.asList(alt1, alt2, alt3)));
-
-        //Finds the quiz and course in order to add them to the model
-        when(quiz.getId()).thenReturn(1L);
-        when(course.getId()).thenReturn(1L);
-        when(quiz.getCourse()).thenReturn(course);
-        when(question.getQuiz()).thenReturn(quiz);
-
-        mockMvc.perform(get("/courses/{courseId}/{quizId}/{questionId}/editQuestion", 1L, 1L, 1L)
-                .param("questionId", "1"))
-
-                .andExpect(model().attributeExists("alt1"))
-                .andExpect(model().attributeExists("alt2"))
-                .andExpect(model().attributeExists("alt3"))
-                .andExpect(model().attributeExists("quizId"))
-                .andExpect(model().attributeExists("courseId"))
-                .andExpect(model().attributeExists("question"))
-
-                .andExpect(status().isOk())
-                .andExpect(view().name("editQuestion"));
-
-        verify(questionService).findOne(1L);
-        verify(alternativeService).findAllByQuestion_Id(1L);
-    }
-
-
-
-    @Test
     public void saveEditedQuestion_RedirectsToTheQuestion() throws Exception {
         //Finds the question's alternatives
         when(alternativeService.findOne(1L)).thenReturn(alt1);
@@ -242,7 +224,7 @@ public class QuestionControllerTest {
                 .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.SUCCESS))))
 
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/courses/1/1/1/editQuestion?questionId=1"));
+                .andExpect(redirectedUrl("/courses/1/1/1"));
 
         verify(alternativeService, times(3)).save(any(Alternative.class));
         verify(questionService).save(any(Question.class));
@@ -270,7 +252,7 @@ public class QuestionControllerTest {
                 .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.SUCCESS))))
 
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl(("/courses/1/1/editQuiz?quizId=1")));
+                .andExpect(redirectedUrl(("/courses/1/1")));
 
         verify(questionService).delete(question);
     }

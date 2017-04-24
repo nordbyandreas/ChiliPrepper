@@ -1,12 +1,9 @@
 package com.ChiliPrepper.ChiliPrepper.dao;
 
 import com.ChiliPrepper.ChiliPrepper.model.Answer;
-import com.ChiliPrepper.ChiliPrepper.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
-
 
 /**
  * Created by Andreas on 02.03.2017.
@@ -116,6 +113,5 @@ public interface AnswerDao extends CrudRepository<Answer, Long> {
      * @return a List of all Answers objects matching the given userId
      */
     List<Answer> findAllByUser_Id(Long id);
-
 
 }

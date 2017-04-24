@@ -67,6 +67,9 @@ public class CourseControllerTest {
     private Question questionTwo;
 
     @Mock
+    private CourseUser courseUser;
+
+    @Mock
     private Principal principal;
 
     @Mock
@@ -84,6 +87,9 @@ public class CourseControllerTest {
     @Mock
     private QuestionService questionService;
 
+    @Mock
+    private CourseUserService courseUserService;
+
     @InjectMocks
     private CourseController controller;
 
@@ -95,24 +101,28 @@ public class CourseControllerTest {
     @Test
     public void renderIndexView() throws Exception {
         Iterable<Course> myCreatedCourses = new ArrayList<>(Collections.singletonList(new Course()));
-        Set<Course> participatesInCourses = new HashSet<>(Collections.singletonList(new Course()));
+        Iterable<CourseUser> regCourseUser = new ArrayList<>(Collections.singletonList(courseUser));
+        ArrayList<Course> regCourses = new ArrayList<>(Collections.singletonList(course));
 
         //Finds the logged in user
         when(principal.getName()).thenReturn("user");
         when(userService.findByUsername("user")).thenReturn(user);
+        when(user.getId()).thenReturn(1L);
 
-        //Finds the courses which the user participates in
-        when(user.getRegCourses()).thenReturn(participatesInCourses);
+        when(courseUser.getCourse()).thenReturn(course);
+        when(course.getId()).thenReturn(1L);
 
         //Finds the courses which the user have created
         when(courseService.findAllForCreator()).thenReturn(myCreatedCourses);
+        when(courseUserService.findAllByUser_id(1L)).thenReturn(regCourseUser);
+        when(courseService.findOne(1L)).thenReturn(course);
 
         mockMvc.perform(get("/")
                 .principal(principal))
 
                 .andExpect(model().attribute("myCourses", myCreatedCourses))
-                .andExpect(model().attribute("regCourses", participatesInCourses))
                 .andExpect(model().attribute("course", instanceOf(Course.class)))
+                .andExpect(model().attribute("regCourses", regCourses))
 
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"));
@@ -253,10 +263,6 @@ public class CourseControllerTest {
         when(courseService.findByAccessCode("accessCode")).thenReturn(course);
         when(course.getCourseName()).thenReturn("courseName");
 
-        //Finds all users registered for the course, and the courses the user is registered for
-        when(course.getRegUsers()).thenReturn(new HashSet<>(Arrays.asList(user, new User())));
-        when(user.getRegCourses()).thenReturn(new HashSet<>(Arrays.asList(course, new Course())));
-
         mockMvc.perform(post("/regCourse")
                 .principal(principal)
                 .param("accessCode", "accessCode"))
@@ -343,6 +349,40 @@ public class CourseControllerTest {
 
                 .andExpect(status().isOk())
                 .andExpect(view().name("courseChart:: courseChart"));
+    }
+
+
+
+    @Test
+    public void renderEditCourse() throws Exception {
+        when(courseService.findOne(1L)).thenReturn(course);
+
+        mockMvc.perform(get("/courses/{courseId}/editName", 1L))
+
+                .andExpect(model().attribute("course", course))
+
+                .andExpect(status().isOk())
+                .andExpect(view().name("editCourse"));
+    }
+
+
+
+    @Test
+    public void saveNewCourseName_RendersCourseView() throws Exception {
+        when(courseService.findOne(1L)).thenReturn(course);
+
+        mockMvc.perform(post("/courses/{courseId}/editName", 1L)
+                .param("courseName", "courseName")
+                .param("courseId", "1"))
+
+                .andExpect(flash().attributeExists("flash"))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Course name was changed to courseName"))))
+                .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.SUCCESS))))
+
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/courses/1"));
+
+        verify(courseService).save(course);
     }
 
 }

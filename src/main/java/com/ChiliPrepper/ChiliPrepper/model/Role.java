@@ -1,16 +1,12 @@
 package com.ChiliPrepper.ChiliPrepper.model;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-
-
 /**
  * Created by Andreas on 15.02.2017.
- *
  *
  * Model for the Role object, containing fields, getters and setters
  *
@@ -22,18 +18,15 @@ import javax.persistence.Id;
  *
  * Uses @Annotations to specify fields
  *
- *
- *
  */
+
 @Entity
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  //automaticly set unique ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  //automatically set unique ID
     private Long id;
     private String name;
 
-
-    //Getters and Setters
 
     public Long getId() {
         return id;
@@ -51,6 +44,4 @@ public class Role {
         this.name = name;
     }
 
-
 }
-

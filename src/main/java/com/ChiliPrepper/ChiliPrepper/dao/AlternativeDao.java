@@ -1,12 +1,9 @@
 package com.ChiliPrepper.ChiliPrepper.dao;
 
 import com.ChiliPrepper.ChiliPrepper.model.Alternative;
-import com.ChiliPrepper.ChiliPrepper.model.Question;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
-
 
 /**
  * Created by Christer on 20.02.2017.
@@ -24,11 +21,8 @@ import java.util.List;
  *
  */
 
-
-
 @Repository
 public interface AlternativeDao extends CrudRepository<Alternative, Long> {
-
 
     /**
      * Searches teh database for all Alternatives with the given QuestionId
@@ -37,7 +31,6 @@ public interface AlternativeDao extends CrudRepository<Alternative, Long> {
      * @return a List of all Alternatives matching the given QuestionId
      */
     List<Alternative> findAllByQuestion_Id(Long id);
-
 
 
     /**

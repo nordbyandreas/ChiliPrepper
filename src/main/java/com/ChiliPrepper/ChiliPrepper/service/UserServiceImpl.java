@@ -8,18 +8,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
 /**
  * Created by Andreas on 15.02.2017.
  *
- *
- *  * Implementation of the Service layer
+ * Implementation of the Service layer
  *
  * All methods call the respective DAO-layer's methods.
  *
  * The DAO layer is "@Autowired" into this class, which means that Spring will inject
  * a constructed DAO-class when needed.
- *
  *
  * There is not much need for commenting every single method in this layer, because almost all methods simply
  * call upon the corresponding method in the DAO-layer.
@@ -28,13 +25,10 @@ import org.springframework.stereotype.Service;
  *
  * Also, in the QuestionServiceImpl you may see an example of a method that does more.
  *
- *
- *
  * Although, we have not made the most use of this separation of the DAO and Service layers, this architectural decision
  * gives us the opportunity to implement different and more complex functionality for every layer.
  *
  */
-
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -49,13 +43,10 @@ public class UserServiceImpl implements UserService {
     private RoleService roleService;
 
 
-
     @Override
     public User findByUsername(String username) {
         return userDao.findByUsername(username);
     }
-
-
 
     @Override
     public void save(User user) {
@@ -75,15 +66,17 @@ public class UserServiceImpl implements UserService {
         return userDao.findAll();
     }
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // Load user from the database (throw exception if not found)
         User user = userDao.findByUsername(username);
+
         if(user == null) {
             throw new UsernameNotFoundException("User not found");
         }
+
         // Return user object
         return user;
     }
+
 }

@@ -4,7 +4,6 @@ import com.ChiliPrepper.ChiliPrepper.model.CreatorQuizMail;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-
 /**
  * Created by Andreas on 23.03.2017.
  *
@@ -24,7 +23,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CreatorQuizMailDao extends CrudRepository<CreatorQuizMail, Long> {
 
-
     /**
      * Seaches the database for a CreatorQuizMail object with the given Quiz Id
      *
@@ -32,6 +30,5 @@ public interface CreatorQuizMailDao extends CrudRepository<CreatorQuizMail, Long
      * @return  A CreatorQuizMail object matching the given Quiz Id
      */
     CreatorQuizMail findOneByQuiz_Id(Long id);
-
 
 }

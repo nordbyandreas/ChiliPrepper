@@ -5,11 +5,9 @@ import javax.persistence.*;
 /**
  * Created by Christer on 17.03.2017.
  *
- *
  * Model for the QuizMail object, containing fields, getters and setters
  *
- * QuizMail-Objects are used for checking if particular mails have been sendt
- *
+ * QuizMail-Objects are used for checking if particular mails have been sent
  *
  * Hibernate takes care of the object relational mapping, so we can save and search for "objects" in the DB.
  *
@@ -17,21 +15,18 @@ import javax.persistence.*;
  *
  * Uses @Annotations to specify fields
  *
- *
- *
  */
 
 @Entity
 public class QuizMail {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  //automaticly set unique ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  //automatically set unique ID
     @Column(name = "quizMail_id")
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User participant;
-
 
     @ManyToOne
     @JoinColumn(name = "course_id")
@@ -48,9 +43,7 @@ public class QuizMail {
     private boolean creatorMailSent;
 
 
-    public QuizMail() {
-
-    }
+    public QuizMail() {}
 
     public Long getId() {
         return id;

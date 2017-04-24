@@ -12,10 +12,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CourseUserServiceImpl implements  CourseUserService {
 
-
     @Autowired
     private CourseUserDao courseUserDao;
-
 
     @Override
     public void save(CourseUser courseUser) {
@@ -26,4 +24,5 @@ public class CourseUserServiceImpl implements  CourseUserService {
     public Iterable<CourseUser> findAllByUser_id(Long id) {
         return courseUserDao.findAllByUser_id(id);
     }
+
 }

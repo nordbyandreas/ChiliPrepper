@@ -26,7 +26,7 @@ import javax.persistence.*;
 @Entity
 public class Question {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  //automaticly set unique ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  //automatically set unique ID
     @Column(name= "question_id")
     private Long id;
 
@@ -42,8 +42,6 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
-
-
 
 
     public Question() {
@@ -88,4 +86,5 @@ public class Question {
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
     }
+
 }

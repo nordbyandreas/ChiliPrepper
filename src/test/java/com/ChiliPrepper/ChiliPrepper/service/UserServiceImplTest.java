@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 import static org.hamcrest.Matchers.is;
 
 /**
- * Created by dagki on 15/03/2017.
+ * Created by Dag Kirstihagen on 15/03/2017.
  */
 
 @RunWith(MockitoJUnitRunner.class)

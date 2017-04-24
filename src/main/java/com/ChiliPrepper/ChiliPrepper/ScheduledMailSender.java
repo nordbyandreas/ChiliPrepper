@@ -1,8 +1,6 @@
 package com.ChiliPrepper.ChiliPrepper;
 
-
 import java.util.*;
-
 import com.ChiliPrepper.ChiliPrepper.model.*;
 import com.ChiliPrepper.ChiliPrepper.service.*;
 import com.ChiliPrepper.ChiliPrepper.web.controller.BotMailSender;
@@ -10,7 +8,6 @@ import com.ChiliPrepper.ChiliPrepper.web.controller.QuizController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
 
 /**
  * Created by Andreas on 22.03.2017.
@@ -25,14 +22,10 @@ import org.springframework.stereotype.Component;
  * The Scheduled methods execute on given intervals and checks the DB for new and old results, and sends automaticly sends
  * email to users, (if they have enabled bot-contact).
  *
- *
  * This class could be regarded as the "BOT"-part of this project.
  *
- *
- *
- *
- *
  */
+
 @Component
 public class ScheduledMailSender {
 
@@ -44,13 +37,7 @@ public class ScheduledMailSender {
     private QuizService quizService;
 
     @Autowired
-    private QuestionService questionService;
-
-    @Autowired
     private AnswerService answerService;
-
-    @Autowired
-    private QuizMailService quizMailService;
 
     @Autowired
     private QuizController quizController;
@@ -62,15 +49,13 @@ public class ScheduledMailSender {
     private UserService userService;
 
 
-
-
     /**
      * This method sends the total course average % to the course's creator on a given interval
      * if the creator has enabled it.
      *
      * This method is intended to execute around 1 or 2 times per month, but for later development we'd want the course-creator to set the interval.
      */
-    @Scheduled(initialDelay=20000, fixedRate = 120000)  //finn 1 mnd i millisekunder
+    @Scheduled(initialDelay=20000, fixedRate = 120000)  //finds 24 hours in milliseconds
     public void sendCourseAverage() {
         Iterable<Course> courses  = courseService.findAll();
 
@@ -94,16 +79,12 @@ public class ScheduledMailSender {
             List<Answer> answerCheck = new ArrayList<>();
             answers.forEach(answerCheck::add);
 
-            System.out.println(answerCheck.size());
-
             if((answerCheck.size() > 0) && enableMail){
                 courseAvg = courseAvg / counter;
                 String bot = generateBotResponse(courseAvg);
                 String message = "Yo, the course average is at:  " + courseAvg + "%  right now. \n\n" + bot;
                 BotMailSender.sendFromGMail(to, "Course average results update", message);
             }
-
-
         }
     }
 
@@ -115,11 +96,9 @@ public class ScheduledMailSender {
      * This method is intended to execute ca. 1 or 2 times per week, but for later development we'd want the CourseCreator to set the interval.
      *
      */
-    @Scheduled(initialDelay=20000, fixedRate = 120000)   //finn døgn i millisekunder
+    @Scheduled(initialDelay=20000, fixedRate = 120000)   //finds 24 hours in milliseconds
     public void sendQuizResults() {
         Iterable<Course> courses  = courseService.findAll();
-
-        //TODO extract into helper method maybe.
 
         for (Course course : courses) {
             String[] to = {course.getCreator().getEmail()};
@@ -128,7 +107,7 @@ public class ScheduledMailSender {
             boolean enableMail = course.getCreator().isCreatorQuizResults();
             for (Quiz quiz : quizes) {
 
-                //check if creator has received mail of quizresults previously
+                //checks if creator has received mail of quiz results previously
                 if((creatorQuizMailService.findOneByQuiz_Id(quiz.getId()) == null) && (quizController.getAvgScoreForQuiz(quiz.getId()) != null) && enableMail){
                     double quizAverage = quizController.getAvgScoreForQuiz(quiz.getId());
                     String bot = generateBotResponse(quizAverage);
@@ -139,11 +118,9 @@ public class ScheduledMailSender {
                     creatorQuizMail.setCreator(course.getCreator());
                     creatorQuizMailService.save(creatorQuizMail);
                 }
-
             }
         }
     }
-
 
 
     /**
@@ -159,9 +136,8 @@ public class ScheduledMailSender {
      * set the intervals.
      *
      */
-    @Scheduled(initialDelay=20000, fixedRate = 120000)   //finn døgn i millisekunder
+    @Scheduled(initialDelay=20000, fixedRate = 120000)   //finds 24 hours in milliseconds
     public void sendTopicResults() {
-
 
         Iterable<User> users = userService.findAll();
         for (User user : users) {
@@ -199,13 +175,9 @@ public class ScheduledMailSender {
                     BotMailSender.sendFromGMail(to, "Smart Topic helper", message);
 
                 }
-
-
-
             }
         }
     }
-
 
 
     /**
@@ -232,9 +204,5 @@ public class ScheduledMailSender {
 
         return message;
     }
-
-
-
-
 
 }

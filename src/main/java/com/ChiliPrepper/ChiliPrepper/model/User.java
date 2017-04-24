@@ -1,6 +1,5 @@
 package com.ChiliPrepper.ChiliPrepper.model;
 
-
 import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,20 +10,15 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-
 
 /**
  * Created by Andreas on 15.02.2017.
- *
  *
  * Model for the User object, containing fields, getters and setters
  *
  * The User model contains some extra methods used for logging in
  *
- *
  * User-objects are used for authorization and specific content
- *
  *
  * Hibernate takes care of the object relational mapping, so we can save and search for "objects" in the DB.
  *
@@ -32,14 +26,13 @@ import java.util.Set;
  *
  * Uses @Annotations to specify fields
  *
- *
  */
+
 @Entity
 public class User implements UserDetails {
 
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)    //automaticly set unique ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)    //automatically set unique ID
     @Column(name= "user_id")
     private Long id;
 
@@ -49,7 +42,6 @@ public class User implements UserDetails {
 
     @Column(length = 100)
     private String password;
-
 
     // @Column(unique = true, nullable = false)  removed unique for testing of mail sending
     @Column(nullable = false)
@@ -63,8 +55,6 @@ public class User implements UserDetails {
     @JoinColumn(name = "role_id")
     private Role role;
 
-
-
     @Column(name= "creator_quiz_results")
     private boolean creatorQuizResults;
 
@@ -76,9 +66,6 @@ public class User implements UserDetails {
 
     @Column(name= "participant_topic_update")
     private boolean participantTopicUpdate;
-
-
-
 
 
     @Override
@@ -95,10 +82,6 @@ public class User implements UserDetails {
     public void setEmail(String email) {
         this.email = email;
     }
-
-
-//Getters and Setters
-
 
     public Long getId() {
         return id;
@@ -158,8 +141,6 @@ public class User implements UserDetails {
         return enabled;
     }
 
-
-
     public boolean isCreatorQuizResults() {
         return creatorQuizResults;
     }
@@ -191,8 +172,5 @@ public class User implements UserDetails {
     public void setParticipantTopicUpdate(boolean participantTopicUpdate) {
         this.participantTopicUpdate = participantTopicUpdate;
     }
-
-
-
 
 }

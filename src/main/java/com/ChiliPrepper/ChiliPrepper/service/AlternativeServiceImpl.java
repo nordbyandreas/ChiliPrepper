@@ -32,12 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Service
 public class AlternativeServiceImpl implements AlternativeService {
 
-
-
     @Autowired
     private AlternativeDao alternativeDao;
-
-
 
     @Override
     public Iterable<Alternative> findAllByQuestion_Id(Long id) {
@@ -58,4 +54,5 @@ public class AlternativeServiceImpl implements AlternativeService {
     public void deleteAllByQuestion_Id(Long id) {
         alternativeDao.deleteAllByQuestion_Id(id);
     }
+
 }
