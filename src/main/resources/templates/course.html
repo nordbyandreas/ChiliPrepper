@@ -99,16 +99,16 @@ html for a single course page
                     <fieldset>
                         <legend>Available quizes in this course</legend>
                         <ul class="gallery"  th:each="quiz : ${myQuizzes}">
+                            <div th:if="${quiz.published} == true">
+                                <li>
+                                    <a th:href="@{|/courses/${course.id}/${quiz.id}/quiz|}">
 
-                            <li>
-                                <a th:href="@{|/courses/${course.id}/${quiz.id}/quiz|}">
-                                    <div th:if="${quiz.published} == true">
-                                        <img th:src="@{/img/placeholder.png}"/>
-                                        <p th:text="${quiz.quizName}"></p>
-                                    </div>
-                                </a>
-                            </li>
+                                            <img th:src="@{/img/placeholder.png}"/>
+                                            <p th:text="${quiz.quizName}"></p>
 
+                                    </a>
+                                </li>
+                            </div>
 
                         </ul>
                     </fieldset>
