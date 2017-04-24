@@ -65,6 +65,7 @@ public class RegistrationControllerTest {
         when(user.getEmail()).thenReturn("username@domain.com");
         when(user.getUsername()).thenReturn("username");
         when(userService.findByUsername("username")).thenReturn(null);
+        when(user.getPassword()).thenReturn("password");
 
         mockMvc.perform(post("/register")
                 .flashAttr("user", user))
@@ -109,6 +110,27 @@ public class RegistrationControllerTest {
 
                 .andExpect(flash().attributeExists("flash"))
                 .andExpect(flash().attribute("flash", hasProperty("message", Matchers.is("Registration failed! The username is already taken!"))))
+                .andExpect(flash().attribute("flash", hasProperty("status", Matchers.is(FlashMessage.Status.FAILURE))))
+
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/register"));
+    }
+
+    @Test
+    public void registerUser_TooShortPassword_RedirectsToRegister() throws Exception {
+        //The user have entered its email and username in order to create the account
+        when(user.getEmail()).thenReturn("username@domain.com");
+        when(user.getUsername()).thenReturn("username");
+        when(userService.findByUsername("username")).thenReturn(null);
+
+        //The password is shorter than 6 characters, which will cause a failure when trying to create an account
+        when(user.getPassword()).thenReturn("short");
+
+        mockMvc.perform(post("/register")
+                .flashAttr("user", user))
+
+                .andExpect(flash().attributeExists("flash"))
+                .andExpect(flash().attribute("flash", hasProperty("message", Matchers.is("Registration failed! Password must be at least 6 characters."))))
                 .andExpect(flash().attribute("flash", hasProperty("status", Matchers.is(FlashMessage.Status.FAILURE))))
 
                 .andExpect(status().is3xxRedirection())
