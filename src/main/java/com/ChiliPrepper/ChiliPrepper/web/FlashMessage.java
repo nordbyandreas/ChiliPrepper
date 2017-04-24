@@ -12,7 +12,6 @@ package com.ChiliPrepper.ChiliPrepper.web;
  *
  */
 
-
 public class FlashMessage {
     private String message;
     private Status status;
@@ -43,4 +42,5 @@ public class FlashMessage {
     public void setStatus(Status status) {
         this.status = status;
     }
+
 }
