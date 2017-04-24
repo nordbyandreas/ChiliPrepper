@@ -10,14 +10,14 @@ insert into user (username,enabled,password,role_id, email, creator_quiz_results
 
 
 
-insert into course (courseName, accessCode, user_id) values ('testCourse', 'thePassword', 1);
+insert into course (courseName, accessCode, user_id) values ('Software development', 'thePassword', 1);
 insert into course (courseName, accessCode, user_id) values ('testTestCourse', 'theword', 1);
 insert into course (courseName, accessCode, user_id) values ('brukertest', '1234', 2);
 insert into course (courseName, accessCode, user_id) values ('osetest', 'otestord', 2);
 
 
 
-insert into quiz (quiz_name, published, course_id) values ('Databaser', true, 1);
+insert into quiz (quiz_name, published, course_id) values ('Computers', true, 1);
 insert into quiz (quiz_name, published, course_id) values ('MMI', true, 1);
 insert into quiz (quiz_name, published, course_id) values ('PVU', false, 1);
 insert into quiz (quiz_name, published, course_id) values ('testQuiz', true, 2);
@@ -28,7 +28,7 @@ insert into quiz (quiz_name, published, course_id) values ('bøker', true, 4);
 
 
 
-insert into question (topic, theQuestion, correct_answer, quiz_id) values ('SQL', 'Hva er en svak entitetsklasse?', 'En klasse som ikke har noen unike attributter', 1);
+insert into question (topic, theQuestion, correct_answer, quiz_id) values ('SQL', 'What does CPU stand for?', 'Central Processing Unit', 1);
 insert into question (topic, theQuestion, correct_answer, quiz_id) values ('SQL', 'Hvorfor bruker man CASCADE?', 'For å unngå at en tabell kan referere til noe som ikke finnes lengre', 1);
 insert into question (topic, theQuestion, correct_answer, quiz_id) values ('SQL', 'Hva er en database?', 'Lagret informasjon, spesifikasjon og rammeverk for å manipulere data etc.', 1);
 insert into question (topic, theQuestion, correct_answer, quiz_id) values ('MMI', 'Hvem er Von Neumann?', 'En designer', 2);
@@ -41,9 +41,9 @@ insert into question (topic, theQuestion, correct_answer, quiz_id) values ('bruk
 
 
 
-insert into alternative (alternative, question_id) values ('En klasse som ikke er sterk', 1);
-insert into alternative (alternative, question_id) values ('En relasjonsklasse', 1);
-insert into alternative (alternative, question_id) values ('Feil svar', 1);
+insert into alternative (alternative, question_id) values ('Central Process Unit', 1);
+insert into alternative (alternative, question_id) values ('Centralize Process Unit', 1);
+insert into alternative (alternative, question_id) values ('Central Processing Unity', 1);
 
 insert into alternative (alternative, question_id) values ('For å validere input', 2);
 insert into alternative (alternative, question_id) values ('For å gjøre ting mer komplisert', 2);
