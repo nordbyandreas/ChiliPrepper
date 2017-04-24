@@ -9,24 +9,18 @@ import javax.persistence.*;
  *
  * Quiz-Objects relates to courses
  *
- *
  * Hibernate takes care of the object relational mapping, so we can save and search for "objects" in the DB.
  *
  * the @Entity annotation informs hibernate that a schema should be created in the database
  *
  * Uses @Annotations to specify fields
  *
- *
- *
- *
  */
-
-
 
 @Entity
 public class Quiz {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  //automaticly set unique ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  //automatically set unique ID
     @Column(name = "quiz_id")
     private Long id;
 
@@ -39,6 +33,7 @@ public class Quiz {
     @ManyToOne
     @JoinColumn(name="course_id")
     private Course course;
+
 
     public Quiz() {}
 

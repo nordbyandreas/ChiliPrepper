@@ -3,9 +3,7 @@ package com.ChiliPrepper.ChiliPrepper.dao;
 import com.ChiliPrepper.ChiliPrepper.model.Quiz;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
-
 
 /**
  * Created by Christer on 20.02.2017.
@@ -23,8 +21,6 @@ import java.util.List;
  *
  */
 
-
-
 @Repository
 public interface QuizDao extends CrudRepository<Quiz, Long>{
 
@@ -35,4 +31,5 @@ public interface QuizDao extends CrudRepository<Quiz, Long>{
      * @return A List of Quiz objects matching the course id
      */
     List<Quiz> findAllByCourse_id(Long id);
+
 }

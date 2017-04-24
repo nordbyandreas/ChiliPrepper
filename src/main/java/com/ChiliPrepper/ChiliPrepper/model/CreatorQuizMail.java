@@ -9,23 +9,19 @@ import javax.persistence.*;
  *
  * CreatorQuizMail-Objects is used to check if a courseCreator has received particular mail
  *
- *
  * Hibernate takes care of the object relational mapping, so we can save and search for "objects" in the DB.
  *
  * the @Entity annotation informs hibernate that a schema should be created in the database
  *
  * Uses @Annotations to specify fields
  *
- *
- *
- *
  */
+
 @Entity
 public class CreatorQuizMail {
 
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  //automaticly set unique ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  //automatically set unique ID
     @Column(name = "CreatorQuizMail_id")
     private Long id;
 
@@ -73,4 +69,5 @@ public class CreatorQuizMail {
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
     }
+
 }

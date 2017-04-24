@@ -24,4 +24,5 @@ public class CourseUserServiceImpl implements  CourseUserService {
     public Iterable<CourseUser> findAllByUser_id(Long id) {
         return courseUserDao.findAllByUser_id(id);
     }
+
 }

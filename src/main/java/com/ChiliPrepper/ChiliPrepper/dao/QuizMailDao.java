@@ -3,9 +3,7 @@ package com.ChiliPrepper.ChiliPrepper.dao;
 import com.ChiliPrepper.ChiliPrepper.model.QuizMail;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
-
 
 /**
  * Created by Christer on 17.03.2017.
@@ -30,7 +28,6 @@ import java.util.List;
 
 @Repository
 public interface QuizMailDao extends CrudRepository<QuizMail, Long> {
-
 
     /**
      * Searches the database for  all QuizMail objects matching given Quiz Id
@@ -94,9 +91,5 @@ public interface QuizMailDao extends CrudRepository<QuizMail, Long> {
      * @param id
      */
     void deleteAllByParticipant_Id(Long id);
-
-
-
-
 
 }

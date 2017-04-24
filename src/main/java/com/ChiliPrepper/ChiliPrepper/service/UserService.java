@@ -20,10 +20,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-
-
-
-
 /**
  * Created by Andreas on 17.02.2017.
  *
@@ -34,10 +30,11 @@ import java.util.List;
  *
  * All methods to be used from the DAO layer must be included here
  */
+
 public interface UserService extends UserDetailsService {
+
     User findByUsername(String username);
-    void save(User user);
     User findOne(Long id);
     Iterable<User> findAll();
+    void save(User user);
 }
-

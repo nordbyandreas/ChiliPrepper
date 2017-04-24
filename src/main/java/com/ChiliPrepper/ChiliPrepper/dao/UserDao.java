@@ -3,9 +3,7 @@ package com.ChiliPrepper.ChiliPrepper.dao;
 import com.ChiliPrepper.ChiliPrepper.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
-
 
 /**
  * Created by Andreas on 15.02.2017.
@@ -24,8 +22,6 @@ import java.util.List;
 
  */
 
-
-
 @Repository
 public interface UserDao extends CrudRepository<User,Long> {
 
@@ -38,15 +34,11 @@ public interface UserDao extends CrudRepository<User,Long> {
     User findByUsername(String username);
 
 
-
     /**
      * Returns a list of all users
      *
      * @return  returns a List of all User's
      */
     List<User> findAll();
-
-
-
 
 }

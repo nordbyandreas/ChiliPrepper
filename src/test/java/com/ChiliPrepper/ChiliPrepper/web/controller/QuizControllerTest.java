@@ -334,7 +334,7 @@ public class QuizControllerTest {
     }
 
 
-    
+
     @Test
     public void submitAnswer_CorrectAnswer() throws Exception {
         when(course.getId()).thenReturn(1L);

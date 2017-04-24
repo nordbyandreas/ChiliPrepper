@@ -2,11 +2,8 @@ package com.ChiliPrepper.ChiliPrepper.service;
 
 import com.ChiliPrepper.ChiliPrepper.model.Course;
 
-import java.util.List;
-
 /**
  * Created by Andreas on 16.02.2017.
- *
  *
  * Interface for the Service Layer for Courses
  *
@@ -14,8 +11,8 @@ import java.util.List;
  *
  * All methods to be used from the DAO layer must be included here
  */
-public interface CourseService {
 
+public interface CourseService {
 
     Iterable<Course> findAllForCreator();
     Iterable<Course> findAll();

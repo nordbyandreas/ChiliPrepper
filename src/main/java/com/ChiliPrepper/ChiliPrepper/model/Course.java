@@ -1,16 +1,13 @@
 package com.ChiliPrepper.ChiliPrepper.model;
 
 import javax.persistence.*;
-import java.util.Set;
 
 /**
  * Created by Andreas on 16.02.2017.
  *
- *
  * Model for the Course object, containing fields, getters and setters
  *
  * Course-Objects relates to a creator(user).
- *
  *
  * Hibernate takes care of the object relational mapping, so we can save and search for "objects" in the DB.
  *
@@ -18,15 +15,13 @@ import java.util.Set;
  *
  * Uses @Annotations to specify fields
  *
- *
- *
- *
  */
-@Entity                    //Mark the class as an entity, so a schema will be created in the database
+
+@Entity
 public class Course {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  //automaticly set unique ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //automatically set unique ID
     @Column(name= "course_id")
     private Long id;
 
@@ -41,13 +36,7 @@ public class Course {
     private User creator;
 
 
-    //Default constructor
     public Course() {}
-
-
-
-    //getters and setters for all fields:
-
 
     public Long getId() {
         return id;
