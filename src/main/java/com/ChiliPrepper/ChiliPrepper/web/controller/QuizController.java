@@ -616,11 +616,8 @@ public class QuizController {
     @RequestMapping(value = "/courses/{courseId}/{quizId}/editName", method = RequestMethod.POST)
     public String saveNewQuizName(@RequestParam String quizName, @RequestParam Long courseId, @RequestParam Long quizId, RedirectAttributes redirectAttributes) {
 
-        System.out.println("\n\n\n\n\n\n\n\n\n\n  i was called  \n\n\n\n\n\n\n\n\n");
-
         Quiz quiz = quizService.findOne(quizId);
         quiz.setQuizName(quizName);
-
         quizService.save(quiz);
 
         String message = "Quiz name was changed to " + quizName;
@@ -629,8 +626,5 @@ public class QuizController {
         return "redirect:/courses/" + courseId + "/" + quizId;
 
     }
-
-
-
 
 }

@@ -12,10 +12,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CourseUserServiceImpl implements  CourseUserService {
 
-
     @Autowired
     private CourseUserDao courseUserDao;
-
 
     @Override
     public void save(CourseUser courseUser) {

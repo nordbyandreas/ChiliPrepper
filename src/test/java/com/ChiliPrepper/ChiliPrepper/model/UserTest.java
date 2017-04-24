@@ -10,19 +10,17 @@ import java.util.*;
 import static org.junit.Assert.*;
 
 /**
- * Created by dagki on 28/02/2017.
+ * Created by Dag Kirstihagen on 28/02/2017.
  */
 
 public class UserTest {
     private Role role;
     private User user;
-    private Course course;
 
     @Before
     public void setUp() throws Exception {
         role = new Role();
         user = new User();
-        course = new Course();
     }
 
     /**First confirms that the user's email ain't assigned,
@@ -67,17 +65,6 @@ public class UserTest {
         assertNull("The user's id ain't assigned, and should return: null", user.getId());
         user.setId(id);
         assertEquals("The user's id is assigned, and should return: 1L (Long)", id, user.getId());
-    }
-
-    /**First confirms that the user's registered courses ain't assigned,
-     * then assigns the registered courses
-     * and concludes by confirming that the registered courses is assigned to the user.*/
-    @Test
-    public void getAndSetRegCourses() throws Exception {
-        Set<Course> regCourses = new HashSet<>(Arrays.asList(course));
-        assertNull("The user's password ain't assigned, and should return: null", user.getRegCourses());
-        user.setRegCourses(regCourses);
-        assertEquals("The user's registered courses is assigned, and should return: [course] (Set<Course>)", regCourses, user.getRegCourses());
     }
 
     /**First confirms that the user ain't assigned to a role,

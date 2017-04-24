@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 
 /**
- * Created by dagki on 29/03/2017.
+ * Created by Dag Kirstihagen on 29/03/2017.
  */
 
 @RunWith(MockitoJUnitRunner.class)

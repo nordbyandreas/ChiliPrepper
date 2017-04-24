@@ -60,7 +60,7 @@ public class RegistrationControllerTest {
 
 
     @Test
-    public void registerUser_SuccessfullyCreatesUser_RedirectsToRegister() throws Exception {
+    public void registerUser_SuccessfullyCreatesUser_RedirectsToLogin() throws Exception {
         //Email and username are entered and aren't occupied, and should therefore successfully create a new user
         when(user.getEmail()).thenReturn("username@domain.com");
         when(user.getUsername()).thenReturn("username");
@@ -70,11 +70,11 @@ public class RegistrationControllerTest {
                 .flashAttr("user", user))
 
                 .andExpect(flash().attributeExists("flash"))
-                .andExpect(flash().attribute("flash", hasProperty("message", Matchers.is("Registration successful! Return to the login page to get started!"))))
+                .andExpect(flash().attribute("flash", hasProperty("message", Matchers.is("Success!  Welcome to ChiliPrepper, log in to start !"))))
                 .andExpect(flash().attribute("flash", hasProperty("status", Matchers.is(FlashMessage.Status.SUCCESS))))
 
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/register"));
+                .andExpect(redirectedUrl("/login"));
 
         verify(userService).save(user);
     }

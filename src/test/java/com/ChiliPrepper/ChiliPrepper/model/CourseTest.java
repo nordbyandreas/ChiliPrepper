@@ -8,7 +8,7 @@ import java.util.HashSet;
 import static org.junit.Assert.*;
 
 /**
- * Created by dagki on 02/03/2017.
+ * Created by Dag Kirstihagen on 02/03/2017.
  */
 
 public class CourseTest {
@@ -19,17 +19,6 @@ public class CourseTest {
     public void setUp() throws Exception {
         user = new User();
         course = new Course();
-    }
-
-    /**First confirms that the course's participants ain't assigned,
-     * then assigns the participants
-     * and concludes by confirming that the participants is assigned to the course.*/
-    @Test
-    public void getAndSetRegUsers() throws Exception {
-        Set<User> regUsers = new HashSet<>(Arrays.asList(user));
-        assertNull("The course's registered users ain't assigned, and should return: null", course.getRegUsers());
-        course.setRegUsers(regUsers);
-        assertEquals("The course's registered users is assigned, and should return: [user] (Set<User>)", regUsers, course.getRegUsers());
     }
 
     /**First confirms that the course's ID ain't assigned,

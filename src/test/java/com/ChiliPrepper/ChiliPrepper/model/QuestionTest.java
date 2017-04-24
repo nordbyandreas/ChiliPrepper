@@ -5,7 +5,7 @@ import org.junit.Before;
 import static org.junit.Assert.*;
 
 /**
- * Created by dagki on 23/02/2017.
+ * Created by Dag Kirstihagen on 23/02/2017.
  */
 
 public class QuestionTest {

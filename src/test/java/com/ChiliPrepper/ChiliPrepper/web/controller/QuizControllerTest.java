@@ -334,8 +334,7 @@ public class QuizControllerTest {
     }
 
 
-
-
+    
     @Test
     public void submitAnswer_CorrectAnswer() throws Exception {
         when(course.getId()).thenReturn(1L);
@@ -501,6 +500,42 @@ public class QuizControllerTest {
                 .andExpect(redirectedUrl("/courses/1"));
 
         verify(quizService).delete(quiz);
+    }
+
+
+
+    @Test
+    public void renderEditQuiz() throws Exception {
+        when(quizService.findOne(1L)).thenReturn(quiz);
+        when(courseService.findOne(1L)).thenReturn(course);
+
+        mockMvc.perform(get("/courses/{courseId}/{quizId}/editName", 1L, 1L))
+
+                .andExpect(model().attribute("quiz", quiz))
+                .andExpect(model().attribute("course", course))
+
+                .andExpect(status().isOk())
+                .andExpect(view().name("editQuiz"));
+    }
+
+    @Test
+    public void saveNewQuizName_RendersQuizView() throws Exception {
+        when(quizService.findOne(1L)).thenReturn(quiz);
+        when(courseService.findOne(1L)).thenReturn(course);
+
+        mockMvc.perform(post("/courses/{courseId}/{quizId}/editName", 1L, 1L)
+                .param("quizName", "quizName")
+                .param("courseId", "1")
+                .param("quizId", "1"))
+
+                .andExpect(flash().attributeExists("flash"))
+                .andExpect(flash().attribute("flash", hasProperty("message", is("Quiz name was changed to quizName"))))
+                .andExpect(flash().attribute("flash", hasProperty("status", is(FlashMessage.Status.SUCCESS))))
+
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/courses/1/1"));
+
+        verify(quizService).save(quiz);
     }
 
 }

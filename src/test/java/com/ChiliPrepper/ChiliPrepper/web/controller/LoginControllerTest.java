@@ -62,24 +62,4 @@ public class LoginControllerTest {
                 .andExpect(view().name("access_denied"));
     }
 
-    @Test
-    public void logOut_WhileLoggedIn_RedirectsToLogin() throws Exception {
-        //Creates an Authentication value in order to mock a logged in user.
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
-
-        mockMvc.perform(get("/logout"))
-
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/login"));
-    }
-
-    @Test
-    public void logOut_WhileLoggedOut_RedirectsToLogin() throws Exception {
-        mockMvc.perform(get("/logout"))
-
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/login"));
-    }
-
 }
