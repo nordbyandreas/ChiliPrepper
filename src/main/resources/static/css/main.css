@@ -384,6 +384,13 @@ PAGE: COURSES
     margin: 10px;
 }
 
+.aCode{
+    text-align: center;
+    clear: both;
+    width: 90%;
+    float: left;
+
+}
 
 
 /********************

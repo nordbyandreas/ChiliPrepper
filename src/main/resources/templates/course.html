@@ -26,6 +26,7 @@ html for a single course page
                 <div>
                     <div class="topLeft">
                         <h1 class="pageTitle" th:text="${course.courseName}"></h1>
+                        <p class="aCode" th:text="'AccessCode: ' + ${course.accessCode}" style="color: #cf4343"></p>
                         <a class="nameChange" th:href="@{|/courses/${course.id}/editName|}">Change name of course?</a>
                     </div>
                     <div class="topRight">

@@ -27,7 +27,7 @@ html for the registration page
                 <fieldset>
                     <legend><span class="number">!</span> Registration form</legend>
                     <input type="text" th:field="*{username}" placeholder="Username *"/>
-                    <input type="password" th:field="*{password}" placeholder="Password *"/>
+                    <input type="password" th:field="*{password}" placeholder="Password *  (min 6 characters)"/>
                     <input type="email" th:field="*{email}" placeholder="email@example.com *"/>
                 </fieldset>
                 <input type="submit" value="Register" />
