@@ -2,34 +2,71 @@
 
 
 
+
+/********************
+For medium screens
+
+
+(this section needs more work)
+
+********************/
+
+
+
 @media screen and (min-width: 480px) {
 
     /********************
-    TWO COLUMN LAYOUT
+    HEADER
 
     ********************/
 
-    #primary {
-        width: 50%;
-        float: left;
+    .logo-image{
+        max-width: 150px;
     }
 
-    #secondary {
-        width: 40%;
-        float: right;
+
+    /********************
+    PAGE: LOGIN
+
+    ********************/
+
+    #logincontainer {
+        background: #F5F3EB;
+    }
+
+    #logincard {
+        width: 400px;
+        height: 500px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        background: #FFF;
+        border: 5px solid #849852;
     }
 
     /********************
-    PAGE: PORTFOLIO
+    PAGE: COURSES
 
     ********************/
 
-    #gallery li {
-        width: 28.3333%;
+    /*Courses*/
+
+
+    .button-alist li{
+        float: left;
+        display: block;
+        width: 20%;
+        margin: 2.5%;
+
     }
-    #gallery li:nth-child(4n) {
-        clear: left;
+
+    .button-alist a {
+        font-size: 1.5em;
     }
+
 
     /********************
     PAGE: ABOUT
@@ -40,26 +77,125 @@
         margin: 0 5% 80px 0;
     }
 
+    div.faq p {
+        margin-left: 2.5%;
+    }
+
 }
 
 
 
 
 
+
+
+/********************
+For larger screens
+
+********************/
+
+
 @media screen and (min-width: 660px) {
+
+    /********************
+    GENERAL
+
+    ********************/
+
+    h2{
+        font-size: 2em;
+        /*margin-bottom: 20px;*/
+    }
+
+    input, button {
+        min-height: 0;
+        min-width: 0;
+        padding: 5px;
+    }
+
+
+
+    input:focus, input:hover {
+        outline: none;
+        border-width: 5px;
+        /*margin: 0;*/
+        transition-duration: 0.1s;
+    }
+
+
+    #createdCourses{
+        float: left;
+        clear: none;
+        max-width: 50%;
+    }
+
+    #joinedCourses{
+        float: right;
+        clear: none;
+        max-width: 50%;
+    }
+
+    #quizList{
+        float: left;
+        clear: none;
+        max-width: 70%;
+    }
+
+    #quizForm{
+        float: right;
+        clear: none;
+        max-width: 20%;
+    }
+
+    #quizListPart{
+        max-width: 90%;
+    }
+
+    #questionList{
+        float: left;
+        clear: none;
+        max-width: 70%;
+    }
+
+    #questionForm{
+        float: right;
+        clear: none;
+        max-width: 20%
+    }
+
+
+    .gallery li{
+
+        width: 26%;
+        margin: 2.5%;
+
+    }
+
+    .textLink{
+        width: 95%;
+    }
+
+
+
+
 
     /********************
     HEADER
 
     ********************/
     nav {
+
         background: none;
         float: right;
+        vertical-align: bottom;
         font-size: 1.125em;
-        margin-right: 5%;
         text-align: right;
         width: 45%;
+        margin-right: 5%;
+
     }
+
+
 
     #logo{
         float: left;
@@ -67,16 +203,18 @@
         text-align: left;
         width: 45%;
     }
+
     h1{
         font-size: 2.5em;
     }
-    h2{
-        font-size: 0.825em;
-        margin-bottom: 20px;
-    }
+
     header{
-        border-bottom: 5px solid #849852;
         margin-bottom: 60px;
+        border-bottom: 5px solid #599a68;
     }
+
+
+
+
 
 }

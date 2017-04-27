@@ -1,36 +1,45 @@
+
+<!--
+html for the about/info page
+
+
+-->
+
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="layout :: head('about')">
+    <head th:replace="layout :: head('about')">
+    </head>
 
-</head>
+    <body>
 
-<body>
+        <header th:replace="layout :: header">
 
-<header th:replace="layout :: header">
-
-</header>
-
-<div id="wrapper">
-    <section>
-
-        <h1 style="color: black;">About ChiliPrepper</h1>
-        <h1 style="color: black;">Contact</h1>
-        <h1 style="color: black;">"FAQ"</h1>
+        </header>
 
 
+        <div id="wrapper">
+            <section>
+
+                <div class="faq">
+                    <h3 style="color: black;">About ChiliPrepper</h3>
+                    <p>ChiliPrepper is a mobile web app and teaching assistant.</p>
+                    <p>ChiliPrepper was created as part of a software development course at the Norwegian University of Science and Technology (NTNU).</p>
+                    <p>The team consists of 4 students.</p>
+                    <p>Check out the link below for a short video guide on how to use ChiliPrepper (make sure you're connected to the internet)</p>
+                    <a style="color: dodgerblue" href="https://youtu.be/aTQDa7bnOk4">https://youtu.be/aTQDa7bnOk4</a>
+
+                    <p>The soundquality is not great, and it's in norwegian, but hopefully it's of some use to our TA.</p>
+                </div>
 
 
 
 
+            </section>
 
-
-    </section>
-
-    <footer th:replace="layout :: footer">
-
-    </footer>
-</div>
-</body>
+            <footer th:replace="layout :: footer">
+            </footer>
+        </div>
+    </body>
 
 </html>

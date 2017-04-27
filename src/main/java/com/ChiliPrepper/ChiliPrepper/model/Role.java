@@ -1,24 +1,32 @@
 package com.ChiliPrepper.ChiliPrepper.model;
 
-/**
- * Created by Andreas on 15.02.2017.
- */
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity                        //Mark the class as an entity, so a schema will be created in the database
+/**
+ * Created by Andreas on 15.02.2017.
+ *
+ * Model for the Role object, containing fields, getters and setters
+ *
+ * Role-objects are used for authorization
+ *
+ * Hibernate takes care of the object relational mapping, so we can save and search for "objects" in the DB.
+ *
+ * the @Entity annotation informs hibernate that a schema should be created in the database
+ *
+ * Uses @Annotations to specify fields
+ *
+ */
+
+@Entity
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  //automaticly set unique ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  //automatically set unique ID
     private Long id;
     private String name;
 
-
-
-
-    //Getters and Setters
 
     public Long getId() {
         return id;
@@ -35,5 +43,5 @@ public class Role {
     public void setName(String name) {
         this.name = name;
     }
-}
 
+}

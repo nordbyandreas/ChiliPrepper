@@ -1,3 +1,9 @@
+<!--
+html for the profile/settings page
+
+
+-->
+
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
@@ -13,14 +19,34 @@
 
 <div id="wrapper">
     <section>
+        <div th:replace="layout :: flash"></div>
+        <h1 th:text="'Welcome ' + ${user.username} + '!  '" style="color: black;"></h1>
 
-        <h1 style="color: black;">Profile page</h1>
+        <div class="form-style-5">
+            <form th:action="@{/saveBotDetails}" th:object="${user}" method="post">
 
+                <label><input type="hidden" th:field="*{username}"/></label>
+                <label><input type="hidden" th:field="*{password}"/></label>
+                <label><input type="hidden" th:field="*{email}"/></label>
+                <label><input type="hidden" th:field="*{enabled}"/></label>
+                <label><input type="hidden" th:field="*{role}"/></label>
+                <label><input type="hidden" th:field="*{id}"/></label>
+                <fieldset>
+                    <legend><span class="number">?</span> Email settings for courses you've created:</legend>
+                    <input type="checkbox" th:field="*{creatorCourseUpdate}" th:checked="*{creatorCourseUpdate}"/> Enable mail concerning course results<br/>
+                    <input type="checkbox"  th:field="*{creatorQuizResults}" th:checked="*{creatorQuizResults}"/> Enable mail concerning quiz results<br/><br/>
 
+                </fieldset>
+                <fieldset>
+                    <legend><span class="number">?</span> Email settings for courses you've joined:</legend>
+                    <input type="checkbox"  th:field="*{participantTopicUpdate}" th:checked="*{participantTopicUpdate}"/> Enable mail concerning topic you struggle with<br/>
+                    <input type="checkbox" th:field="*{participantQuizResults}" th:checked="*{participantQuizResults}"/> Enable mail concerning your quiz results<br/>
+                </fieldset>
 
+                <input type="submit" value="Save changes" />
 
-
-
+            </form>
+        </div>
 
 
     </section>

@@ -1,0 +1,71 @@
+<!--
+html for the quiz event page
+
+(answering questions)
+
+
+-->
+
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: head('quiz')">
+
+</head>
+
+<body>
+
+<header th:replace="layout :: header">
+
+</header>
+
+<div id="wrapper">
+    <section>
+
+        <div th:replace="layout :: flash"></div>
+
+
+        <div th:if="${alternatives}">
+            <h1 class="pageTitle" th:text="${quiz.quizName}"></h1>
+
+            <div>
+
+                <div class="form-style-5">
+                    <form th:action="@{/submitAnswer}" method="post">
+                        <input type="hidden" name="quizId" th:value="${quizId}"/>
+                        <input type="hidden" name="questionId" th:value="${questionId}"/>
+                        <input type="hidden" name="courseId" th:value="${courseId}"/>
+                        <fieldset>
+                            <legend th:text="${question.theQuestion}"><span class="number">+</span></legend>
+                        </fieldset>
+
+                            <div th:each="alternative : ${alternatives}">
+                                <input type="submit" name="answer" class="button" th:value="${alternative}"/>
+
+                            </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div th:if="!${alternatives}">
+
+            <h3 th:text="${message}"></h3>
+            <div>
+                <h2>You got: <span th:text="${userScore}"></span>% right. The course average is <span th:text="${avgScore}"></span>% </h2>
+
+            </div>
+            <a th:href="@{|/courses/${courseId}|}">Back to course</a>
+        </div>
+
+
+    </section>
+
+    <footer th:replace="layout :: footer">
+
+    </footer>
+</div>
+</body>
+</html>

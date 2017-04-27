@@ -1,0 +1,35 @@
+<!--
+html for error page
+
+
+-->
+
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: head('about')">
+
+</head>
+
+<body>
+
+<header th:replace="layout :: header">
+
+</header>
+
+<div id="wrapper">
+    <section>
+
+        <h1>Oooops, something went wrong..!</h1>
+        <h2 th:text="${status}"></h2>
+        <h2 th:text="${error}"></h2>
+
+    </section>
+
+    <footer th:replace="layout :: footer">
+
+    </footer>
+</div>
+</body>
+
+</html>

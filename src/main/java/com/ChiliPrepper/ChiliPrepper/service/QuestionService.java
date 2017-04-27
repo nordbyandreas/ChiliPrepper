@@ -4,12 +4,22 @@ import com.ChiliPrepper.ChiliPrepper.model.Question;
 
 /**
  * Created by Andreas on 24.02.2017.
+ *
+ * Interface for the Service Layer for Questions
+ *
+ * Look at the Implementation for method descriptions
+ *
+ * All methods to be used from the DAO layer must be included here
  */
+
 public interface QuestionService {
 
-    Iterable<Question> findAll();
+    Iterable<Question> findAllByQuiz_Id(Long id);
     Question findOne(Long id);
-    void save(Question question);
+    Iterable<Question> findAllByTopic(String topic);
 
+    void save(Question question);
+    void deleteAllByQuiz_Id(Long id);
+    void delete(Question question);
 
 }

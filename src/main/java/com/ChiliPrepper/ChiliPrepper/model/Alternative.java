@@ -4,11 +4,24 @@ import javax.persistence.*;
 
 /**
  * Created by Christer on 20.02.2017.
+ *
+ * Model for the Alternative object, containing fields, getters and setters
+ *
+ * Alternative-Objects relates to questions
+ *
+ * Hibernate takes care of the object relational mapping, so we can save and search for "objects" in the DB.
+ *
+ * the @Entity annotation informs hibernate that a schema should be created in the database
+ *
+ * Uses @Annotations to specify fields
+ *
  */
+
 @Entity
 public class Alternative {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  //automaticly set unique ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  //automatically set unique ID
     @Column(name= "alternative_id")
     private Long id;
 
@@ -20,9 +33,7 @@ public class Alternative {
     private Question question;
 
 
-
-    public Alternative() {
-    }
+    public Alternative() {}
 
     public Long getId() {
         return id;
@@ -47,4 +58,5 @@ public class Alternative {
     public void setQuestion(Question question) {
         this.question = question;
     }
+
 }

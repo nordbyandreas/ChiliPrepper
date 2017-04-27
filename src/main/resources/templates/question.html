@@ -1,7 +1,13 @@
+<!--
+html for a single question page
+
+
+-->
+
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="layout :: head('course')">
+<head th:replace="layout :: head('question')">
 
 </head>
 
@@ -14,16 +20,34 @@
 <div id="wrapper">
     <section>
 
+        <div th:replace="layout :: flash"></div>
+
+    <h1 class="pageTitle" th:text="${question.theQuestion}"></h1>
+        <div class="form-style-5">
+            <form th:action="@{|/courses/${courseId}/${quizId}/${question.id}/editQuestion/saveEditQuestion|}"  method="post">
+                <fieldset>
+                    <label><input type="hidden" name="questionId" th:value="${question.id}"/></label>
+                    <label><input type="hidden" name="quizId" th:value="${quizId}"/></label>
+
+                    <legend><span class="number">?</span> Make changes </legend>
+
+                    <label>Question <input type="text" name="theQuestion" th:value="${question.theQuestion}"/></label>
+                    <label>Answer <input type="text" name="correctAnswer" th:value="${question.correctAnswer}"/></label>
+                    <label>Topic <input type="text" name="topic" th:value="${question.topic}"/></label>
 
 
-    <h3 th:text="${question.theQuestion}"></h3>
+                    <label>Alternatives <input type="text" name="alt1" th:value="${alt1.alternative}"/></label>
+                    <label><input type="hidden" name="alt1Id" th:value="${alt1.id}"/></label>
+                    <label><input type="text" name="alt2" th:value="${alt2.alternative}"/></label>
+                    <label><input type="hidden" name="alt2Id" th:value="${alt2.id}"/></label>
+                    <label><input type="text" name="alt3" th:value="${alt3.alternative}"/></label>
+                    <label><input type="hidden" name="alt3Id" th:value="${alt3.id}"/></label>
 
+                </fieldset>
 
-
-
-
-
-
+                <input type="submit" value="Save changes" />
+            </form>
+        </div>
 
     </section>
 

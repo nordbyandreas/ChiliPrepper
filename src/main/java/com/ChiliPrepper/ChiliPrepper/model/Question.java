@@ -2,16 +2,31 @@ package com.ChiliPrepper.ChiliPrepper.model;
 
 import javax.persistence.*;
 
+
+
+
 /**
  * Created by Andreas on 20.02.2017.
+ *
+ * Model for the Question object, containing fields, getters and setters
+ *
+ * Question-Objects relates to quizes
+ *
+ *
+ * Hibernate takes care of the object relational mapping, so we can save and search for "objects" in the DB.
+ *
+ * the @Entity annotation informs hibernate that a schema should be created in the database
+ *
+ * Uses @Annotations to specify fields
+ *
+ *
+ *
+ *
  */
-
-
-
 @Entity
 public class Question {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  //automaticly set unique ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  //automatically set unique ID
     @Column(name= "question_id")
     private Long id;
 
@@ -27,8 +42,6 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
-
-
 
 
     public Question() {
@@ -73,4 +86,5 @@ public class Question {
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
     }
+
 }
